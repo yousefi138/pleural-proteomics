@@ -15,12 +15,18 @@ if(!dir.exists(paths$cache)) dir.create(paths$cache)
 
 print(paths)
 
+## clean raw olink protein data
+## in: 
+## out: 
+source("proteins.r", echo=T, max.deparse.length = 500)
+
+
 ## clean raw pheno data
 ## in: "Proteomics Infection and Controls 10.11.25.xlsx"
+##      "metaboprep_export_2025_11_14/qc/data.tsv" 
 ## out: pheno.rda in analysis-cache
 source("pheno.r", echo=T, max.deparse.length = 500)
 
-# system("R CMD BATCH --vanilla example.r")
 
 
 ## run analysis looking at relationship between
