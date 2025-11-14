@@ -1,7 +1,42 @@
 ## ----globals -------------------------------------------------------------
-packages <- c("dplyr") 
+packages <- c("readxl", "eval.save", "dplyr") 
 lapply(packages, require, character.only=T)
 
+# set dirs  
+dir <- paths
+if(!dir.exists(dir$cache)) dir.create(dir$cache)
+eval.save.dir(dir$cache)
+
 ## ----load.data -------------------------------------------------------------
-list.files()
+list.files(dir$data)
+
+raw <- read_excel(file.path(dir$data, 
+                "Proteomics Infection and Controls 10.11.25.xlsx")) 
+colnames(raw) <- colnames(raw) |>
+                make.names()|>
+                tolower()
+str(raw)
+
+## ----make.pheno -------------------------------------------------------------
+pheno <- raw |>
+            mutate(female = sign(sex == "Female"),
+					age  = age.at.enrollment) |>
+            mutate(infect = {
+                factor(
+                    ifelse(grepl("SPE", pheno$final.diagnosis.1), 1, 
+                        ifelse(grepl("CPPE", pheno$final.diagnosis.1), 2,
+                            ifelse(grepl("utrue|bacterial", pheno$final.diagnosis.1), 3, NA))),
+					levels = c(1, 2, 3),
+					labels = c("case", "inter", "control"))                        
+                        })|>
+			relocate(patient.id, age, female, infect)
+
+table(pheno$infect)                
+
+## check the pheno$infect categories were created correctly
+sum(grepl("SPE", pheno$final.diagnosis.1))
+sum(grepl("CPPE", pheno$final.diagnosis.1))
+sum(grepl("utrue|bacterial", pheno$final.diagnosis.1))
+
+
 
