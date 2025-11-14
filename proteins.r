@@ -40,8 +40,12 @@ export(mydata, dir$output)
 # take the date out of the output dir name so pipeline doesn't break 
 # when there's a new expor
 dir.default <- list.files(dir$output) |>
-                stringr::str_subset("metaboprep_export") 
+                stringr::str_subset("metaboprep_export") |>
+                stringr::str_subset("[0-9]$")
+
+if (dir.exists(file.path(dir$output, "metaboprep_export"))) {
+  unlink(file.path(dir$output, "metaboprep_export"), recursive = TRUE)
+}
 
 file.rename(file.path(dir$output, dir.default),
             file.path(dir$output, sub("_[0-9].*",  "", basename(dir.default))))
-
