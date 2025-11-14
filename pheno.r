@@ -19,7 +19,7 @@ str(raw)
 
 ## load the proteins for patient.ids surving qc
 prot <- data.table::fread(file.path(dir$output,
-                "metaboprep_export_2025_11_14/qc/data.tsv"))$sample_id
+                "metaboprep_export/qc/data.tsv"))$sample_id
 
 ## ----make.pheno -------------------------------------------------------------
 pheno <- raw |>            
