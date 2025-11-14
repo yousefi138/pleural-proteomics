@@ -7,17 +7,20 @@ if (length(args) > 0)
 paths <- config::get(config=config.name)
 print(paths)
 
+paths$scripts <- file.path(paths$project, "scripts")
 paths$data <- file.path(paths$project, "data")
 paths$output <- file.path(paths$project, "results")
 paths$cache <- file.path(paths$project, "results", "analysis-cache")
-paths$scripts <- file.path(paths$project, "scripts")
+if(!dir.exists(paths$cache)) dir.create(paths$cache)
+
 print(paths)
 
-## 
-## in:
-## out:
-#source("example.r", echo=T, max.deparse.length = 500)
-#system("R CMD BATCH --vanilla example.r")
+## clean raw pheno data
+## in: "Proteomics Infection and Controls 10.11.25.xlsx"
+## out: pheno.rda in analysis-cache
+source("pheno.r", echo=T, max.deparse.length = 500)
+
+# system("R CMD BATCH --vanilla example.r")
 
 
 ## run analysis looking at relationship between
