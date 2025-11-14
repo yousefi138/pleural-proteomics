@@ -1,6 +1,6 @@
 args <- commandArgs(trailingOnly=TRUE)
 
-config.name <- "default"
+config.name <- "local"
 if (length(args) > 0)
     config.name <- args[1]
 
