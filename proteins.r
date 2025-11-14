@@ -31,7 +31,17 @@ summary(mydata)
 
 ## ----report -------------------------------------------------------------
 generate_report(mydata, 
-    output_dir = dir$output)
+    output_dir = dir$output,
+    format = "html")
 
 ## ----export -------------------------------------------------------------
 export(mydata, dir$output)
+
+# take the date out of the output dir name so pipeline doesn't break 
+# when there's a new expor
+dir.default <- list.files(dir$output) |>
+                stringr::str_subset("metaboprep_export") 
+
+file.rename(file.path(dir$output, dir.default),
+            file.path(dir$output, sub("_[0-9].*",  "", basename(dir.default))))
+
