@@ -9,6 +9,7 @@ eval.save.dir(dir$cache)
 ## ----load.data -------------------------------------------------------------
 list.files(dir$data)
 
+## load raw clincal phenotype info 
 raw <- read_excel(file.path(dir$data, 
                 "Proteomics Infection and Controls 10.11.25.xlsx")) 
 colnames(raw) <- colnames(raw) |>
@@ -16,8 +17,12 @@ colnames(raw) <- colnames(raw) |>
                 tolower()
 str(raw)
 
+## load the proteins for patient.ids surving qc
+prot <- data.table::fread(file.path(dir$output,
+                "metaboprep_export_2025_11_14/qc/data.tsv"))$sample_id
+
 ## ----make.pheno -------------------------------------------------------------
-pheno <- raw |>
+pheno <- raw |>            
             mutate(female = sign(sex == "Female"),
 					age  = age.at.enrollment) |>
             mutate(infect = {
@@ -29,6 +34,9 @@ pheno <- raw |>
 					labels = c("case", "inter", "control"))                        
                         })|>
 			relocate(patient.id, age, female, infect) |>
+            
+            ## keep only samples passing qc
+            filter(patient.id %in% prot) |>
             eval.save("pheno", redo=T)            
 pheno <- eval.ret("pheno")
 
