@@ -4,7 +4,6 @@ lapply(packages, require, character.only=T)
 
 # set dirs  
 dir <- paths
-if(!dir.exists(dir$cache)) dir.create(dir$cache)
 eval.save.dir(dir$cache)
 
 ## ----load.data -------------------------------------------------------------
@@ -23,13 +22,16 @@ pheno <- raw |>
 					age  = age.at.enrollment) |>
             mutate(infect = {
                 factor(
-                    ifelse(grepl("SPE", pheno$final.diagnosis.1), 1, 
-                        ifelse(grepl("CPPE", pheno$final.diagnosis.1), 2,
-                            ifelse(grepl("utrue|bacterial", pheno$final.diagnosis.1), 3, NA))),
+                    ifelse(grepl("SPE", raw$final.diagnosis.1), 1, 
+                        ifelse(grepl("CPPE", raw$final.diagnosis.1), 2,
+                            ifelse(grepl("utrue|bacterial", raw$final.diagnosis.1), 3, NA))),
 					levels = c(1, 2, 3),
 					labels = c("case", "inter", "control"))                        
                         })|>
-			relocate(patient.id, age, female, infect)
+			relocate(patient.id, age, female, infect) |>
+            eval.save("pheno", redo=T)            
+pheno <- eval.ret("pheno")
+
 
 table(pheno$infect)                
 
