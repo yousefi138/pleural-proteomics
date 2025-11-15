@@ -8,6 +8,9 @@ lapply(packages, require, character.only=T)
 dir <- paths
 eval.save.dir(dir$cache)
 
+# src the protein summary function
+source(file.path(dir$scripts, "pleural-proteomics/R/prot.summary.r"))
+
 # output specs
 out <- list()
 #out$file.prefix <- "ewas-alspac-"
@@ -54,17 +57,27 @@ inputs	<-
 		list(model = models,
 			vars = model.vars)
 
-ret <- inputs |>
-		pmap(~ {
-			ewaff.sites(..1, 
-					variable.of.interest = ..2, 
-					methylation = prot, 
-					data = pheno, 
-					family="gaussian",
-					method="glm",
-					generate.confounders=NULL)
-		})
+eval.save({
+
+	ret <- inputs |>
+			pmap(~ {
+				ret <- ewaff.sites(..1, 
+						variable.of.interest = ..2, 
+						methylation = prot, 
+						data = pheno, 
+						family="gaussian",
+						method="glm",
+						generate.confounders=NULL)
+
+				sum.ret <- prot.summary(ret, 
+						molecules = prot)
+
+				list(ret = ret,
+					sum.ret = sum.ret)
+				})
+
+}, "ret", redo=F)
+ret <- eval.ret("ret")
 
 
-meffil::meffil.get.features(featureset = "epic")
 
