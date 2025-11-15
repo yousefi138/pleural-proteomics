@@ -12,6 +12,44 @@ msg <- function(..., verbose=T) {
     }
 }
 
+#' Generate CpG associations report
+#'
+#' Generate HTML file that summarises CpG site associations. 
+#'
+#' @param  object Output from \code{\link{ewaff.summary}}.
+#' @param  output.file Default = "ewas-report.html".
+#' If the file extension is not .htm, .html, .HTM or .HTML then
+#' output will be in markdown format.
+#' @param  author Default = "Analyst". Author name to be specified on report.
+#' @param  study Default = "Illumina methylation data". Study name to be specified on report.
+#' @param  ... Arguments to be passed to \code{\link{knitr::knit}}
+#' @export
+#' @return NULL
+#' 
+#' @export
+ewaff.report <- function(object,
+                         output.file = "report.html",
+                         author = "Analyst",
+                         study = "Illumina methylation data",
+                         ...) {
+    stopifnot(is.summary.object(object))
+    
+    ewaff:::msg("Writing report as html file to", output.file)
+    report.path <- system.file("report", package="ewaff")
+    require(knitr)
+    require(Cairo)
+    require(gridExtra)
+
+    options(markdown.HTML.options=union('toc', getOption("markdown.HTML.options")))
+    
+    opts <- opts_chunk$get()
+    on.exit(opts_chunk$set(opts))
+    opts_chunk$set(warning=FALSE, echo=FALSE, message=FALSE, results="asis",
+                   fig.width=6, fig.height=6, dev="CairoPNG")
+    knit.report(file.path(report.path, "report.rmd"),output.file, ...)
+}
+
+
 #' Summarize results.
 #'
 #' Generates variable and covariate summary tables, QQ plots,
