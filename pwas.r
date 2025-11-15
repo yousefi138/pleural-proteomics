@@ -9,7 +9,7 @@ dir <- paths
 eval.save.dir(dir$cache)
 
 # src the protein summary function
-source(file.path(dir$scripts, "pleural-proteomics/R/prot.summary.r"))
+source(file.path(dir$scripts, "pleural-proteomics/R/protein.summary.r"))
 
 # output specs
 out <- list()
