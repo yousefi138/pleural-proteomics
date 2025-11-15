@@ -12,7 +12,6 @@ paths$data <- file.path(paths$project, "data")
 paths$output <- file.path(paths$project, "results")
 paths$cache <- file.path(paths$project, "results", "analysis-cache")
 if(!dir.exists(paths$cache)) dir.create(paths$cache)
-
 print(paths)
 
 ## clean raw olink protein data
@@ -22,12 +21,17 @@ print(paths)
 ##      "project_metaboprep_qc_report.log"
 source("proteins.r", echo=T, max.deparse.length = 500)
 
-
 ## clean raw pheno data
 ## in: "Proteomics Infection and Controls 10.11.25.xlsx"
 ##      "metaboprep_export/qc/data.tsv" 
-## out: pheno.rda in analysis-cache
+## out: pheno.rda in analysis-cache i.e. eval.ret("pheno")
 source("pheno.r", echo=T, max.deparse.length = 500)
+
+## run pwas
+## in: eval.ret("pheno")
+##      "metaboprep_export/qc/data.tsv" 
+## out: 
+source("pwas.r", echo=T, max.deparse.length = 500)
 
 
 
