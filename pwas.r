@@ -69,7 +69,7 @@ eval.save({
 						method="glm",
 						generate.confounders=NULL)
 
-				sum.ret <- prot.summary(ret, 
+				sum.ret <- protein.summary(ret, 
 						molecules = prot)
 
 				list(ret = ret,
@@ -78,6 +78,4 @@ eval.save({
 
 }, "ret", redo=F)
 ret <- eval.ret("ret")
-
-
 

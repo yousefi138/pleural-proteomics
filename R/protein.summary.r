@@ -63,7 +63,7 @@ protein.report <- function(object,
 #' @return List
 #' 
 #' @export
-prot.summary <- function(object, molecules,
+protein.summary <- function(object, molecules,
                           selected.molecules=character(0),
                           additional.variables=NULL,
                           parameters=ewaff.report.parameters(),
