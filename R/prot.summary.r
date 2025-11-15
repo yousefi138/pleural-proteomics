@@ -1,9 +1,7 @@
-#object = ret$infect
-#molecules = prot
-#selected.molecules=character(0)
-#additional.variables=NULL
-#parameters=ewaff.report.parameters()
-#verbose=T
+#object = ret$female$sum.ret
+#output.file = "docs/report.html"
+#author = "Analyst"
+#study = "test"
 msg <- function(..., verbose=T) {
     if (verbose) {
         x <- paste(list(...))
@@ -27,28 +25,27 @@ msg <- function(..., verbose=T) {
 #' @return NULL
 #' 
 #' @export
-ewaff.report <- function(object,
+protein.report <- function(object,
                          output.file = "report.html",
                          author = "Analyst",
-                         study = "Illumina methylation data",
+                         study = "test",
                          ...) {
     stopifnot(is.summary.object(object))
     
     ewaff:::msg("Writing report as html file to", output.file)
-    report.path <- system.file("report", package="ewaff")
+    report.path <- "."
     require(knitr)
-    require(Cairo)
+    require(rmarkdown)
+    #require(Cairo)
     require(gridExtra)
 
-    options(markdown.HTML.options=union('toc', getOption("markdown.HTML.options")))
-    
     opts <- opts_chunk$get()
     on.exit(opts_chunk$set(opts))
     opts_chunk$set(warning=FALSE, echo=FALSE, message=FALSE, results="asis",
-                   fig.width=6, fig.height=6, dev="CairoPNG")
-    knit.report(file.path(report.path, "report.rmd"),output.file, ...)
-}
+                   comment = ">", cache=FALSE, fig.width=6, fig.height=6)#, dev="CairoPNG")
+    render(file.path(report.path, "report.rmd"),output_file = output.file, ...)
 
+}
 
 #' Summarize results.
 #'
