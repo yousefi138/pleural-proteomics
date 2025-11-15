@@ -9,7 +9,7 @@ dir <- paths
 eval.save.dir(dir$cache)
 
 # src the protein summary function
-source(file.path(dir$scripts, "pleural-proteomics/R/protein.summary.r"))
+source(file.path(dir$scripts, "R/protein.summary.r"))
 
 # output specs
 out <- list()
@@ -52,10 +52,11 @@ models <-
 		})
 names(models) <- model.vars
 
-## ---- -------------------------------------------------------------
+## ----run -------------------------------------------------------------
 inputs	<-
 		list(model = models,
-			vars = model.vars)
+			vars = model.vars,
+			model.names = names(models))
 
 eval.save({
 
@@ -72,10 +73,21 @@ eval.save({
 				sum.ret <- protein.summary(ret, 
 						molecules = prot)
 
+				output.file = file.path(dir$scripts, "docs", paste0(..3, ".html"))
+
+				protein.report(sum.ret,
+					output.file = output.file,
+					author = "Paul Yousefi",
+					study = paste0("Pleural proteomics analysis of ", ..3, "variable"))
+
+				file.copy(output.file,
+					file.path(dir$output, "."), overwrite = T)
+
 				list(ret = ret,
 					sum.ret = sum.ret)
 				})
 
-}, "ret", redo=F)
+}, "ret", redo=T)
 ret <- eval.ret("ret")
+
 
