@@ -76,14 +76,23 @@ prot.summary <- function(object, molecules,
                               sig.threshold=parameters$sig.threshold,
                               lambda.method=parameters$qq.inflation.method)
 
+    msg("volcano plots", verbose=verbose)
+    volcano.plot <- data.frame(p.values=p.values,
+                                estimates=estimates) |>
+                        ggplot(aes(x = estimates, y = -log10(p.values))) +
+                        geom_point() +
+                        geom_hline(yintercept = -log10(parameters$sig.threshold), 
+                            linetype='dashed')
+
     plot.sites <- rownames(molecules)[union(practical.idx, selected.idx)]
     msg("CpG site plots:", length(plot.sites), verbose=verbose)
     variable.of.interest <- ifelse(object$independent.variable == "methylation",
                                    object$dependent.variable, object$independent.variable)
-    mol.plots <- sapply(plot.sites, function(cpg) {
-        msg("Plotting", cpg, verbose=verbose)
-        ewaff.cpg.plot(variable.of.interest, as.data.frame(object$design), molecules[cpg,], cpg)
-    }, simplify=F)
+
+    #mol.plots <- sapply(plot.sites, function(cpg) {
+    #    msg("Plotting", cpg, verbose=verbose)
+    #    ewaff:::ewaff.cpg.plot(variable.of.interest, as.data.frame(object$design), molecules[cpg,], cpg)
+    #}, simplify=F)
     
     sample.characteristics <- NULL
     covariate.associations <- NULL
@@ -105,8 +114,9 @@ prot.summary <- function(object, molecules,
     list(class="ewaff.summary",
          parameters=parameters,
          qq.plot=qq.plot,
+         volcano.plot=volcano.plot,
          mol.stats=mol.stats,
-         mol.plots=mol.plots,
+         #mol.plots=mol.plots,
          practical.sites=rownames(molecules)[practical.idx],
          significant.sites=rownames(molecules)[sig.idx],
          selected.sites=rownames(molecules)[selected.idx],         
