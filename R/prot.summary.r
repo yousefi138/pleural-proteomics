@@ -89,11 +89,13 @@ prot.summary <- function(object, molecules,
     variable.of.interest <- ifelse(object$independent.variable == "methylation",
                                    object$dependent.variable, object$independent.variable)
 
-    #mol.plots <- sapply(plot.sites, function(cpg) {
-    #    msg("Plotting", cpg, verbose=verbose)
-    #    ewaff:::ewaff.cpg.plot(variable.of.interest, as.data.frame(object$design), molecules[cpg,], cpg)
-    #}, simplify=F)
-    
+    if (!is.null(object$table$estimate)){ 
+        mol.plots <- sapply(plot.sites, function(cpg) {
+            msg("Plotting", cpg, verbose=verbose)
+            ewaff:::ewaff.cpg.plot(variable.of.interest, as.data.frame(object$design), molecules[cpg,], cpg)
+        }, simplify=F)
+    } else mol.plots <- NULL
+
     sample.characteristics <- NULL
     covariate.associations <- NULL
     additional.associations <- NULL
@@ -116,7 +118,7 @@ prot.summary <- function(object, molecules,
          qq.plot=qq.plot,
          volcano.plot=volcano.plot,
          mol.stats=mol.stats,
-         #mol.plots=mol.plots,
+         mol.plots=mol.plots,
          practical.sites=rownames(molecules)[practical.idx],
          significant.sites=rownames(molecules)[sig.idx],
          selected.sites=rownames(molecules)[selected.idx],         
