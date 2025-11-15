@@ -1,8 +1,7 @@
 ---
-title: "Template"
-subtitle: "Analysis"
+title: "`r study`"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-author: Paul Yousefi
+author: "`r author`"
 output:
   html_document:
     css: docs/style.css
@@ -10,28 +9,54 @@ output:
     highlight: tango
 ---
 
-```{r setoptions, eval = TRUE, echo = FALSE}
-knitr::opts_chunk$set(
-comment = ">",
-error = FALSE,
-tidy = FALSE,
-echo = TRUE, 
-warning = FALSE, 
-message = FALSE,
-cache=FALSE)
+# Parameters
+
+```{r, results="markup"}
+object$parameters
 ```
 
-```{r call_source, echo = F}
-path <- "."
-sourcecode <- grep("analysis.r$", 
-	list.files(path), value = T)
-read_chunk(file.path(path, sourcecode))
+# QQ plot
+
+```{r,results="asis"}
+object$qq.plot
 ```
 
-# Load data 
+# Volcano plot
 
-```{r globals, results = 'hide'}
+```{r,results="asis"}
+object$volcano.plot
 ```
 
-```{r load.data}
+# Significant proteins
+
+Below are the `r length(object$significant.sites)`
+proteins with association p-values below the `$sig.threshold` or p-values < `r object$parameters$sig.threshold`.
+
+```{r}
+tab <- with(object, mol.stats[match(significant.sites, rownames(mol.stats)),])
+```
+
+```{r}
+knitr::kable(tab)
+```
+
+```{r}
+practical.sites <- object$practical.sites
+tab <- with(object, mol.stats[match(practical.sites, rownames(mol.stats)),])
+```
+
+
+Below are the `r length(practical.sites)`
+proteins with association p-values below the `$practical.threshold` or p-values < `r object$parameters$practical.threshold`
+in the `r object$parameters$model` regression model.
+
+```{r}
+knitr::kable(tab)
+```
+
+
+# R session information
+
+```{r, results="markup"}
+sessionInfo()
 ```
