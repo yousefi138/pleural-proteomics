@@ -76,13 +76,6 @@ prot.summary <- function(object, molecules,
                               sig.threshold=parameters$sig.threshold,
                               lambda.method=parameters$qq.inflation.method)
 
-    msg("Manhattan plots", verbose=verbose)
-    manhattan.plot <- ewaff.manhattan.plot(p.values=p.values,
-                                            estimates=estimates,
-                                            chr=chr,
-                                            pos=pos,
-                                            sig.threshold=parameters$sig.threshold)
-
     plot.sites <- rownames(molecules)[union(practical.idx, selected.idx)]
     msg("CpG site plots:", length(plot.sites), verbose=verbose)
     variable.of.interest <- ifelse(object$independent.variable == "methylation",
@@ -112,7 +105,6 @@ prot.summary <- function(object, molecules,
     list(class="ewaff.summary",
          parameters=parameters,
          qq.plot=qq.plot,
-         manhattan.plot=manhattan.plot,
          mol.stats=mol.stats,
          mol.plots=mol.plots,
          practical.sites=rownames(molecules)[practical.idx],
