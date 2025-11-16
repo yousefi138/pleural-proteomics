@@ -29,6 +29,7 @@ protein.report <- function(object,
                          output.file = "report.html",
                          author = "Analyst",
                          study = "test",
+                         template = "report.rmd",
                          ...) {
     stopifnot(is.summary.object(object))
     
@@ -43,7 +44,7 @@ protein.report <- function(object,
     on.exit(opts_chunk$set(opts))
     opts_chunk$set(warning=FALSE, echo=FALSE, message=FALSE, results="asis",
                    comment = ">", cache=FALSE, fig.width=6, fig.height=6)#, dev="CairoPNG")
-    render(file.path(report.path, "report.rmd"),output_file = output.file, ...)
+    render(file.path(report.path, template),output_file = output.file, ...)
 
 }
 
