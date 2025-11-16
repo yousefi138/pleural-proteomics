@@ -41,6 +41,4 @@ source("pwas.r", echo=T, max.deparse.length = 500)
 packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)
 
-render("analysis.rmd", 
-	output_format = "all",
-    output_dir = "docs")
+render("analysis.rmd", output_format = "all", output_dir = "docs")

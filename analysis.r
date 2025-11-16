@@ -21,6 +21,7 @@ tab <- CreateTableOne(data = pheno,
 
 					#	strata = "dna.type")				
 print(tab, showAllLevels = TRUE)
+summary(tab)
 
 ## ----models -------------------------------------------------------------
 ret <- eval.ret("ret")
@@ -36,3 +37,7 @@ kable(formulae)
 
 ## ----qq -------------------------------------------------------------
 map(ret, ~ .x$sum.ret$qq.plot)
+
+## ----volcano ----------------------------------------------------------
+ret$infect$sum.ret$volcano.plot <- NULL
+map(ret, ~ .x$sum.ret$volcano.plot)
