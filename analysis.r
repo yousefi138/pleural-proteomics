@@ -33,3 +33,6 @@ formulae <- data.frame(number = 1:nrow(formulae),
 rownames(formulae) <- NULL
 
 kable(formulae)
+
+## ----qq -------------------------------------------------------------
+map(ret, ~ .x$sum.ret$qq.plot)

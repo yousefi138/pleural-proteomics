@@ -61,6 +61,12 @@ The formulae of linear models examined are shown in the table below:
 
 ## QQ plots
 
+```{r qq}
+```
+
 ## Volcano plots
+
+```{r volcano}
+```
 
 ## Top hits
