@@ -43,7 +43,7 @@ identical(pheno$patient.id, colnames(prot))
 apply(prot, 1, function(i) sum(is.na(i)))
 
 ## ----define models -------------------------------------------------------------
-model.vars <- list("infect", "female", "age")
+model.vars <- list("infect.fct", "female", "age")
 
 models <- 
 	model.vars |>
