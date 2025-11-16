@@ -25,15 +25,17 @@ prot <- data.table::fread(file.path(dir$output,
 pheno <- raw |>            
             mutate(female = sign(sex == "Female"),
 					age  = age.at.enrollment) |>
-            mutate(infect = {
+            mutate(infect.fct = {
                 factor(
                     ifelse(grepl("SPE", raw$final.diagnosis.1), 1, 
                         ifelse(grepl("CPPE", raw$final.diagnosis.1), 2,
                             ifelse(grepl("utrue|bacterial", raw$final.diagnosis.1), 3, NA))),
 					levels = c(1, 2, 3),
-					labels = c("case", "inter", "control"))                        
-                        })|>
-			relocate(patient.id, age, female, infect) |>
+					labels = c("control", "inter", "case"))                        
+                        }) |>
+            mutate(infect.num = as.numeric(infect.fct)) |>
+            mutate(infect.bi = sign(infect.num>2)) |>
+			relocate(patient.id, age, female, infect.fct, infect.num, infect.bi) |>
             
             ## keep only samples passing qc
             filter(patient.id %in% prot) |>
@@ -41,7 +43,13 @@ pheno <- raw |>
 pheno <- eval.ret("pheno")
 
 
-table(pheno$infect)                
+table(pheno$infect.fct)                
+table(pheno$infect.fct, pheno$infect.num)
+table(pheno$infect.bi, pheno$infect.num)
+
+table(is.na(pheno$infect.fct))
+table(is.na(pheno$infect.num))
+table(is.na(pheno$infect.bi))
 
 ## check the pheno$infect categories were created correctly
 sum(grepl("SPE", pheno$final.diagnosis.1))
