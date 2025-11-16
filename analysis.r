@@ -1,6 +1,14 @@
 ## ----globals -------------------------------------------------------------
-packages <- c("dplyr") 
+packages <- c("eval.save") 
 lapply(packages, require, character.only=T)
 
+dir <- paths
+eval.save.dir(dir$cache)
+
 ## ----load.data -------------------------------------------------------------
-list.files()
+
+# load pwas results
+pheno <- eval.ret("pheno")
+ret <- eval.ret("ret")
+
+str(pheno)

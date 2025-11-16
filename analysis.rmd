@@ -1,6 +1,6 @@
 ---
-title: "Template"
-subtitle: "Analysis"
+title: "Pleural proteomics of pleural infection"
+subtitle: "Results from Olink Target 96 Inflammation panel "
 date: "`r format(Sys.time(), '%d %B %Y')`"
 author: Paul Yousefi
 output:
@@ -30,8 +30,8 @@ read_chunk(file.path(path, sourcecode))
 
 # Load data 
 
-```{r globals, results = 'hide'}
+```{r globals, results = 'hide', echo=F }
 ```
 
-```{r load.data}
+```{r load.data, echo=F}
 ```

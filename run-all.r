@@ -34,7 +34,6 @@ source("pheno.r", echo=T, max.deparse.length = 500)
 ## out: rendered output in docs/ for each model run 
 source("pwas.r", echo=T, max.deparse.length = 500)
 
-
 ## run analysis looking at relationship between
 ## methylation predicted proteins and 
 ## tumor vs. normal tissue type. 
