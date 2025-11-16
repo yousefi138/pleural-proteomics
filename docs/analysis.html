@@ -385,12 +385,26 @@ panel</h3>
 
 <div id="TOC">
 <ul>
-<li><a href="#load-data" id="toc-load-data">Load data</a></li>
+<li><a href="#pleural-proteins" id="toc-pleural-proteins">Pleural
+proteins</a></li>
+<li><a href="#phenotype-information" id="toc-phenotype-information">Phenotype information</a></li>
+<li><a href="#protein-wide-associations" id="toc-protein-wide-associations">Protein-wide associations</a>
+<ul>
+<li><a href="#models" id="toc-models">Models</a></li>
+<li><a href="#qq-plots" id="toc-qq-plots">QQ plots</a></li>
+<li><a href="#volcano-plots" id="toc-volcano-plots">Volcano
+plots</a></li>
+<li><a href="#top-hits" id="toc-top-hits">Top hits</a></li>
+</ul></li>
 </ul>
 </div>
 
-<div id="load-data" class="section level1">
-<h1>Load data</h1>
+<div id="pleural-proteins" class="section level1">
+<h1>Pleural proteins</h1>
+</div>
+<div id="phenotype-information" class="section level1">
+<h1>Phenotype information</h1>
+<p>The below phenotypic information was available on participants:</p>
 <pre><code>&gt; tibble [256 × 31] (S3: tbl_df/tbl/data.frame)
 &gt;  $ patient.id           : chr [1:256] &quot;C66ME&quot; &quot;C72GS&quot; &quot;C76EG&quot; &quot;C86JH&quot; ...
 &gt;  $ age                  : num [1:256] 91 77 82 89 72 32 79 95 43 43 ...
@@ -423,6 +437,92 @@ panel</h3>
 &gt;  $ mortality..3m.       : num [1:256] 0 1 0 1 0 0 0 0 0 0 ...
 &gt;  $ mortality..1yr.      : num [1:256] 0 1 0 1 0 0 0 0 0 0 ...
 &gt;  $ notes                : chr [1:256] NA NA NA NA ...</code></pre>
+<p>Participant age, sex, and infection status are shown below. As is the
+<code>final.diagnosis.1</code> variable that was used to derive the
+infection status variable, <code>infect</code>.</p>
+<pre><code>&gt;                        
+&gt;                         level                 Overall      
+&gt;   n                                             256        
+&gt;   age (mean (SD))                             67.14 (16.21)
+&gt;   female (%)            0                       172 (67.2) 
+&gt;                         1                        84 (32.8) 
+&gt;   infect (%)            case                     30 (21.1) 
+&gt;                         inter                    44 (31.0) 
+&gt;                         control                  68 (47.9) 
+&gt;   final.diagnosis.1 (%) M/breast                  5 ( 2.0) 
+&gt;                         M/colorectal              2 ( 0.8) 
+&gt;                         M/haem                    4 ( 1.6) 
+&gt;                         M/lung/adeno              8 ( 3.1) 
+&gt;                         M/lung/small              1 ( 0.4) 
+&gt;                         M/lung/squamous           1 ( 0.4) 
+&gt;                         M/lung/unsclc             1 ( 0.4) 
+&gt;                         M/lung/x                  3 ( 1.2) 
+&gt;                         M/meso/biphasic           1 ( 0.4) 
+&gt;                         M/meso/desmoplastic       1 ( 0.4) 
+&gt;                         M/meso/epithelioid       12 ( 4.7) 
+&gt;                         M/meso/sarcomatoid        6 ( 2.3) 
+&gt;                         M/meso/x                  1 ( 0.4) 
+&gt;                         M/Mullerian               2 ( 0.8) 
+&gt;                         M/oesophageal             2 ( 0.8) 
+&gt;                         M/ovarian                 1 ( 0.4) 
+&gt;                         M/renal                   2 ( 0.8) 
+&gt;                         M/sarcoma                 2 ( 0.8) 
+&gt;                         M/skin                    2 ( 0.8) 
+&gt;                         M/UGI                     2 ( 0.8) 
+&gt;                         X/cardiac/u              14 ( 5.5) 
+&gt;                         X/hepatic/u              13 ( 5.1) 
+&gt;                         X/infection/bacterial    22 ( 8.6) 
+&gt;                         X/infection/CPPE         44 (17.2) 
+&gt;                         X/infection/SPE          30 (11.7) 
+&gt;                         X/infection/utrue        46 (18.0) 
+&gt;                         X/inflam/BAPE            14 ( 5.5) 
+&gt;                         X/inflam/viral            1 ( 0.4) 
+&gt;                         X/renal/u                13 ( 5.1)</code></pre>
+</div>
+<div id="protein-wide-associations" class="section level1">
+<h1>Protein-wide associations</h1>
+<p>Phenotypic characteristics of participants described in <a href="#phenotype-information">Phenotype information</a> were examined
+for association pleural protein abundances (<a href="#pleural-proteins">Pleural proteins</a>)</p>
+<div id="models" class="section level2">
+<h2>Models</h2>
+<p>The formulae of linear models examined are shown in the table
+below:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">number</th>
+<th align="left">model.name</th>
+<th align="left">formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">infect</td>
+<td align="left">proteins ~ infect</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">female</td>
+<td align="left">proteins ~ female</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">age</td>
+<td align="left">proteins ~ age</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="qq-plots" class="section level2">
+<h2>QQ plots</h2>
+</div>
+<div id="volcano-plots" class="section level2">
+<h2>Volcano plots</h2>
+</div>
+<div id="top-hits" class="section level2">
+<h2>Top hits</h2>
+</div>
 </div>
 
 

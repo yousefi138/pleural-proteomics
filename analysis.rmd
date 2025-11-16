@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 comment = ">",
 error = FALSE,
 tidy = FALSE,
-echo = TRUE, 
+echo = F, 
 warning = FALSE, 
 message = FALSE,
 cache=FALSE)
@@ -28,10 +28,39 @@ sourcecode <- grep("analysis.r$",
 read_chunk(file.path(path, sourcecode))
 ```
 
-# Load data 
+# Pleural proteins
 
 ```{r globals, results = 'hide', echo=F }
 ```
 
 ```{r load.data, echo=F}
 ```
+
+# Phenotype information
+
+The below phenotypic information was available on participants:
+
+```{r pheno}
+```
+
+Participant age, sex, and infection status are shown below. As is the `final.diagnosis.1` variable that was used to derive the infection status variable, `infect`.
+
+```{r tab}
+```
+
+# Protein-wide associations
+
+Phenotypic characteristics of participants described in [Phenotype information](#phenotype-information) were examined for association pleural protein abundances ([Pleural proteins](#pleural-proteins))
+
+## Models
+
+The formulae of linear models examined are shown in the table below:
+
+```{r models}
+```
+
+## QQ plots
+
+## Volcano plots
+
+## Top hits
