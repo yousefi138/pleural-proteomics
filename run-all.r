@@ -29,10 +29,10 @@ source("pheno.r", echo=T, max.deparse.length = 500)
 
 ## run pwas
 ## in: eval.ret("pheno")
-##      "metaboprep_export/qc/data.tsv" 
-## out: 
+##      metaboprep output:"metaboprep_export/qc/data.tsv" 
+##      protein.summary.r, report.rmd
+## out: rendered output in docs/ for each model run 
 source("pwas.r", echo=T, max.deparse.length = 500)
-
 
 
 ## run analysis looking at relationship between
