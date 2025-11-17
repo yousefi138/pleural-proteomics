@@ -15,6 +15,9 @@ ret <- eval.ret("ret")
 ## annot
 annot <- eval.ret("annot")
 
+## proteins
+prot.mat <- eval.ret("prot.mat")
+
 ## ----pheno -------------------------------------------------------------
 str(pheno)
 

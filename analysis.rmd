@@ -36,6 +36,13 @@ read_chunk(file.path(path, sourcecode))
 ```{r load.data, echo=F}
 ```
 
+Of the 265 samples run, `r ncol(prot.mat)` passed the default qc performed in the `metaboprep` package.
+
+For the moment, all `r nrow(prot.mat)` measured proteins have been retained for analysis.
+
+See `project_metaboprep_qc_report.html` for full details
+
+
 # Phenotype information
 
 The below phenotypic information was available on participants:
