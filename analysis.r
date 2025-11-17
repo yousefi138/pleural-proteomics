@@ -28,9 +28,11 @@ ret <- eval.ret("ret")
 
 formulae <- map(ret, ~ gsub("^methylation", "proteins", .x$ret$formula))
 formulae <- do.call(rbind, formulae) 
+n <- unlist(map(ret, ~ nrow(.x$ret$design)))
 formulae <- data.frame(number = 1:nrow(formulae),
                         model.name = rownames(formulae),
-                        formula = formulae[,1])
+                        formula = formulae[,1],
+                        n = n)
 rownames(formulae) <- NULL
 
 kable(formulae)
