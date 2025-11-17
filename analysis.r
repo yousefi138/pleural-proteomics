@@ -1,5 +1,5 @@
 ## ----globals -------------------------------------------------------------
-packages <- c("eval.save", "tableone", "purrr") 
+packages <- c("eval.save", "tableone", "tidyverse") 
 lapply(packages, require, character.only=T)
 
 dir <- paths
@@ -43,3 +43,14 @@ map(ret, ~ .x$sum.ret$qq.plot)
 ## ----volcano ----------------------------------------------------------
 ret$infect$sum.ret$volcano.plot <- NULL
 map(ret, ~ .x$sum.ret$volcano.plot)
+
+## ----top ---------------------------------------------------------
+top <- map(ret, ~{
+    ids <- .x$sum.ret$practical.sites
+    idx <- which(rownames(.x$ret$table) %in% ids)
+    .x$ret$table[idx, ] |>
+        dplyr::arrange(p.value)|>
+        rownames_to_column("feature_id") |>
+        mutate(across(contains("p."), ~format(., scientific = TRUE))) |>
+        kable(digits = 3)
+})

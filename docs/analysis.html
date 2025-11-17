@@ -405,40 +405,40 @@ plots</a></li>
 <div id="phenotype-information" class="section level1">
 <h1>Phenotype information</h1>
 <p>The below phenotypic information was available on participants:</p>
-<pre><code>&gt; Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;: 256 obs. of  33 variables:
-&gt;  $ patient.id           : chr  &quot;C66ME&quot; &quot;C72GS&quot; &quot;C76EG&quot; &quot;C86JH&quot; ...
-&gt;  $ age                  : num  91 77 82 89 72 32 79 95 43 43 ...
-&gt;  $ female               : num  1 0 1 0 1 0 1 0 1 0 ...
+<pre><code>&gt; tibble [256 × 33] (S3: tbl_df/tbl/data.frame)
+&gt;  $ patient.id           : chr [1:256] &quot;C66ME&quot; &quot;C72GS&quot; &quot;C76EG&quot; &quot;C86JH&quot; ...
+&gt;  $ age                  : num [1:256] 91 77 82 89 72 32 79 95 43 43 ...
+&gt;  $ female               : num [1:256] 1 0 1 0 1 0 1 0 1 0 ...
 &gt;  $ infect.fct           : Factor w/ 3 levels &quot;control&quot;,&quot;inter&quot;,..: 2 3 2 3 2 3 1 3 3 2 ...
-&gt;  $ infect.num           : num  2 3 2 3 2 3 1 3 3 2 ...
-&gt;  $ infect.bi            : num  0 1 0 1 0 1 0 1 1 0 ...
-&gt;  $ final.diagnosis.1    : chr  &quot;X/infection/CPPE&quot; &quot;X/infection/utrue&quot; &quot;X/infection/CPPE&quot; &quot;X/infection/utrue&quot; ...
-&gt;  $ paired.blood         : chr  &quot;C66ME&quot; &quot;C72GS&quot; &quot;C76EG&quot; &quot;C86JH&quot; ...
-&gt;  $ sex                  : chr  &quot;Female&quot; &quot;Male&quot; &quot;Female&quot; &quot;Male&quot; ...
-&gt;  $ age.at.enrollment    : num  91 77 82 89 72 32 79 95 43 43 ...
-&gt;  $ who.ps               : chr  &quot;2&quot; &quot;4&quot; &quot;2&quot; &quot;4&quot; ...
-&gt;  $ co.morbidity.present : chr  &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; ...
-&gt;  $ co.morbidity.list    : chr  &quot;CKD, hypertension&quot; &quot;COPD, IHD, hypertension&quot; &quot;osteoporosis, hypertension&quot; &quot;hypertension, AF, PMR, gilbert&#39;s syndrome&quot; ...
-&gt;  $ duration.of..symptoms: chr  &quot;0-1 weeks&quot; &quot;4-6 weeks&quot; &quot;2-4 weeks&quot; &quot;1-2 weeks&quot; ...
-&gt;  $ septations           : chr  &quot;Not recorded&quot; &quot;Not recorded&quot; &quot;Not recorded&quot; &quot;Not recorded&quot; ...
-&gt;  $ loculations          : chr  &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; ...
-&gt;  $ lights.criteria      : chr  &quot;Exudate&quot; &quot;Exudate&quot; &quot;Exudate&quot; &quot;Exudate&quot; ...
-&gt;  $ ph                   : chr  &quot;7.45&quot; &quot;7.38&quot; &quot;7.34&quot; &quot;7.0780000000000003&quot; ...
-&gt;  $ crp                  : chr  &quot;240&quot; &quot;398&quot; &quot;338&quot; &quot;245&quot; ...
-&gt;  $ wcc                  : chr  &quot;13.5&quot; &quot;15&quot; &quot;18.7&quot; &quot;16.7&quot; ...
-&gt;  $ neutrophils          : chr  &quot;11.1&quot; &quot;12.1&quot; &quot;15.9&quot; &quot;15.3&quot; ...
-&gt;  $ nlr                  : chr  &quot;8.5399999999999991&quot; &quot;5.5&quot; &quot;13.25&quot; &quot;25.5&quot; ...
-&gt;  $ pf.culture           : chr  &quot;No growth&quot; &quot;No growth&quot; &quot;No growth&quot; &quot;No growth&quot; ...
-&gt;  $ organism.isolated    : chr  &quot;0&quot; &quot;0&quot; &quot;0&quot; &quot;0&quot; ...
-&gt;  $ hospital.los         : chr  &quot;26&quot; &quot;15&quot; &quot;20&quot; &quot;20&quot; ...
-&gt;  $ chest.drain.insertion: chr  &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; ...
-&gt;  $ lytics               : chr  &quot;N&quot; &quot;N&quot; &quot;N&quot; &quot;N&quot; ...
-&gt;  $ surgery              : chr  &quot;N&quot; &quot;N&quot; &quot;Y&quot; &quot;N&quot; ...
-&gt;  $ study.enter.date     : POSIXct, format: &quot;2009-08-03&quot; &quot;2009-08-10&quot; ...
-&gt;  $ death.date           : chr  &quot;43131&quot; &quot;40069&quot; &quot;41011&quot; &quot;40067&quot; ...
-&gt;  $ mortality..3m.       : num  0 1 0 1 0 0 0 0 0 0 ...
-&gt;  $ mortality..1yr.      : num  0 1 0 1 0 0 0 0 0 0 ...
-&gt;  $ notes                : chr  NA NA NA NA ...</code></pre>
+&gt;  $ infect.num           : num [1:256] 2 3 2 3 2 3 1 3 3 2 ...
+&gt;  $ infect.bi            : num [1:256] 0 1 0 1 0 1 0 1 1 0 ...
+&gt;  $ final.diagnosis.1    : chr [1:256] &quot;X/infection/CPPE&quot; &quot;X/infection/utrue&quot; &quot;X/infection/CPPE&quot; &quot;X/infection/utrue&quot; ...
+&gt;  $ paired.blood         : chr [1:256] &quot;C66ME&quot; &quot;C72GS&quot; &quot;C76EG&quot; &quot;C86JH&quot; ...
+&gt;  $ sex                  : chr [1:256] &quot;Female&quot; &quot;Male&quot; &quot;Female&quot; &quot;Male&quot; ...
+&gt;  $ age.at.enrollment    : num [1:256] 91 77 82 89 72 32 79 95 43 43 ...
+&gt;  $ who.ps               : chr [1:256] &quot;2&quot; &quot;4&quot; &quot;2&quot; &quot;4&quot; ...
+&gt;  $ co.morbidity.present : chr [1:256] &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; ...
+&gt;  $ co.morbidity.list    : chr [1:256] &quot;CKD, hypertension&quot; &quot;COPD, IHD, hypertension&quot; &quot;osteoporosis, hypertension&quot; &quot;hypertension, AF, PMR, gilbert&#39;s syndrome&quot; ...
+&gt;  $ duration.of..symptoms: chr [1:256] &quot;0-1 weeks&quot; &quot;4-6 weeks&quot; &quot;2-4 weeks&quot; &quot;1-2 weeks&quot; ...
+&gt;  $ septations           : chr [1:256] &quot;Not recorded&quot; &quot;Not recorded&quot; &quot;Not recorded&quot; &quot;Not recorded&quot; ...
+&gt;  $ loculations          : chr [1:256] &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; ...
+&gt;  $ lights.criteria      : chr [1:256] &quot;Exudate&quot; &quot;Exudate&quot; &quot;Exudate&quot; &quot;Exudate&quot; ...
+&gt;  $ ph                   : chr [1:256] &quot;7.45&quot; &quot;7.38&quot; &quot;7.34&quot; &quot;7.0780000000000003&quot; ...
+&gt;  $ crp                  : chr [1:256] &quot;240&quot; &quot;398&quot; &quot;338&quot; &quot;245&quot; ...
+&gt;  $ wcc                  : chr [1:256] &quot;13.5&quot; &quot;15&quot; &quot;18.7&quot; &quot;16.7&quot; ...
+&gt;  $ neutrophils          : chr [1:256] &quot;11.1&quot; &quot;12.1&quot; &quot;15.9&quot; &quot;15.3&quot; ...
+&gt;  $ nlr                  : chr [1:256] &quot;8.5399999999999991&quot; &quot;5.5&quot; &quot;13.25&quot; &quot;25.5&quot; ...
+&gt;  $ pf.culture           : chr [1:256] &quot;No growth&quot; &quot;No growth&quot; &quot;No growth&quot; &quot;No growth&quot; ...
+&gt;  $ organism.isolated    : chr [1:256] &quot;0&quot; &quot;0&quot; &quot;0&quot; &quot;0&quot; ...
+&gt;  $ hospital.los         : chr [1:256] &quot;26&quot; &quot;15&quot; &quot;20&quot; &quot;20&quot; ...
+&gt;  $ chest.drain.insertion: chr [1:256] &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; ...
+&gt;  $ lytics               : chr [1:256] &quot;N&quot; &quot;N&quot; &quot;N&quot; &quot;N&quot; ...
+&gt;  $ surgery              : chr [1:256] &quot;N&quot; &quot;N&quot; &quot;Y&quot; &quot;N&quot; ...
+&gt;  $ study.enter.date     : POSIXct[1:256], format: &quot;2009-08-03&quot; &quot;2009-08-10&quot; ...
+&gt;  $ death.date           : chr [1:256] &quot;43131&quot; &quot;40069&quot; &quot;41011&quot; &quot;40067&quot; ...
+&gt;  $ mortality..3m.       : num [1:256] 0 1 0 1 0 0 0 0 0 0 ...
+&gt;  $ mortality..1yr.      : num [1:256] 0 1 0 1 0 0 0 0 0 0 ...
+&gt;  $ notes                : chr [1:256] NA NA NA NA ...</code></pre>
 <p>Participant age, sex, and infection status are shown below. As is the
 <code>final.diagnosis.1</code> variable that was used to derive the
 infection status variable, <code>infect</code>.</p>
@@ -645,6 +645,617 @@ below:</p>
 </div>
 <div id="top-hits" class="section level2">
 <h2>Top hits</h2>
+<p>$infect.fct</p>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="3%" />
+<col width="6%" />
+<col width="11%" />
+<col width="8%" />
+<col width="8%" />
+<col width="11%" />
+<col width="11%" />
+<col width="8%" />
+<col width="7%" />
+<col width="10%" />
+<col width="1%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">feature_id</th>
+<th align="right">f</th>
+<th align="left">p.value</th>
+<th align="right">infect.fctinter.estimate</th>
+<th align="right">infect.fctinter.se</th>
+<th align="right">infect.fctinter.t</th>
+<th align="left">infect.fctinter.p.value</th>
+<th align="right">infect.fctcase.estimate</th>
+<th align="right">infect.fctcase.se</th>
+<th align="right">infect.fctcase.t</th>
+<th align="left">infect.fctcase.p.value</th>
+<th align="right">n</th>
+<th align="left">p.adjust</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">OID00471</td>
+<td align="right">40.792</td>
+<td align="left">1.151406e-14</td>
+<td align="right">2.445</td>
+<td align="right">0.435</td>
+<td align="right">5.618</td>
+<td align="left">1.018206e-07</td>
+<td align="right">3.638</td>
+<td align="right">0.403</td>
+<td align="right">9.029</td>
+<td align="left">1.286992e-15</td>
+<td align="right">142</td>
+<td align="left">1.059293e-12</td>
+</tr>
+<tr class="even">
+<td align="left">OID00494</td>
+<td align="right">38.434</td>
+<td align="left">5.168685e-14</td>
+<td align="right">1.800</td>
+<td align="right">0.487</td>
+<td align="right">3.694</td>
+<td align="left">3.169406e-04</td>
+<td align="right">3.820</td>
+<td align="right">0.451</td>
+<td align="right">8.467</td>
+<td align="left">3.197543e-14</td>
+<td align="right">142</td>
+<td align="left">4.755190e-12</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00560</td>
+<td align="right">37.691</td>
+<td align="left">8.354244e-14</td>
+<td align="right">1.098</td>
+<td align="right">0.421</td>
+<td align="right">2.610</td>
+<td align="left">1.005735e-02</td>
+<td align="right">3.124</td>
+<td align="right">0.389</td>
+<td align="right">8.023</td>
+<td align="left">3.863748e-13</td>
+<td align="right">142</td>
+<td align="left">7.685905e-12</td>
+</tr>
+<tr class="even">
+<td align="left">OID00506</td>
+<td align="right">33.713</td>
+<td align="left">1.156989e-12</td>
+<td align="right">0.516</td>
+<td align="right">0.541</td>
+<td align="right">0.953</td>
+<td align="left">3.423543e-01</td>
+<td align="right">3.438</td>
+<td align="right">0.501</td>
+<td align="right">6.863</td>
+<td align="left">2.048581e-10</td>
+<td align="right">142</td>
+<td align="left">1.064430e-10</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00520</td>
+<td align="right">32.810</td>
+<td align="left">2.130872e-12</td>
+<td align="right">3.163</td>
+<td align="right">0.675</td>
+<td align="right">4.684</td>
+<td align="left">6.611455e-06</td>
+<td align="right">5.047</td>
+<td align="right">0.625</td>
+<td align="right">8.074</td>
+<td align="left">2.904586e-13</td>
+<td align="right">142</td>
+<td align="left">1.960403e-10</td>
+</tr>
+<tr class="even">
+<td align="left">OID00532</td>
+<td align="right">32.383</td>
+<td align="left">2.849321e-12</td>
+<td align="right">0.927</td>
+<td align="right">0.512</td>
+<td align="right">1.810</td>
+<td align="left">7.249174e-02</td>
+<td align="right">3.400</td>
+<td align="right">0.474</td>
+<td align="right">7.173</td>
+<td align="left">3.992927e-11</td>
+<td align="right">142</td>
+<td align="left">2.621376e-10</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00517</td>
+<td align="right">31.442</td>
+<td align="left">5.430920e-12</td>
+<td align="right">0.726</td>
+<td align="right">0.274</td>
+<td align="right">2.644</td>
+<td align="left">9.129161e-03</td>
+<td align="right">1.888</td>
+<td align="right">0.254</td>
+<td align="right">7.428</td>
+<td align="left">1.010442e-11</td>
+<td align="right">142</td>
+<td align="left">4.996446e-10</td>
+</tr>
+<tr class="even">
+<td align="left">OID00493</td>
+<td align="right">30.696</td>
+<td align="left">9.097134e-12</td>
+<td align="right">1.042</td>
+<td align="right">0.632</td>
+<td align="right">1.649</td>
+<td align="left">1.014864e-01</td>
+<td align="right">4.056</td>
+<td align="right">0.585</td>
+<td align="right">6.930</td>
+<td align="left">1.443705e-10</td>
+<td align="right">142</td>
+<td align="left">8.369363e-10</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00474</td>
+<td align="right">30.081</td>
+<td align="left">1.395527e-11</td>
+<td align="right">2.053</td>
+<td align="right">0.511</td>
+<td align="right">4.016</td>
+<td align="left">9.629013e-05</td>
+<td align="right">3.626</td>
+<td align="right">0.473</td>
+<td align="right">7.666</td>
+<td align="left">2.779917e-12</td>
+<td align="right">142</td>
+<td align="left">1.283885e-09</td>
+</tr>
+<tr class="even">
+<td align="left">OID00547</td>
+<td align="right">27.822</td>
+<td align="left">6.872673e-11</td>
+<td align="right">1.768</td>
+<td align="right">0.431</td>
+<td align="right">4.104</td>
+<td align="left">6.900959e-05</td>
+<td align="right">2.956</td>
+<td align="right">0.399</td>
+<td align="right">7.410</td>
+<td align="left">1.114735e-11</td>
+<td align="right">142</td>
+<td align="left">6.322859e-09</td>
+</tr>
+</tbody>
+</table>
+<p>$infect.num</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">feature_id</th>
+<th align="right">estimate</th>
+<th align="right">se</th>
+<th align="right">t</th>
+<th align="left">p.value</th>
+<th align="right">n</th>
+<th align="left">p.adjust</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">OID00494</td>
+<td align="right">1.925</td>
+<td align="right">0.219</td>
+<td align="right">8.792</td>
+<td align="left">4.818058e-15</td>
+<td align="right">142</td>
+<td align="left">4.432613e-13</td>
+</tr>
+<tr class="even">
+<td align="left">OID00471</td>
+<td align="right">1.735</td>
+<td align="right">0.198</td>
+<td align="right">8.773</td>
+<td align="left">5.375617e-15</td>
+<td align="right">142</td>
+<td align="left">4.945568e-13</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00560</td>
+<td align="right">1.624</td>
+<td align="right">0.190</td>
+<td align="right">8.539</td>
+<td align="left">2.041545e-14</td>
+<td align="right">142</td>
+<td align="left">1.878221e-12</td>
+</tr>
+<tr class="even">
+<td align="left">OID00520</td>
+<td align="right">2.438</td>
+<td align="right">0.305</td>
+<td align="right">7.998</td>
+<td align="left">4.296767e-13</td>
+<td align="right">142</td>
+<td align="left">3.953026e-11</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00517</td>
+<td align="right">0.973</td>
+<td align="right">0.124</td>
+<td align="right">7.865</td>
+<td align="left">8.990771e-13</td>
+<td align="right">142</td>
+<td align="left">8.271509e-11</td>
+</tr>
+<tr class="even">
+<td align="left">OID00474</td>
+<td align="right">1.781</td>
+<td align="right">0.230</td>
+<td align="right">7.751</td>
+<td align="left">1.684507e-12</td>
+<td align="right">142</td>
+<td align="left">1.549746e-10</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00532</td>
+<td align="right">1.804</td>
+<td align="right">0.233</td>
+<td align="right">7.742</td>
+<td align="left">1.773699e-12</td>
+<td align="right">142</td>
+<td align="left">1.631803e-10</td>
+</tr>
+<tr class="even">
+<td align="left">OID00506</td>
+<td align="right">1.881</td>
+<td align="right">0.250</td>
+<td align="right">7.525</td>
+<td align="left">5.831190e-12</td>
+<td align="right">142</td>
+<td align="left">5.364694e-10</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00493</td>
+<td align="right">2.160</td>
+<td align="right">0.288</td>
+<td align="right">7.503</td>
+<td align="left">6.565723e-12</td>
+<td align="right">142</td>
+<td align="left">6.040465e-10</td>
+</tr>
+<tr class="even">
+<td align="left">OID00547</td>
+<td align="right">1.439</td>
+<td align="right">0.194</td>
+<td align="right">7.417</td>
+<td align="left">1.045204e-11</td>
+<td align="right">142</td>
+<td align="left">9.615879e-10</td>
+</tr>
+</tbody>
+</table>
+<p>$infect.bi</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">feature_id</th>
+<th align="right">estimate</th>
+<th align="right">se</th>
+<th align="right">t</th>
+<th align="left">p.value</th>
+<th align="right">n</th>
+<th align="left">p.adjust</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">OID00506</td>
+<td align="right">3.132</td>
+<td align="right">0.384</td>
+<td align="right">8.159</td>
+<td align="left">1.750448e-13</td>
+<td align="right">142</td>
+<td align="left">1.610412e-11</td>
+</tr>
+<tr class="even">
+<td align="left">OID00560</td>
+<td align="right">2.472</td>
+<td align="right">0.305</td>
+<td align="right">8.114</td>
+<td align="left">2.245166e-13</td>
+<td align="right">142</td>
+<td align="left">2.065553e-11</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00532</td>
+<td align="right">2.849</td>
+<td align="right">0.366</td>
+<td align="right">7.779</td>
+<td align="left">1.449280e-12</td>
+<td align="right">142</td>
+<td align="left">1.333338e-10</td>
+</tr>
+<tr class="even">
+<td align="left">OID00494</td>
+<td align="right">2.749</td>
+<td align="right">0.361</td>
+<td align="right">7.615</td>
+<td align="left">3.562077e-12</td>
+<td align="right">142</td>
+<td align="left">3.277111e-10</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00493</td>
+<td align="right">3.436</td>
+<td align="right">0.451</td>
+<td align="right">7.613</td>
+<td align="left">3.596543e-12</td>
+<td align="right">142</td>
+<td align="left">3.308820e-10</td>
+</tr>
+<tr class="even">
+<td align="left">OID00517</td>
+<td align="right">1.456</td>
+<td align="right">0.199</td>
+<td align="right">7.321</td>
+<td align="left">1.758473e-11</td>
+<td align="right">142</td>
+<td align="left">1.617795e-09</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00503</td>
+<td align="right">1.786</td>
+<td align="right">0.254</td>
+<td align="right">7.040</td>
+<td align="left">7.905369e-11</td>
+<td align="right">142</td>
+<td align="left">7.272939e-09</td>
+</tr>
+<tr class="even">
+<td align="left">OID00485</td>
+<td align="right">3.610</td>
+<td align="right">0.556</td>
+<td align="right">6.498</td>
+<td align="left">1.325538e-09</td>
+<td align="right">142</td>
+<td align="left">1.219495e-07</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00480</td>
+<td align="right">0.909</td>
+<td align="right">0.140</td>
+<td align="right">6.481</td>
+<td align="left">1.446752e-09</td>
+<td align="right">142</td>
+<td align="left">1.331012e-07</td>
+</tr>
+<tr class="even">
+<td align="left">OID00471</td>
+<td align="right">2.184</td>
+<td align="right">0.341</td>
+<td align="right">6.408</td>
+<td align="left">2.095754e-09</td>
+<td align="right">142</td>
+<td align="left">1.928094e-07</td>
+</tr>
+</tbody>
+</table>
+<p>$female</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">feature_id</th>
+<th align="right">estimate</th>
+<th align="right">se</th>
+<th align="right">t</th>
+<th align="left">p.value</th>
+<th align="right">n</th>
+<th align="left">p.adjust</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">OID00512</td>
+<td align="right">1.092</td>
+<td align="right">0.302</td>
+<td align="right">3.610</td>
+<td align="left">3.685466e-04</td>
+<td align="right">256</td>
+<td align="left">3.390629e-02</td>
+</tr>
+<tr class="even">
+<td align="left">OID00534</td>
+<td align="right">0.650</td>
+<td align="right">0.181</td>
+<td align="right">3.597</td>
+<td align="left">3.870928e-04</td>
+<td align="right">256</td>
+<td align="left">3.561253e-02</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00481</td>
+<td align="right">-0.244</td>
+<td align="right">0.075</td>
+<td align="right">-3.245</td>
+<td align="left">1.331245e-03</td>
+<td align="right">256</td>
+<td align="left">1.224745e-01</td>
+</tr>
+<tr class="even">
+<td align="left">OID00480</td>
+<td align="right">-0.379</td>
+<td align="right">0.119</td>
+<td align="right">-3.171</td>
+<td align="left">1.705441e-03</td>
+<td align="right">256</td>
+<td align="left">1.569005e-01</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00554</td>
+<td align="right">-0.585</td>
+<td align="right">0.200</td>
+<td align="right">-2.925</td>
+<td align="left">3.760519e-03</td>
+<td align="right">256</td>
+<td align="left">3.459677e-01</td>
+</tr>
+<tr class="even">
+<td align="left">OID00476</td>
+<td align="right">-0.398</td>
+<td align="right">0.142</td>
+<td align="right">-2.798</td>
+<td align="left">5.536915e-03</td>
+<td align="right">256</td>
+<td align="left">5.093962e-01</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00472</td>
+<td align="right">-0.338</td>
+<td align="right">0.123</td>
+<td align="right">-2.738</td>
+<td align="left">6.612371e-03</td>
+<td align="right">256</td>
+<td align="left">6.083381e-01</td>
+</tr>
+<tr class="even">
+<td align="left">OID00513</td>
+<td align="right">0.529</td>
+<td align="right">0.198</td>
+<td align="right">2.670</td>
+<td align="left">8.069177e-03</td>
+<td align="right">256</td>
+<td align="left">7.423643e-01</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00530</td>
+<td align="right">0.252</td>
+<td align="right">0.099</td>
+<td align="right">2.554</td>
+<td align="left">1.124655e-02</td>
+<td align="right">256</td>
+<td align="left">1.000000e+00</td>
+</tr>
+<tr class="even">
+<td align="left">OID00528</td>
+<td align="right">0.456</td>
+<td align="right">0.188</td>
+<td align="right">2.428</td>
+<td align="left">1.585718e-02</td>
+<td align="right">256</td>
+<td align="left">1.000000e+00</td>
+</tr>
+</tbody>
+</table>
+<p>$age</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">feature_id</th>
+<th align="right">estimate</th>
+<th align="right">se</th>
+<th align="right">t</th>
+<th align="left">p.value</th>
+<th align="right">n</th>
+<th align="left">p.adjust</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">OID00539</td>
+<td align="right">0.017</td>
+<td align="right">0.002</td>
+<td align="right">6.917</td>
+<td align="left">3.729325e-11</td>
+<td align="right">256</td>
+<td align="left">3.430979e-09</td>
+</tr>
+<tr class="even">
+<td align="left">OID00551</td>
+<td align="right">0.030</td>
+<td align="right">0.004</td>
+<td align="right">6.830</td>
+<td align="left">6.245990e-11</td>
+<td align="right">256</td>
+<td align="left">5.746311e-09</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00521</td>
+<td align="right">-0.043</td>
+<td align="right">0.006</td>
+<td align="right">-6.775</td>
+<td align="left">8.617535e-11</td>
+<td align="right">256</td>
+<td align="left">7.928132e-09</td>
+</tr>
+<tr class="even">
+<td align="left">OID00524</td>
+<td align="right">-0.039</td>
+<td align="right">0.006</td>
+<td align="right">-6.620</td>
+<td align="left">2.126886e-10</td>
+<td align="right">256</td>
+<td align="left">1.956735e-08</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00491</td>
+<td align="right">0.025</td>
+<td align="right">0.004</td>
+<td align="right">6.314</td>
+<td align="left">1.203104e-09</td>
+<td align="right">256</td>
+<td align="left">1.106856e-07</td>
+</tr>
+<tr class="even">
+<td align="left">OID00485</td>
+<td align="right">-0.078</td>
+<td align="right">0.013</td>
+<td align="right">-6.131</td>
+<td align="left">3.319032e-09</td>
+<td align="right">256</td>
+<td align="left">3.053509e-07</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00537</td>
+<td align="right">-0.011</td>
+<td align="right">0.002</td>
+<td align="right">-6.066</td>
+<td align="left">4.737243e-09</td>
+<td align="right">256</td>
+<td align="left">4.358264e-07</td>
+</tr>
+<tr class="even">
+<td align="left">OID00493</td>
+<td align="right">-0.056</td>
+<td align="right">0.010</td>
+<td align="right">-5.579</td>
+<td align="left">6.198957e-08</td>
+<td align="right">256</td>
+<td align="left">5.703041e-06</td>
+</tr>
+<tr class="odd">
+<td align="left">OID00506</td>
+<td align="right">-0.051</td>
+<td align="right">0.009</td>
+<td align="right">-5.547</td>
+<td align="left">7.273614e-08</td>
+<td align="right">256</td>
+<td align="left">6.691725e-06</td>
+</tr>
+<tr class="even">
+<td align="left">OID00497</td>
+<td align="right">-0.036</td>
+<td align="right">0.007</td>
+<td align="right">-5.519</td>
+<td align="left">8.415167e-08</td>
+<td align="right">256</td>
+<td align="left">7.741953e-06</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 

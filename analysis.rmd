@@ -70,3 +70,11 @@ The formulae of linear models examined are shown in the table below:
 ```
 
 ## Top hits
+
+```{r top}
+```
+
+```{r, results='asis'}
+top
+```
+
