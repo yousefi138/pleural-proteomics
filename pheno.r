@@ -21,8 +21,15 @@ str(raw)
 prot <- data.table::fread(file.path(dir$output,
                 "metaboprep_export/qc/data.tsv"))$sample_id
 
+## retrieve batch info
+batch <- eval.ret("batch")
+
+# make a factor variable for plate
+batch$plate <- as.factor(batch$plateid)
+
 ## ----make.pheno -------------------------------------------------------------
-pheno <- raw |>            
+pheno <- raw |>    
+            left_join(batch, by = c("patient.id" = "sample_id")) |>        
             mutate(female = sign(sex == "Female"),
 					age  = age.at.enrollment) |>
             mutate(infect.fct = {
