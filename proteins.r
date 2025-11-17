@@ -73,5 +73,9 @@ annot <- eval.ret("annot")
 eval.save({
     batch <- data.table::fread(file.path(dir$output,
                     "metaboprep_export/qc/samples.tsv"))
+	colnames(batch) <- colnames(batch) |>
+					make.names()|>
+					tolower()
+	batch
 }, "batch", redo=T)
 batch <- eval.ret("batch")
