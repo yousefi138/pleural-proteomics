@@ -18,14 +18,7 @@ out <- list()
 ## ----access.pheno -------------------------------------------------------------
 pheno <- eval.ret("pheno")
 
-## ----get dnam -------------------------------------------------------------
-# pull the aries dnam from the time points and observations
-# specified in 'alspac'
-
-# match gives the index of where in the second argument the first argument is,
-# hence if you index the second argument on it's result, it will be in the same order as
-# the first
-
+## ----get protins -------------------------------------------------------------
 prot <- eval.ret("prot")
 
 ## check ids match between pheno and prot
