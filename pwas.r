@@ -19,7 +19,8 @@ out <- list()
 pheno <- eval.ret("pheno")
 
 ## ----get protins -------------------------------------------------------------
-prot <- eval.ret("prot")
+prot.mat <- eval.ret("prot.mat")
+prot <- prot.mat[,match(pheno$patient.id, colnames(prot.mat))]
 
 ## check ids match between pheno and prot
 identical(pheno$patient.id, colnames(prot))

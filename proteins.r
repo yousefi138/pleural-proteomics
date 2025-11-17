@@ -57,9 +57,8 @@ eval.save({
             tibble::column_to_rownames("sample_id") |>
             as.matrix()|>
             t()
-    prot <- prot[,match(pheno$patient.id, colnames(prot))]
-}, "prot", redo=T)
-pheno <- eval.ret("pheno")
+}, "prot.mat", redo=T)
+pheno <- eval.ret("prot.mat")
 
 ## ----save working annot -------------------------------------------------------------
 ## annot
