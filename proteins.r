@@ -65,6 +65,10 @@ pheno <- eval.ret("prot.mat")
 eval.save({
     annot <- data.table::fread(file.path(dir$output,
                     "metaboprep_export/qc/features.tsv"))
+	colnames(annot) <- colnames(annot) |>
+					make.names()|>
+					tolower()
+	annot                    
 }, "annot", redo=T)
 annot <- eval.ret("annot")
 
