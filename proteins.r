@@ -67,3 +67,11 @@ eval.save({
                     "metaboprep_export/qc/features.tsv"))
 }, "annot", redo=T)
 annot <- eval.ret("annot")
+
+## ----save batch info -------------------------------------------------------------
+## annot
+eval.save({
+    batch <- data.table::fread(file.path(dir$output,
+                    "metaboprep_export/qc/samples.tsv"))
+}, "batch", redo=T)
+batch <- eval.ret("batch")
