@@ -26,14 +26,6 @@ pheno <- eval.ret("pheno")
 # hence if you index the second argument on it's result, it will be in the same order as
 # the first
 
-eval.save({
-    prot <- data.table::fread(file.path(dir$output,
-                    "metaboprep_export/qc/data.tsv")) |>
-            tibble::column_to_rownames("sample_id") |>
-            as.matrix()|>
-            t()
-    prot <- prot[,match(pheno$patient.id, colnames(prot))]
-}, "prot", redo=F)
 prot <- eval.ret("prot")
 
 ## check ids match between pheno and prot

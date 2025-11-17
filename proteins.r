@@ -49,3 +49,13 @@ if (dir.exists(file.path(dir$output, "metaboprep_export"))) {
 
 file.rename(file.path(dir$output, dir.default),
             file.path(dir$output, sub("_[0-9].*",  "", basename(dir.default))))
+
+## ----save.working.version -------------------------------------------------------------
+eval.save({
+    prot <- data.table::fread(file.path(dir$output,
+                    "metaboprep_export/qc/data.tsv")) |>
+            tibble::column_to_rownames("sample_id") |>
+            as.matrix()|>
+            t()
+    prot <- prot[,match(pheno$patient.id, colnames(prot))]
+}, "prot", redo=T)
