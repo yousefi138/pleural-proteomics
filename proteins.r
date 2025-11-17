@@ -50,7 +50,7 @@ if (dir.exists(file.path(dir$output, "metaboprep_export"))) {
 file.rename(file.path(dir$output, dir.default),
             file.path(dir$output, sub("_[0-9].*",  "", basename(dir.default))))
 
-## ----save.working.version -------------------------------------------------------------
+## ----save.working.protein.matrix -------------------------------------------------------------
 eval.save({
     prot <- data.table::fread(file.path(dir$output,
                     "metaboprep_export/qc/data.tsv")) |>
@@ -59,3 +59,12 @@ eval.save({
             t()
     prot <- prot[,match(pheno$patient.id, colnames(prot))]
 }, "prot", redo=T)
+pheno <- eval.ret("pheno")
+
+## ----save working annot -------------------------------------------------------------
+## annot
+eval.save({
+    annot <- data.table::fread(file.path(dir$output,
+                    "metaboprep_export/qc/features.tsv"))
+}, "annot", redo=T)
+annot <- eval.ret("annot")
