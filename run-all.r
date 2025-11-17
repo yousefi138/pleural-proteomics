@@ -19,11 +19,13 @@ print(paths)
 ## out: "metaboprep_export/"
 ##      "project_metaboprep_qc_report.html"
 ##      "project_metaboprep_qc_report.log"
+##      eval.ret("prot.mat"), eval.ret("annot"), eval.ret("batch")
 source("proteins.r", echo=T, max.deparse.length = 500)
 
 ## clean raw pheno data
 ## in: "Proteomics Infection and Controls 10.11.25.xlsx"
 ##      "metaboprep_export/qc/data.tsv" 
+##       eval.ret("batch")
 ## out: pheno.rda in analysis-cache i.e. eval.ret("pheno")
 source("pheno.r", echo=T, max.deparse.length = 500)
 
