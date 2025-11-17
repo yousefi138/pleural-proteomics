@@ -44,6 +44,15 @@ kable(formulae)
 ## ----qq -------------------------------------------------------------
 map(ret, ~ .x$sum.ret$qq.plot)
 
+## ----hit.counts-------------------------------------------------------
+formulae$bonf.sig <- map_dbl(ret, ~ length(.x$sum.ret$significant.sites))
+
+formulae$fdr.sig <- map_dbl(ret, ~ {
+        sum(p.adjust(.x$ret$table$p.value, method = "BH") < 0.05)
+    })
+
+kable(formulae)
+
 ## ----volcano ----------------------------------------------------------
 ret$infect.fct$sum.ret$volcano.plot <- NULL
 ret$infect.fct.plate$sum.ret$volcano.plot <-  NULL

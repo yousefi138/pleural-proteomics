@@ -69,6 +69,13 @@ The formulae of linear models examined are shown in the table below:
 ```{r volcano}
 ```
 
+## Hit counts per model
+
+Number of bonferroni (p< 0.05/92) and fdr adjusted (fdr p < 0.05) hits per model
+
+```{r hit.counts}
+```
+
 ## Top hits
 
 ```{r top}
