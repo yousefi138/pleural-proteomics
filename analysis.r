@@ -6,10 +6,16 @@ dir <- paths
 eval.save.dir(dir$cache)
 
 ## ----load.data -------------------------------------------------------------
+## pheno
+pheno <- eval.ret("pheno")
 
+## ret
+ret <- eval.ret("ret")
+
+## annot
+annot <- eval.ret("annot")
 
 ## ----pheno -------------------------------------------------------------
-pheno <- eval.ret("pheno")
 str(pheno)
 
 ## ----tab -------------------------------------------------------------
@@ -24,8 +30,6 @@ print(tab, showAllLevels = TRUE)
 summary(tab)
 
 ## ----models -------------------------------------------------------------
-ret <- eval.ret("ret")
-
 formulae <- map(ret, ~ gsub("^methylation", "proteins", .x$ret$formula))
 formulae <- do.call(rbind, formulae) 
 n <- unlist(map(ret, ~ nrow(.x$ret$design)))
@@ -45,12 +49,21 @@ ret$infect$sum.ret$volcano.plot <- NULL
 map(ret, ~ .x$sum.ret$volcano.plot)
 
 ## ----top ---------------------------------------------------------
-top <- map(ret, ~{
+ret.anot <- map(ret, ~{
+    identical(rownames(.x$ret$table), annot$feature_id)
+    .x$ret$table <- .x$ret$table |>
+            rownames_to_column("feature_id") |>
+            mutate(uniprot = annot$uniprot,
+                gene = annot$assay) |>
+            relocate(feature_id, uniprot, gene)
+    .x
+})
+
+top <- map(ret.anot, ~{
     ids <- .x$sum.ret$practical.sites
-    idx <- which(rownames(.x$ret$table) %in% ids)
+    idx <- which(.x$ret$table$feature_id %in% ids)
     .x$ret$table[idx, ] |>
         dplyr::arrange(p.value)|>
-        rownames_to_column("feature_id") |>
         mutate(across(contains("p."), ~format(., scientific = TRUE))) |>
         kable(digits = 3)
 })
