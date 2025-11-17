@@ -78,3 +78,7 @@ The formulae of linear models examined are shown in the table below:
 top
 ```
 
+## Gene-annotated volcano plots
+
+```{r vol.lab}
+```

@@ -69,3 +69,20 @@ top <- map(ret.anot, ~{
         mutate(across(contains("p."), ~format(., scientific = TRUE))) |>
         kable(digits = 3)
 })
+
+## ----vol.lab -------------------------------------------------------------
+plot <- ret.anot[c("infect.num.fulladj", "infect.bi.fulladj")] |>
+            map(~.x$ret$table)
+
+plot |>
+    map(~ {
+        .x |>
+            ggplot(aes(x = estimate, y = -log10(p.value))) +
+            geom_point() +
+            geom_hline(yintercept = -log10(0.05/length(.x$p.value)), 
+                linetype='dashed') +
+            geom_label(aes(label = gene), 
+                data = ~ filter(., -log10(p.value) > -log10(0.05/length(.x$p.value))),
+                vjust = -0.5, hjust = 0.5, size = 3)
+})
+
