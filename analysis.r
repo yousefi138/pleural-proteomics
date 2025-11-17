@@ -45,7 +45,7 @@ kable(formulae)
 map(ret, ~ .x$sum.ret$qq.plot)
 
 ## ----volcano ----------------------------------------------------------
-ret$infect$sum.ret$volcano.plot <- NULL
+ret$infect.fct$sum.ret$volcano.plot <- NULL
 map(ret, ~ .x$sum.ret$volcano.plot)
 
 ## ----top ---------------------------------------------------------
