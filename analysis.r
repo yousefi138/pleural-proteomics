@@ -23,7 +23,8 @@ str(pheno)
 
 ## ----tab -------------------------------------------------------------
 cont <- "age"
-cat <- c("female", "infect", "final.diagnosis.1")
+cat <- c("female", "plate", 
+        "infect.fct", "infect.num", "infect.bi","final.diagnosis.1")
 tab <- CreateTableOne(data = pheno, 
 						vars = c(cont, cat), 
 						factorVars = cat)
