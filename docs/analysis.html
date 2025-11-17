@@ -405,7 +405,7 @@ plots</a></li>
 <div id="phenotype-information" class="section level1">
 <h1>Phenotype information</h1>
 <p>The below phenotypic information was available on participants:</p>
-<pre><code>&gt; tibble [256 × 33] (S3: tbl_df/tbl/data.frame)
+<pre><code>&gt; tibble [256 × 48] (S3: tbl_df/tbl/data.frame)
 &gt;  $ patient.id           : chr [1:256] &quot;C66ME&quot; &quot;C72GS&quot; &quot;C76EG&quot; &quot;C86JH&quot; ...
 &gt;  $ age                  : num [1:256] 91 77 82 89 72 32 79 95 43 43 ...
 &gt;  $ female               : num [1:256] 1 0 1 0 1 0 1 0 1 0 ...
@@ -438,7 +438,22 @@ plots</a></li>
 &gt;  $ death.date           : chr [1:256] &quot;43131&quot; &quot;40069&quot; &quot;41011&quot; &quot;40067&quot; ...
 &gt;  $ mortality..3m.       : num [1:256] 0 1 0 1 0 0 0 0 0 0 ...
 &gt;  $ mortality..1yr.      : num [1:256] 0 1 0 1 0 0 0 0 0 0 ...
-&gt;  $ notes                : chr [1:256] NA NA NA NA ...</code></pre>
+&gt;  $ notes                : chr [1:256] NA NA NA NA ...
+&gt;  $ product              : chr [1:256] &quot;TARGET96&quot; &quot;TARGET96&quot; &quot;TARGET96&quot; &quot;TARGET96&quot; ...
+&gt;  $ panelversion         : int [1:256] 3028 3028 3028 3028 3028 3028 3028 3028 3028 3028 ...
+&gt;  $ plateid              : chr [1:256] &quot;GB390725-RB_1&quot; &quot;GB390725-RB_1&quot; &quot;GB390725-RB_2&quot; &quot;GB390725-RB_2&quot; ...
+&gt;  $ wellid               : chr [1:256] &quot;A1&quot; &quot;E6&quot; &quot;A11&quot; &quot;F4&quot; ...
+&gt;  $ sampletype           : chr [1:256] &quot;SAMPLE&quot; &quot;SAMPLE&quot; &quot;SAMPLE&quot; &quot;SAMPLE&quot; ...
+&gt;  $ ct                   : num [1:256] 8.87 12.41 9.57 8.92 8.5 ...
+&gt;  $ lodnpx               : num [1:256] -9.42 -9.42 -9.34 -9.34 -9.63 ...
+&gt;  $ belowlod             : logi [1:256] FALSE FALSE FALSE FALSE FALSE FALSE ...
+&gt;  $ sampleqc             : chr [1:256] &quot;PASS&quot; &quot;PASS&quot; &quot;PASS&quot; &quot;PASS&quot; ...
+&gt;  $ assayqc              : chr [1:256] &quot;PASS&quot; &quot;PASS&quot; &quot;PASS&quot; &quot;PASS&quot; ...
+&gt;  $ softwareversion      : chr [1:256] &quot;2.0.2&quot; &quot;2.0.2&quot; &quot;2.0.2&quot; &quot;2.0.2&quot; ...
+&gt;  $ softwarename         : chr [1:256] &quot;NPX Signature&quot; &quot;NPX Signature&quot; &quot;NPX Signature&quot; &quot;NPX Signature&quot; ...
+&gt;  $ reason_excluded      : logi [1:256] NA NA NA NA NA NA ...
+&gt;  $ excluded             : logi [1:256] FALSE FALSE FALSE FALSE FALSE FALSE ...
+&gt;  $ plate                : Factor w/ 3 levels &quot;GB390725-RB_1&quot;,..: 1 1 2 2 3 1 3 2 3 1 ...</code></pre>
 <p>Participant age, sex, and infection status are shown below. As is the
 <code>final.diagnosis.1</code> variable that was used to derive the
 infection status variable, <code>infect</code>.</p>
@@ -646,25 +661,29 @@ below:</p>
 <div id="top-hits" class="section level2">
 <h2>Top hits</h2>
 <p>$infect.fct</p>
-<table>
+<table style="width:100%;">
 <colgroup>
-<col width="5%" />
+<col width="4%" />
 <col width="3%" />
-<col width="6%" />
-<col width="11%" />
-<col width="8%" />
-<col width="8%" />
-<col width="11%" />
-<col width="11%" />
+<col width="4%" />
+<col width="2%" />
+<col width="5%" />
+<col width="10%" />
 <col width="8%" />
 <col width="7%" />
 <col width="10%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="9%" />
 <col width="1%" />
-<col width="6%" />
+<col width="5%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="left">feature_id</th>
+<th align="left">uniprot</th>
+<th align="left">gene</th>
 <th align="right">f</th>
 <th align="left">p.value</th>
 <th align="right">infect.fctinter.estimate</th>
@@ -682,6 +701,8 @@ below:</p>
 <tbody>
 <tr class="odd">
 <td align="left">OID00471</td>
+<td align="left">P10145</td>
+<td align="left">IL8</td>
 <td align="right">40.792</td>
 <td align="left">1.151406e-14</td>
 <td align="right">2.445</td>
@@ -697,6 +718,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00494</td>
+<td align="left">P13725</td>
+<td align="left">OSM</td>
 <td align="right">38.434</td>
 <td align="left">5.168685e-14</td>
 <td align="right">1.800</td>
@@ -712,6 +735,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00560</td>
+<td align="left">P00813</td>
+<td align="left">ADA</td>
 <td align="right">37.691</td>
 <td align="left">8.354244e-14</td>
 <td align="right">1.098</td>
@@ -727,6 +752,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00506</td>
+<td align="left">O43557</td>
+<td align="left">TNFSF14</td>
 <td align="right">33.713</td>
 <td align="left">1.156989e-12</td>
 <td align="right">0.516</td>
@@ -742,6 +769,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00520</td>
+<td align="left">P42830</td>
+<td align="left">CXCL5</td>
 <td align="right">32.810</td>
 <td align="left">2.130872e-12</td>
 <td align="right">3.163</td>
@@ -757,6 +786,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00532</td>
+<td align="left">P10147</td>
+<td align="left">CCL3</td>
 <td align="right">32.383</td>
 <td align="left">2.849321e-12</td>
 <td align="right">0.927</td>
@@ -772,6 +803,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00517</td>
+<td align="left">Q13478</td>
+<td align="left">IL-18R1</td>
 <td align="right">31.442</td>
 <td align="left">5.430920e-12</td>
 <td align="right">0.726</td>
@@ -787,6 +820,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00493</td>
+<td align="left">P01583</td>
+<td align="left">IL-1 alpha</td>
 <td align="right">30.696</td>
 <td align="left">9.097134e-12</td>
 <td align="right">1.042</td>
@@ -802,6 +837,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00474</td>
+<td align="left">P80098</td>
+<td align="left">MCP-3</td>
 <td align="right">30.081</td>
 <td align="left">1.395527e-11</td>
 <td align="right">2.053</td>
@@ -817,6 +854,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00547</td>
+<td align="left">P15018</td>
+<td align="left">LIF</td>
 <td align="right">27.822</td>
 <td align="left">6.872673e-11</td>
 <td align="right">1.768</td>
@@ -834,9 +873,22 @@ below:</p>
 </table>
 <p>$infect.num</p>
 <table>
+<colgroup>
+<col width="13%" />
+<col width="9%" />
+<col width="13%" />
+<col width="11%" />
+<col width="7%" />
+<col width="7%" />
+<col width="16%" />
+<col width="4%" />
+<col width="16%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">feature_id</th>
+<th align="left">uniprot</th>
+<th align="left">gene</th>
 <th align="right">estimate</th>
 <th align="right">se</th>
 <th align="right">t</th>
@@ -848,6 +900,8 @@ below:</p>
 <tbody>
 <tr class="odd">
 <td align="left">OID00494</td>
+<td align="left">P13725</td>
+<td align="left">OSM</td>
 <td align="right">1.925</td>
 <td align="right">0.219</td>
 <td align="right">8.792</td>
@@ -857,6 +911,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00471</td>
+<td align="left">P10145</td>
+<td align="left">IL8</td>
 <td align="right">1.735</td>
 <td align="right">0.198</td>
 <td align="right">8.773</td>
@@ -866,6 +922,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00560</td>
+<td align="left">P00813</td>
+<td align="left">ADA</td>
 <td align="right">1.624</td>
 <td align="right">0.190</td>
 <td align="right">8.539</td>
@@ -875,6 +933,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00520</td>
+<td align="left">P42830</td>
+<td align="left">CXCL5</td>
 <td align="right">2.438</td>
 <td align="right">0.305</td>
 <td align="right">7.998</td>
@@ -884,6 +944,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00517</td>
+<td align="left">Q13478</td>
+<td align="left">IL-18R1</td>
 <td align="right">0.973</td>
 <td align="right">0.124</td>
 <td align="right">7.865</td>
@@ -893,6 +955,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00474</td>
+<td align="left">P80098</td>
+<td align="left">MCP-3</td>
 <td align="right">1.781</td>
 <td align="right">0.230</td>
 <td align="right">7.751</td>
@@ -902,6 +966,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00532</td>
+<td align="left">P10147</td>
+<td align="left">CCL3</td>
 <td align="right">1.804</td>
 <td align="right">0.233</td>
 <td align="right">7.742</td>
@@ -911,6 +977,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00506</td>
+<td align="left">O43557</td>
+<td align="left">TNFSF14</td>
 <td align="right">1.881</td>
 <td align="right">0.250</td>
 <td align="right">7.525</td>
@@ -920,6 +988,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00493</td>
+<td align="left">P01583</td>
+<td align="left">IL-1 alpha</td>
 <td align="right">2.160</td>
 <td align="right">0.288</td>
 <td align="right">7.503</td>
@@ -929,6 +999,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00547</td>
+<td align="left">P15018</td>
+<td align="left">LIF</td>
 <td align="right">1.439</td>
 <td align="right">0.194</td>
 <td align="right">7.417</td>
@@ -939,10 +1011,23 @@ below:</p>
 </tbody>
 </table>
 <p>$infect.bi</p>
-<table>
+<table style="width:100%;">
+<colgroup>
+<col width="12%" />
+<col width="9%" />
+<col width="17%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="15%" />
+<col width="4%" />
+<col width="15%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">feature_id</th>
+<th align="left">uniprot</th>
+<th align="left">gene</th>
 <th align="right">estimate</th>
 <th align="right">se</th>
 <th align="right">t</th>
@@ -954,6 +1039,8 @@ below:</p>
 <tbody>
 <tr class="odd">
 <td align="left">OID00506</td>
+<td align="left">O43557</td>
+<td align="left">TNFSF14</td>
 <td align="right">3.132</td>
 <td align="right">0.384</td>
 <td align="right">8.159</td>
@@ -963,6 +1050,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00560</td>
+<td align="left">P00813</td>
+<td align="left">ADA</td>
 <td align="right">2.472</td>
 <td align="right">0.305</td>
 <td align="right">8.114</td>
@@ -972,6 +1061,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00532</td>
+<td align="left">P10147</td>
+<td align="left">CCL3</td>
 <td align="right">2.849</td>
 <td align="right">0.366</td>
 <td align="right">7.779</td>
@@ -981,6 +1072,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00494</td>
+<td align="left">P13725</td>
+<td align="left">OSM</td>
 <td align="right">2.749</td>
 <td align="right">0.361</td>
 <td align="right">7.615</td>
@@ -990,6 +1083,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00493</td>
+<td align="left">P01583</td>
+<td align="left">IL-1 alpha</td>
 <td align="right">3.436</td>
 <td align="right">0.451</td>
 <td align="right">7.613</td>
@@ -999,6 +1094,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00517</td>
+<td align="left">Q13478</td>
+<td align="left">IL-18R1</td>
 <td align="right">1.456</td>
 <td align="right">0.199</td>
 <td align="right">7.321</td>
@@ -1008,6 +1105,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00503</td>
+<td align="left">P01135</td>
+<td align="left">TGF-alpha</td>
 <td align="right">1.786</td>
 <td align="right">0.254</td>
 <td align="right">7.040</td>
@@ -1017,6 +1116,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00485</td>
+<td align="left">Q16552</td>
+<td align="left">IL-17A</td>
 <td align="right">3.610</td>
 <td align="right">0.556</td>
 <td align="right">6.498</td>
@@ -1026,6 +1127,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00480</td>
+<td align="left">P01137</td>
+<td align="left">LAP TGF-beta-1</td>
 <td align="right">0.909</td>
 <td align="right">0.140</td>
 <td align="right">6.481</td>
@@ -1035,6 +1138,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00471</td>
+<td align="left">P10145</td>
+<td align="left">IL8</td>
 <td align="right">2.184</td>
 <td align="right">0.341</td>
 <td align="right">6.408</td>
@@ -1046,9 +1151,22 @@ below:</p>
 </table>
 <p>$female</p>
 <table>
+<colgroup>
+<col width="12%" />
+<col width="9%" />
+<col width="17%" />
+<col width="10%" />
+<col width="6%" />
+<col width="8%" />
+<col width="15%" />
+<col width="4%" />
+<col width="15%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">feature_id</th>
+<th align="left">uniprot</th>
+<th align="left">gene</th>
 <th align="right">estimate</th>
 <th align="right">se</th>
 <th align="right">t</th>
@@ -1060,6 +1178,8 @@ below:</p>
 <tbody>
 <tr class="odd">
 <td align="left">OID00512</td>
+<td align="left">Q9NSA1</td>
+<td align="left">FGF-21</td>
 <td align="right">1.092</td>
 <td align="right">0.302</td>
 <td align="right">3.610</td>
@@ -1069,6 +1189,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00534</td>
+<td align="left">P80162</td>
+<td align="left">CXCL6</td>
 <td align="right">0.650</td>
 <td align="right">0.181</td>
 <td align="right">3.597</td>
@@ -1078,6 +1200,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00481</td>
+<td align="left">P00749</td>
+<td align="left">uPA</td>
 <td align="right">-0.244</td>
 <td align="right">0.075</td>
 <td align="right">-3.245</td>
@@ -1087,6 +1211,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00480</td>
+<td align="left">P01137</td>
+<td align="left">LAP TGF-beta-1</td>
 <td align="right">-0.379</td>
 <td align="right">0.119</td>
 <td align="right">-3.171</td>
@@ -1096,6 +1222,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00554</td>
+<td align="left">P20783</td>
+<td align="left">NT-3</td>
 <td align="right">-0.585</td>
 <td align="right">0.200</td>
 <td align="right">-2.925</td>
@@ -1105,6 +1233,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00476</td>
+<td align="left">Q9H5V8</td>
+<td align="left">CDCP1</td>
 <td align="right">-0.398</td>
 <td align="right">0.142</td>
 <td align="right">-2.798</td>
@@ -1114,6 +1244,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00472</td>
+<td align="left">P15692</td>
+<td align="left">VEGFA</td>
 <td align="right">-0.338</td>
 <td align="right">0.123</td>
 <td align="right">-2.738</td>
@@ -1123,6 +1255,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00513</td>
+<td align="left">Q99731</td>
+<td align="left">CCL19</td>
 <td align="right">0.529</td>
 <td align="right">0.198</td>
 <td align="right">2.670</td>
@@ -1132,6 +1266,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00530</td>
+<td align="left">P55773</td>
+<td align="left">CCL23</td>
 <td align="right">0.252</td>
 <td align="right">0.099</td>
 <td align="right">2.554</td>
@@ -1141,6 +1277,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00528</td>
+<td align="left">P22301</td>
+<td align="left">IL10</td>
 <td align="right">0.456</td>
 <td align="right">0.188</td>
 <td align="right">2.428</td>
@@ -1152,9 +1290,22 @@ below:</p>
 </table>
 <p>$age</p>
 <table>
+<colgroup>
+<col width="13%" />
+<col width="9%" />
+<col width="13%" />
+<col width="10%" />
+<col width="7%" />
+<col width="8%" />
+<col width="15%" />
+<col width="4%" />
+<col width="15%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">feature_id</th>
+<th align="left">uniprot</th>
+<th align="left">gene</th>
 <th align="right">estimate</th>
 <th align="right">se</th>
 <th align="right">t</th>
@@ -1166,6 +1317,8 @@ below:</p>
 <tbody>
 <tr class="odd">
 <td align="left">OID00539</td>
+<td align="left">Q9NRJ3</td>
+<td align="left">CCL28</td>
 <td align="right">0.017</td>
 <td align="right">0.002</td>
 <td align="right">6.917</td>
@@ -1175,6 +1328,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00551</td>
+<td align="left">O15444</td>
+<td align="left">CCL25</td>
 <td align="right">0.030</td>
 <td align="right">0.004</td>
 <td align="right">6.830</td>
@@ -1184,6 +1339,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00521</td>
+<td align="left">O14788</td>
+<td align="left">TRANCE</td>
 <td align="right">-0.043</td>
 <td align="right">0.006</td>
 <td align="right">-6.775</td>
@@ -1193,6 +1350,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00524</td>
+<td align="left">Q13007</td>
+<td align="left">IL-24</td>
 <td align="right">-0.039</td>
 <td align="right">0.006</td>
 <td align="right">-6.620</td>
@@ -1202,6 +1361,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00491</td>
+<td align="left">P28325</td>
+<td align="left">CST5</td>
 <td align="right">0.025</td>
 <td align="right">0.004</td>
 <td align="right">6.314</td>
@@ -1211,6 +1372,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00485</td>
+<td align="left">Q16552</td>
+<td align="left">IL-17A</td>
 <td align="right">-0.078</td>
 <td align="right">0.013</td>
 <td align="right">-6.131</td>
@@ -1220,6 +1383,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00537</td>
+<td align="left">Q9NYY1</td>
+<td align="left">IL-20</td>
 <td align="right">-0.011</td>
 <td align="right">0.002</td>
 <td align="right">-6.066</td>
@@ -1229,6 +1394,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00493</td>
+<td align="left">P01583</td>
+<td align="left">IL-1 alpha</td>
 <td align="right">-0.056</td>
 <td align="right">0.010</td>
 <td align="right">-5.579</td>
@@ -1238,6 +1405,8 @@ below:</p>
 </tr>
 <tr class="odd">
 <td align="left">OID00506</td>
+<td align="left">O43557</td>
+<td align="left">TNFSF14</td>
 <td align="right">-0.051</td>
 <td align="right">0.009</td>
 <td align="right">-5.547</td>
@@ -1247,6 +1416,8 @@ below:</p>
 </tr>
 <tr class="even">
 <td align="left">OID00497</td>
+<td align="left">Q969D9</td>
+<td align="left">TSLP</td>
 <td align="right">-0.036</td>
 <td align="right">0.007</td>
 <td align="right">-5.519</td>
