@@ -24,7 +24,8 @@ str(pheno)
 ## ----tab -------------------------------------------------------------
 cont <- "age"
 cat <- c("female", "plate", 
-        "infect.fct", "infect.num", "infect.bi","final.diagnosis.1")
+        "infect.fct", "infect.num", "infect.bi",
+        "comp.out", "infect.bi.new", "final.diagnosis.1")
 tab <- CreateTableOne(data = pheno, 
 						vars = c(cont, cat), 
 						factorVars = cat)
@@ -84,7 +85,9 @@ top <- map(ret.anot, ~{
 })
 
 ## ----vol.lab -------------------------------------------------------------
-plot <- ret.anot[c("infect.num.fulladj", "infect.bi.fulladj")] |>
+xi <- c("infect.num.fulladj", "infect.bi.fulladj", 
+        "comp.out.fulladj", "infect.bi.new.fulladj")
+plot <- ret.anot[xi] |>
             map(~.x$ret$table)
 
 plot |>

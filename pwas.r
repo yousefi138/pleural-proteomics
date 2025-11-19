@@ -29,12 +29,15 @@ identical(pheno$patient.id, colnames(prot))
 apply(prot, 1, function(i) sum(is.na(i)))
 
 ## ----define models -------------------------------------------------------------
-model.vars <- list("infect.fct", "infect.num", "infect.bi", "female", "age")
+model.vars <- list("infect.fct", "infect.num", "infect.bi",
+					 "comp.out", "infect.bi.new","female", "age")
 model.vars <- c(model.vars, # crude 
 				map(model.vars, ~c(.x, "plate")), # batch adjusted
 				list(c("infect.fct",  "female", "age", "plate"),
 					c("infect.num",  "female", "age", "plate"),
-					c("infect.bi",  "female", "age", "plate"))
+					c("infect.bi",  "female", "age", "plate"),
+					c("comp.out",  "female", "age", "plate"),
+					c("infect.bi.new",  "female", "age", "plate"))
 				)
 
 models <- 

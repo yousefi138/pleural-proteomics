@@ -11,7 +11,11 @@ list.files(dir$data)
 
 ## load raw clincal phenotype info 
 raw <- read_excel(file.path(dir$data, 
-                "Proteomics Infection and Controls 10.11.25.xlsx")) 
+                # updated from Proteomics Infection and Controls 10.11.25.xlsx
+                # on 19 Nov. Files identical except for 
+                # "composite.outcome..lytics..surgery.or..3m.mortality"
+                # I checked by making that var NULL and running all.equal() on the dfs
+                "Proteomics Infection and Controls 18.11.25.xlsx")) 
 colnames(raw) <- colnames(raw) |>
                 make.names()|>
                 tolower()
@@ -42,6 +46,12 @@ pheno <- raw |>
                         }) |>
             mutate(infect.num = as.numeric(infect.fct)) |>
             mutate(infect.bi = sign(infect.num>2)) |>
+            mutate(infect.bi.new = {
+                idx <- grep("X/renal/u|X/hepatic/u|X/cardiac/u", raw$final.diagnosis.1)
+                infect.bi[idx] <- 0
+                infect.bi
+            }) |>
+            mutate(comp.out = composite.outcome..lytics..surgery.or..3m.mortality)|>
 			relocate(patient.id, age, female, infect.fct, infect.num, infect.bi) |>
             
             ## keep only samples passing qc
