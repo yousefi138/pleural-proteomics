@@ -1,4 +1,3 @@
-# project-template
-A template for my analysis projects
+# Pleural proteomics
 
-Rendered doc: [https://yousefi138.github.io/project-template/analysis.html](https://yousefi138.github.io/project-template/analysis.html)
+Analysis of pleural and plasma proteomics data
