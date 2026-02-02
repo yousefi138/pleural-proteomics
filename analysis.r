@@ -6,8 +6,15 @@ dir <- paths
 eval.save.dir(dir$cache)
 
 ## ----load.data -------------------------------------------------------------
-## pheno
-pheno <- eval.ret("pheno")
+## retrieve batch info for project
+batch <- eval.ret(paste("batch", project, sep="."))
+
+## pheno restricted to those with proteins passing qc
+pheno <- eval.ret("pheno") |>
+			left_join(batch, by = c("patient.id" = "sample_id")) |>  
+
+           ## keep only samples passing qc
+            filter(excluded == FALSE)
 
 ## ret
 ret <- eval.ret(paste("ret", project, sep="."))
@@ -19,7 +26,7 @@ annot <- eval.ret(paste("annot", project, sep="."))
 prot.mat <- eval.ret(paste("ret", project, sep="."))
 
 ## ----pheno -------------------------------------------------------------
-str(pheno)
+str(pheno) 
 
 ## ----tab -------------------------------------------------------------
 cont <- "age"
