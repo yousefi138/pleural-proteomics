@@ -45,10 +45,20 @@ source("pheno.r", echo=T, max.deparse.length = 500)
 
 ## run pwas
 ## in: eval.ret("pheno")
-##      metaboprep output:"metaboprep_export/qc/data.tsv" 
-## eval.ret("batch")
+##      eval.ret(paste("prot.mat", project, sep="."))
+##      eval.ret(paste("batch", project, sep="."))
 ##      protein.summary.r, report.rmd
 ## out: rendered output in docs/ for each model run 
+project <- "pleural"
+source("pwas.r", echo=T, max.deparse.length = 500)
+
+## run pwas
+## in: eval.ret("pheno")
+##      eval.ret(paste("prot.mat", project, sep="."))
+##      eval.ret(paste("batch", project, sep="."))
+##      protein.summary.r, report.rmd
+## out: rendered output in docs/ for each model run 
+project <- "plasma"
 source("pwas.r", echo=T, max.deparse.length = 500)
 
 ## run analysis looking at relationship between

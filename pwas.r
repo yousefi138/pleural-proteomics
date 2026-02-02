@@ -1,6 +1,6 @@
 # packages
-packages <- c("eval.save", "ewaff", "purrr") 
-# "tidyverse", "aries"
+packages <- c("eval.save", "ewaff", "purrr", "dplyr")
+#, "aries"
 lapply(packages, require, character.only=T)
 
 # dirs
@@ -16,10 +16,19 @@ out <- list()
 #out$file.prefix <- "ewas-alspac-"
 
 ## ----access.pheno -------------------------------------------------------------
-pheno <- eval.ret("pheno")
+## retrieve batch info for project
+batch <- eval.ret(paste("batch", project, sep="."))
+batch$plate <- as.factor(batch$plateid)
+
+# Add batch data and restrict pheno to those with proteins passing qc
+pheno <- eval.ret("pheno") |>
+			left_join(batch, by = c("patient.id" = "sample_id")) |>  
+
+           ## keep only samples passing qc
+            filter(excluded == FALSE)
 
 ## ----get protins -------------------------------------------------------------
-prot.mat <- eval.ret("prot.mat")
+prot.mat <- eval.ret(paste("prot.mat", project, sep="."))
 prot <- prot.mat[,match(pheno$patient.id, colnames(prot.mat))]
 
 ## check ids match between pheno and prot
@@ -51,6 +60,7 @@ names(models) <- map(model.vars, ~ {
 					if (length(.x) ==4) var <- paste0(var, ".fulladj")
 					var
 				})
+names(models) <- paste(project, names(models), sep = ".")
 
 ## ----run -------------------------------------------------------------
 inputs	<-
