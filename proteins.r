@@ -7,16 +7,15 @@ dir <- paths
 eval.save.dir(dir$cache)
 
 ## directory for metaboprep export
-dir$plasma <-file.path(dir$output, "plasma")
-if(!dir.exists(dir$plasma)){
-    dir.create(dir$plasma)
+dir$project <-file.path(dir$output, project)
+if(!dir.exists(dir$project)){
+    dir.create(dir$project)
 }
 
 ## ----load.data -------------------------------------------------------------
 list.files(dir$data)
 
-raw <- read_olink(file.path(dir$data, 
-                "GB390725-RB_plasma_NPX.csv")) 
+raw <- read_olink(file.path(dir$data, file)) 
 
 mydata <- Metaboprep(data     = raw$data, 
                      features = raw$features, 
@@ -38,55 +37,58 @@ summary(mydata)
 ## ----report -------------------------------------------------------------
 generate_report(mydata, 
     output_dir = dir$output,
-    project = "plasma",
+    project = project,
     format = "html")
 
 ## ----export -------------------------------------------------------------
-export(mydata, dir$plasma)
+export(mydata, dir$project)
 
 # take the date out of the output dir name so pipeline doesn't break 
 # when there's a new expor
-dir.default <- list.files(dir$plasma) |>
+dir.default <- list.files(dir$project) |>
                 stringr::str_subset("metaboprep_export") |>
                 stringr::str_subset("[0-9]$")
 
-if (dir.exists(file.path(dir$plasma, "metaboprep_export"))) {
-  unlink(file.path(dir$plasma, "metaboprep_export"), recursive = TRUE)
+if (dir.exists(file.path(dir$project, "metaboprep_export"))) {
+  unlink(file.path(dir$project, "metaboprep_export"), recursive = TRUE)
 }
 
-file.rename(file.path(dir$plasma, dir.default),
-            file.path(dir$plasma, sub("_[0-9].*",  "", basename(dir.default))))
+file.rename(file.path(dir$project, dir.default),
+            file.path(dir$project, sub("_[0-9].*",  "", basename(dir.default))))
 
 ## ----save.working.protein.matrix -------------------------------------------------------------
+prot.project <- paste("prot.mat", project, sep=".")
 eval.save({
-    prot <- data.table::fread(file.path(dir$plasma,
+    prot <- data.table::fread(file.path(dir$project,
                     "metaboprep_export/qc/data.tsv")) |>
             tibble::column_to_rownames("sample_id") |>
             as.matrix()|>
             t()
-}, "prot.mat.plasma", redo=T)
-pheno <- eval.ret("prot.mat.plasma")
+}, prot.project, redo=T)
+prot <- eval.ret(prot.project)
 
 ## ----save working annot -------------------------------------------------------------
 ## annot
+annot.project <- paste("annot", project, sep=".")
 eval.save({
-    annot <- data.table::fread(file.path(dir$plasma,
+    annot <- data.table::fread(file.path(dir$project,
                     "metaboprep_export/qc/features.tsv"))
 	colnames(annot) <- colnames(annot) |>
 					make.names()|>
 					tolower()
 	annot                    
-}, "annot.plasma", redo=T)
-annot <- eval.ret("annot.plasma")
+}, annot.project, redo=T)
+annot <- eval.ret(annot.project)
 
 ## ----save batch info -------------------------------------------------------------
-## annot
+## batch
+batch.project <- paste("batch", project, sep=".")
 eval.save({
-    batch <- data.table::fread(file.path(dir$plasma,
+    batch <- data.table::fread(file.path(dir$project,
                     "metaboprep_export/qc/samples.tsv"))
 	colnames(batch) <- colnames(batch) |>
 					make.names()|>
 					tolower()
 	batch
-}, "batch.plasma", redo=T)
-batch <- eval.ret("batch.plasma")
+}, batch.project, redo=T)
+batch <- eval.ret(batch.project)

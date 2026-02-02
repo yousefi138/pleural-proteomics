@@ -14,13 +14,29 @@ paths$cache <- file.path(paths$project, "results", "analysis-cache")
 if(!dir.exists(paths$cache)) dir.create(paths$cache)
 print(paths)
 
-## clean raw olink protein data
+## clean raw olink PLEURAL protein data
 ## in: "GB390725-RB_pleural fluid_NPX.csv"
-## out: "metaboprep_export/"
-##      "project_metaboprep_qc_report.html"
-##      "project_metaboprep_qc_report.log"
-##      eval.ret("prot.mat"), eval.ret("annot"), eval.ret("batch")
-source("proteins-pleural.r", echo=T, max.deparse.length = 500)
+## out: "pleural/metaboprep_export/.",
+##      "pleural_metaboprep_qc_report.html",
+##      "pleural_metaboprep_qc_report.log",
+##      eval.ret("prot.mat.pleural"), 
+##      eval.ret("annot.pleural"), 
+##      eval.ret("batch.pleural")
+project <- "pleural"
+file <- "GB390725-RB_pleural fluid_NPX.csv"
+source("proteins.r", echo=T, max.deparse.length = 500)
+
+## clean raw olink PLASMA protein data
+## in: "GB390725-RB_plasma_NPX.csv"
+## out: "plasma/metaboprep_export/"
+##      "plasma_metaboprep_qc_report.html"
+##      "plasma_metaboprep_qc_report.log"
+##      eval.ret("prot.mat.plasma"), 
+##      eval.ret("annot.plasma"), 
+##      eval.ret("batch.plasma")
+project <- "plasma"
+file <- "GB390725-RB_plasma_NPX.csv"
+source("proteins.r", echo=T, max.deparse.length = 500)
 
 ## clean raw pheno data
 ## in: "Proteomics Infection and Controls 10.11.25.xlsx"
