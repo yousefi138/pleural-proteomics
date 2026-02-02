@@ -47,6 +47,7 @@ inputs	<-
 			vars = map(model.vars, ~ .x[1]),
 			model.names = names(models))
 
+ret.project <- paste("ret", project, sep=".")
 eval.save({
 
 	ret <- inputs |>
@@ -76,7 +77,7 @@ eval.save({
 					sum.ret = sum.ret)
 				})
 
-}, "ret", redo=T)
-ret <- eval.ret("ret")
+}, ret.project, redo=T)
+ret <- eval.ret(ret.project)
 
 
