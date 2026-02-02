@@ -10,13 +10,13 @@ eval.save.dir(dir$cache)
 pheno <- eval.ret("pheno")
 
 ## ret
-ret <- eval.ret("ret")
+ret <- eval.ret(paste("ret", project, sep="."))
 
 ## annot
-annot <- eval.ret("annot")
+annot <- eval.ret(paste("annot", project, sep="."))
 
 ## proteins
-prot.mat <- eval.ret("prot.mat")
+prot.mat <- eval.ret(paste("ret", project, sep="."))
 
 ## ----pheno -------------------------------------------------------------
 str(pheno)
@@ -85,8 +85,8 @@ top <- map(ret.anot, ~{
 })
 
 ## ----vol.lab -------------------------------------------------------------
-xi <- c("infect.num.fulladj", "infect.bi.fulladj", 
-        "comp.out.fulladj", "infect.bi.new.fulladj")
+xi <- paste(project, c("infect.num.fulladj", "infect.bi.fulladj", 
+        "comp.out.fulladj", "infect.bi.new.fulladj"), sep=".")
 plot <- ret.anot[xi] |>
             map(~.x$ret$table)
 

@@ -65,7 +65,9 @@ source("pwas.r", echo=T, max.deparse.length = 500)
 ## methylation predicted proteins and 
 ## tumor vs. normal tissue type. 
 ## render an html summary
+project <- "pleural"
+output <- paste(project, "analysis.html", sep="-")
 packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)
 source(file.path(paths$scripts, "R/kable_my_defaults.r")) # couldn't figure out how to render in the doc
-render("analysis.rmd", output_format = "all", output_dir = "docs")
+render("analysis.rmd", output_file = output, output_format = "html_document", output_dir = "docs")
