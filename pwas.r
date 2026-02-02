@@ -18,7 +18,6 @@ out <- list()
 ## ----access.pheno -------------------------------------------------------------
 ## retrieve batch info for project
 batch <- eval.ret(paste("batch", project, sep="."))
-batch$plate <- as.factor(batch$plateid)
 
 # Add batch data and restrict pheno to those with proteins passing qc
 pheno <- eval.ret("pheno") |>
