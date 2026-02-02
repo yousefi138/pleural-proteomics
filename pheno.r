@@ -21,19 +21,8 @@ colnames(raw) <- colnames(raw) |>
                 tolower()
 str(raw)
 
-## load the proteins for patient.ids surving qc
-prot <- data.table::fread(file.path(dir$output,
-                "metaboprep_export/qc/data.tsv"))$sample_id
-
-## retrieve batch info
-batch <- eval.ret("batch")
-
-# make a factor variable for plate
-batch$plate <- as.factor(batch$plateid)
-
 ## ----make.pheno -------------------------------------------------------------
-pheno <- raw |>    
-            left_join(batch, by = c("patient.id" = "sample_id")) |>        
+pheno <- raw |>          
             mutate(female = sign(sex == "Female"),
 					age  = age.at.enrollment) |>
             mutate(infect.fct = {
@@ -53,9 +42,7 @@ pheno <- raw |>
             }) |>
             mutate(comp.out = composite.outcome..lytics..surgery.or..3m.mortality)|>
 			relocate(patient.id, age, female, infect.fct, infect.num, infect.bi) |>
-            
-            ## keep only samples passing qc
-            filter(patient.id %in% prot) |>
+
             eval.save("pheno", redo=T)            
 pheno <- eval.ret("pheno")
 
