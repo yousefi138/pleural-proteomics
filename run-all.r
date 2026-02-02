@@ -20,7 +20,7 @@ print(paths)
 ##      "project_metaboprep_qc_report.html"
 ##      "project_metaboprep_qc_report.log"
 ##      eval.ret("prot.mat"), eval.ret("annot"), eval.ret("batch")
-source("proteins.r", echo=T, max.deparse.length = 500)
+source("proteins-pleural.r", echo=T, max.deparse.length = 500)
 
 ## clean raw pheno data
 ## in: "Proteomics Infection and Controls 10.11.25.xlsx"
