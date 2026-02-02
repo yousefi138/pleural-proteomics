@@ -40,14 +40,13 @@ source("proteins.r", echo=T, max.deparse.length = 500)
 
 ## clean raw pheno data
 ## in: "Proteomics Infection and Controls 10.11.25.xlsx"
-##      "metaboprep_export/qc/data.tsv" 
-##       eval.ret("batch")
 ## out: pheno.rda in analysis-cache i.e. eval.ret("pheno")
 source("pheno.r", echo=T, max.deparse.length = 500)
 
 ## run pwas
 ## in: eval.ret("pheno")
 ##      metaboprep output:"metaboprep_export/qc/data.tsv" 
+## eval.ret("batch")
 ##      protein.summary.r, report.rmd
 ## out: rendered output in docs/ for each model run 
 source("pwas.r", echo=T, max.deparse.length = 500)
