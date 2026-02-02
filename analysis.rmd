@@ -1,5 +1,5 @@
 ---
-title: "Pleural proteomics of pleural infection"
+title: "`r tools::toTitleCase(project)` proteomics of pleural infection"
 subtitle: "Results from Olink Target 96 Inflammation panel "
 date: "`r format(Sys.time(), '%d %B %Y')`"
 author: Paul Yousefi
@@ -28,7 +28,7 @@ sourcecode <- grep("analysis.r$",
 read_chunk(file.path(path, sourcecode))
 ```
 
-# Pleural proteins
+# Protein measurements
 
 ```{r globals, results = 'hide', echo=F }
 ```
@@ -36,11 +36,11 @@ read_chunk(file.path(path, sourcecode))
 ```{r load.data, echo=F}
 ```
 
-Of the 265 samples run, `r ncol(prot.mat)` passed the default qc performed in the `metaboprep` package.
+Of the **`r project`** samples run, `r ncol(prot.mat)` passed the default qc performed in the `metaboprep` package.
 
 For the moment, all `r nrow(prot.mat)` measured proteins have been retained for analysis.
 
-See `project_metaboprep_qc_report.html` for full details
+See `r paste0(project, "metaboprep_qc_report.html")` for full details.
 
 
 # Phenotype information
@@ -57,7 +57,7 @@ Participant age, sex, and infection status are shown below. As is the `final.dia
 
 # Protein-wide associations
 
-Phenotypic characteristics of participants described in [Phenotype information](#phenotype-information) were examined for association pleural protein abundances ([Pleural proteins](#pleural-proteins))
+Phenotypic characteristics of participants described in [Phenotype information](#phenotype-information) were examined for association with protein abundances ([Protein measurements](#protein-measurements))
 
 ## Models
 
