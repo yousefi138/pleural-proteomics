@@ -37,30 +37,9 @@ identical(pheno$patient.id, colnames(prot))
 ## check missingness per protein
 apply(prot, 1, function(i) sum(is.na(i)))
 
-## ----define models -------------------------------------------------------------
-model.vars <- list("infect.fct", "infect.num", "infect.bi",
-					 "comp.out", "infect.bi.new","female", "age")
-model.vars <- c(model.vars, # crude 
-				map(model.vars, ~c(.x, "plate")), # batch adjusted
-				list(c("infect.fct",  "female", "age", "plate"),
-					c("infect.num",  "female", "age", "plate"),
-					c("infect.bi",  "female", "age", "plate"),
-					c("comp.out",  "female", "age", "plate"),
-					c("infect.bi.new",  "female", "age", "plate"))
-				)
-
-models <- 
-	model.vars |>
-		map(~{
-				reformulate(c(.x), response = "methylation")
-		})
-names(models) <- map(model.vars, ~ {
-					var <- .x[1]
-					if (length(.x) ==2) var <- paste0(var, ".plate")
-					if (length(.x) ==4) var <- paste0(var, ".fulladj")
-					var
-				})
-names(models) <- paste(project, names(models), sep = ".")
+## ----source-models -------------------------------------------------------------
+source(paste0("models-", project,".r"), echo=T, max.deparse.length = 500)
+models
 
 ## ----run -------------------------------------------------------------
 inputs	<-
