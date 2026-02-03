@@ -82,3 +82,12 @@ packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)
 source(file.path(paths$scripts, "R/kable_my_defaults.r")) # couldn't figure out how to render in the doc
 render("analysis.rmd", output_file = output, output_format = "html_document", output_dir = "docs")
+
+## run analysis looking at relationship between
+## methylation predicted proteins and 
+## tumor vs. normal tissue type. 
+## render an html summary
+packages <- c("rmarkdown", "knitr")
+lapply(packages, require, character.only=T)
+source(file.path(paths$scripts, "R/kable_my_defaults.r")) # couldn't figure out how to render in the doc
+render("tissue-compare.rmd", output_format = "html_document", output_dir = "docs")
