@@ -1,5 +1,5 @@
 ## ----globals -------------------------------------------------------------
-packages <- c("eval.save", "knitr", "corrplot", "dplyr", "ggplot2")
+packages <- c("eval.save", "knitr", "corrplot", "tidyverse")
 # "tableone", "tidyverse") 
 lapply(packages, require, character.only=T)
 
@@ -53,3 +53,44 @@ ggplot(cors, aes(x = pearson)) +
 ## il6 correlation
 il6 <- which(annot$protein %in% "il6")
 cors[il6, ]
+
+## ----scatter -------------------------------------------------------------
+feat.mismatch <- !identical(rownames(plasma), annot$feature_id)
+plasma.long <- as.data.frame(t(plasma)) |> 
+				set_names(annot$protein) |>
+				rownames_to_column(var = "sample") |>
+				pivot_longer(cols = -sample, 
+						names_to = "protein", 
+						values_to = "plasma") 
+
+pleural.long <- as.data.frame(t(pleural)) |> 
+				set_names(annot$protein) |>
+				rownames_to_column(var = "sample") |>
+				pivot_longer(cols = -sample, 
+						names_to = "protein", 
+						values_to = "pleural") 
+						
+sample.mismatch <- !identical(pleural.long$sample, 
+					plasma.long$sample)
+
+# Print a message only if there is a feature or sample 
+# mismatch
+if(any(c(feat.mismatch, sample.mismatch))){
+	cat("Feature mismatch: ", feat.mismatch, "\n")
+	cat("Sample mismatch: ", sample.mismatch, "\n")
+}
+
+long <- pleural.long |> 
+			mutate(plasma.long)
+
+scatter <- 
+	ggplot(long, aes(x = plasma, y = pleural)) +
+	geom_point(alpha = 0.6) +
+	facet_wrap(~ protein, scales = "free", ncol = 6) +
+	geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
+	labs(title = "Plasma vs. Pleural Protein Levels",
+		x = "Plasma NPX", y = "Pleural NPX") +
+	theme_minimal()
+
+## ----scatter.fig -------------------------------------------------------------
+scatter
