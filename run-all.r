@@ -91,3 +91,8 @@ packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)
 source(file.path(paths$scripts, "R/kable_my_defaults.r")) # couldn't figure out how to render in the doc
 render("tissue-compare.rmd", output_format = "html_document", output_dir = "docs")
+
+packages <- c("rmarkdown", "knitr")
+lapply(packages, require, character.only=T)
+source(file.path(paths$scripts, "R/kable_my_defaults.r")) # couldn't figure out how to render in the doc
+render("il6-compare.rmd", output_format = "html_document", output_dir = "docs")

@@ -1,0 +1,39 @@
+---
+title: "Comparison of IL6 measures in study of pleural infection"
+subtitle: "Results from Olink Target 96 Inflammation panel "
+date: "`r format(Sys.time(), '%d %B %Y')`"
+author: Paul Yousefi
+output:
+  html_document:
+    css: docs/style.css
+    toc: true
+    highlight: tango
+---
+
+```{r setoptions, eval = TRUE, echo = FALSE}
+knitr::opts_chunk$set(
+comment = ">",
+error = FALSE,
+tidy = FALSE,
+echo = T, 
+warning = FALSE, 
+message = FALSE,
+cache=FALSE)
+```
+
+```{r call_source, echo = F}
+path <- "."
+sourcecode <- grep("il6-compare.r$", 
+	list.files(path), value = T)
+read_chunk(file.path(path, sourcecode))
+```
+
+# Fergus Hamilton's serum and plasma ELISA IL6 measurements
+
+```{r globals, results = 'hide', echo=F }
+```
+
+```{r load.data, echo=T}
+```
+
+
