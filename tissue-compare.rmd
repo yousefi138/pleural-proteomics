@@ -44,7 +44,7 @@ Restrict to the N = `r length(intersect(colnames(pleural.all), colnames(plasma.a
 ```{r restrict}
 ```
 
-# Compare plasam and pleaural protein measurements
+# Compare plasma and pleural protein measurements
 
 ## Correlations for all proteins
 
