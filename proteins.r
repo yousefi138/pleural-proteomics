@@ -35,8 +35,15 @@ mydata <- mydata |> quality_control( source_layer        = "input",
 summary(mydata)                         
 
 ## ----report -------------------------------------------------------------
+# copy for results
 generate_report(mydata, 
 	output_dir = dir$output,
+	project = project,
+	format = "html")
+
+# copy for repo/docs
+generate_report(mydata, 
+	output_dir = file.path(dir$scripts, "docs"),
 	project = project,
 	format = "html")
 
