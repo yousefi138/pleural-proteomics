@@ -67,7 +67,7 @@ Distribution of the correlations of matched proteins measure in plasma vs. pleur
 
 ```{r scatter, echo=F}
 ```
-```{r scatter.fig, echo=F, fig.width = 16, fig.height = 16}
+```{r scatter.fig, echo=F, fig.width = 16, fig.height = 64}
 ```
 
 

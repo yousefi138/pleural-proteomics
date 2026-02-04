@@ -86,7 +86,7 @@ long <- pleural.long |>
 scatter <- 
 	ggplot(long, aes(x = plasma, y = pleural)) +
 	geom_point(alpha = 0.6) +
-	facet_wrap(~ protein, scales = "free", ncol = 6) +
+	facet_wrap(~ protein, scales = "free", ncol = 4) +
 	geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
 	labs(title = "Plasma vs. Pleural Protein Levels",
 		x = "Plasma NPX", y = "Pleural NPX") +
