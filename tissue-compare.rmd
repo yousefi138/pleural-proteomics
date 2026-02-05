@@ -1,5 +1,5 @@
 ---
-title: "Compare pleaural and plasma proteomics of pleural infection"
+title: "Compare pleural and plasma proteomics of pleural infection"
 subtitle: "Results from Olink Target 96 Inflammation panel "
 date: "`r format(Sys.time(), '%d %B %Y')`"
 author: Paul Yousefi
