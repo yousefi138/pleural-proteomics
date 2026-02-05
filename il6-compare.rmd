@@ -71,6 +71,16 @@ Overlap of olink samples with elisa samples:
 ```{r count}
 ```
 
+# Distributions
+
+```{r make.long, results = 'hide', echo=F}
+```
+```{r dist, results = 'hide', echo=F}
+```
+
+```{r fig.dist, fig.width = 10, fig.height = 10}
+```
+
 
 
 

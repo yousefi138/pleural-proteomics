@@ -1,5 +1,5 @@
 ## ----globals -------------------------------------------------------------
-packages <- c("eval.save", "tidyverse") 
+packages <- c("eval.save", "tidyverse", "knitr") 
 lapply(packages, require, character.only=T)
 
 # set dirs  
@@ -47,7 +47,7 @@ olink.plasma <-
 		rownames_to_column(var = "sample") |>
 		as_tibble() |>
 		select(sample, all_of(idx.il6["feature_id"]))|>
-		rename(plasma = feature_id)|>
+		rename(olink.plasma.il6 = feature_id)|>
 		mutate(olink.plasma = 1)
 		
 olink <- eval.ret(paste("prot.mat", "pleural", sep=".")) |>
@@ -56,7 +56,7 @@ olink <- eval.ret(paste("prot.mat", "pleural", sep=".")) |>
 		rownames_to_column(var = "sample") |>
 		as_tibble() |>
 		select(sample, all_of(idx.il6["feature_id"]))|>
-		rename(pleural = feature_id)|>
+		rename(olink.pleural.il6 = feature_id)|>
 		mutate(olink.pleural = 1) |>
 		left_join(olink.plasma, by = "sample")
 
@@ -91,3 +91,33 @@ il6 |>
 		) |>
 		kable()
 
+## ----make.long -------------------------------------------------------------
+long <- il6 |>
+            select(sample, olink.pleural.il6, olink.plasma.il6, serum_il6, pleural_il6)|>
+            pivot_longer(
+                cols = -sample,
+                names_to = "protein", 
+                values_to = "value"
+            ) 
+
+## ----dist -------------------------------------------------------------
+dists <- 
+	long |>
+		ggplot(aes(x = value, fill = protein)) +
+		geom_histogram(alpha = 0.6, bins = 30, aes(y = after_stat(density))) +
+		geom_density(alpha = 0.3, linewidth = 1) +
+		facet_wrap(~protein, scales = "free") +
+		theme_minimal() +
+		theme(
+			legend.position = "bottom",
+			strip.text = element_text(face = "bold")
+		) +
+		labs(
+			title = "IL6 Protein Levels by Source",
+			x = "Value",
+			y = "Frequency",
+			fill = "Source"
+		)
+
+## ----fig.dist -------------------------------------------------------------
+dists
