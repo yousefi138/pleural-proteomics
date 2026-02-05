@@ -78,11 +78,24 @@ Overlap of olink samples with elisa samples:
 ```{r dist, results = 'hide', echo=F}
 ```
 
-```{r fig.dist, fig.width = 10, fig.height = 10}
+```{r fig.dist, echo=F, fig.width = 10, fig.height = 10}
+```
+
+# Scatterplots
+
+## Loess smoothed trendlines
+```{r lowess, echo=F, fig.width = 10, fig.height = 10}
+```
+
+## Linear trendlines
+
+```{r lm, echo=F, fig.width = 10, fig.height = 10}
 ```
 
 
+## Dropping outliers
 
-
+```{r outliers, fig.width = 10, fig.height = 10}
+```
 
 

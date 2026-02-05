@@ -1,5 +1,5 @@
 ## ----globals -------------------------------------------------------------
-packages <- c("eval.save", "tidyverse", "knitr") 
+packages <- c("eval.save", "tidyverse", "knitr", "GGally") 
 lapply(packages, require, character.only=T)
 
 # set dirs  
@@ -130,3 +130,24 @@ dists <-
 			)		
 ## ----fig.dist -------------------------------------------------------------
 dists
+
+## ----lowess -------------------------------------------------------------
+il6 |>
+    select(olink.pleural.il6, olink.plasma.il6, serum_il6, pleural_il6)|>
+	ggpairs(lower = list(continuous = wrap("smooth", method = "loess")))
+
+## ----lm -------------------------------------------------------------
+il6 |>
+    select(olink.pleural.il6, olink.plasma.il6, serum_il6, pleural_il6)|>
+	ggpairs(lower = list(continuous = wrap("smooth", method = "lm")))
+
+## ----outliers -------------------------------------------------------------
+il6 |>
+	count(serum_il6 <200) |>
+	kable()
+
+il6 |>
+	filter(serum_il6 <200 | is.na(serum_il6)) |>
+    select(olink.pleural.il6, olink.plasma.il6, serum_il6, pleural_il6)|>
+	ggpairs(lower = list(continuous = wrap("smooth", method = "lm")))
+
