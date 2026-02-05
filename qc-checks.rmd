@@ -1,0 +1,62 @@
+---
+title: "Check protein detection QC issues in study of pleural infection"
+subtitle: "Results from Olink Target 96 Inflammation panel "
+date: "`r format(Sys.time(), '%d %B %Y')`"
+author: Paul Yousefi
+output:
+  html_document:
+    css: docs/style.css
+    toc: true
+    highlight: tango
+---
+
+```{r setoptions, eval = TRUE, echo = FALSE}
+knitr::opts_chunk$set(
+comment = ">",
+error = FALSE,
+tidy = FALSE,
+echo = F, 
+warning = FALSE, 
+message = FALSE,
+cache=FALSE)
+```
+
+```{r call_source, echo = F}
+path <- "."
+sourcecode <- grep("qc-checks.r$", 
+	list.files(path), value = T)
+read_chunk(file.path(path, sourcecode))
+```
+
+# Observations below LOD in qc-passed samples
+
+## Count
+
+```{r globals, results = 'hide', echo=F }
+```
+
+```{r load.data}
+```
+
+```{r calc}
+```
+
+```{r bar.pleural, echo=T, fig.width = 10, fig.height = 10}
+```
+
+```{r bar.plasma, echo=T, fig.width = 10, fig.height = 10}
+```
+
+## Freq
+```{r freq.pleural, echo=T, fig.width = 10, fig.height = 10}
+```
+
+```{r freq.plasma, echo=T, fig.width = 10, fig.height = 10}
+```
+
+# Observations with missingness in qc-passed samples
+```{r miss.pleural, echo=T, fig.width = 10, fig.height = 10}
+```
+
+```{r miss.plasma, echo=T, fig.width = 10, fig.height = 10}
+```

@@ -106,3 +106,8 @@ render("tissue-compare.rmd", output_format = "html_document", output_dir = "docs
 packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)
 render("il6-compare.rmd", output_format = "html_document", output_dir = "docs")
+
+## qc-checks
+packages <- c("rmarkdown", "knitr")
+lapply(packages, require, character.only=T)
+render("qc-checks.rmd", output_format = "html_document", output_dir = "docs")
