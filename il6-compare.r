@@ -96,28 +96,37 @@ long <- il6 |>
             select(sample, olink.pleural.il6, olink.plasma.il6, serum_il6, pleural_il6)|>
             pivot_longer(
                 cols = -sample,
-                names_to = "protein", 
+                names_to = "category", 
                 values_to = "value"
-            ) 
+            ) |>
+			filter(!is.na(value))
 
 ## ----dist -------------------------------------------------------------
-dists <- 
-	long |>
-		ggplot(aes(x = value, fill = protein)) +
-		geom_histogram(alpha = 0.6, bins = 30, aes(y = after_stat(density))) +
-		geom_density(alpha = 0.3, linewidth = 1) +
-		facet_wrap(~protein, scales = "free") +
-		theme_minimal() +
-		theme(
-			legend.position = "bottom",
-			strip.text = element_text(face = "bold")
-		) +
-		labs(
-			title = "IL6 Protein Levels by Source",
-			x = "Value",
-			y = "Frequency",
-			fill = "Source"
-		)
+# Calculate counts for each facet
+facet_counts <- long %>%
+  count(category) %>%
+  mutate(label = paste0(category, "\n(n = ", n, ")"))
 
+# Create a named vector for the labeller
+count_labels <- setNames(facet_counts$label, facet_counts$category)
+
+# Plot with custom labels
+dists <- 
+	ggplot(long, aes(x = value, fill = category)) +
+			geom_histogram(alpha = 0.6, bins = 30, aes(y = after_stat(density))) +
+			geom_density(alpha = 0.3, linewidth = 1) +
+			facet_wrap(~category,  scales = "free",
+				labeller = labeller(category = count_labels)) +
+			theme_minimal() +
+			theme(
+				legend.position = "bottom",
+				strip.text = element_text(face = "bold")
+			) +
+			labs(
+				title = "IL6 Protein Levels by Source",
+				x = "Value",
+				y = "Frequency",
+				fill = "Source"
+			)		
 ## ----fig.dist -------------------------------------------------------------
 dists
