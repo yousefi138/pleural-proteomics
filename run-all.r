@@ -61,10 +61,13 @@ source("pwas.r", echo=T, max.deparse.length = 500)
 project <- "plasma"
 source("pwas.r", echo=T, max.deparse.length = 500)
 
-## run analysis looking at relationship between
-## methylation predicted proteins and 
-## tumor vs. normal tissue type. 
-## render an html summary
+## summarise pwas associations
+##  in: eval.ret(paste("ret", project, sep="."))
+## 		eval.ret("pheno")
+## 		eval.ret(paste("batch", project, sep="."))
+## 		annot <- eval.ret(paste("annot", project, sep="."))
+##		prot.mat <- eval.ret(paste("ret", project, sep="."))
+##	out: pleural-analysis.html
 project <- "pleural"
 output <- paste(project, "analysis.html", sep="-")
 packages <- c("rmarkdown", "knitr")
@@ -72,27 +75,34 @@ lapply(packages, require, character.only=T)
 source(file.path(paths$scripts, "R/kable_my_defaults.r")) # couldn't figure out how to render in the doc
 render("analysis.rmd", output_file = output, output_format = "html_document", output_dir = "docs")
 
-## run analysis looking at relationship between
-## methylation predicted proteins and 
-## tumor vs. normal tissue type. 
-## render an html summary
+## summarise pwas associations
+##  in: eval.ret(paste("ret", project, sep="."))
+## 		eval.ret("pheno")
+## 		eval.ret(paste("batch", project, sep="."))
+## 		annot <- eval.ret(paste("annot", project, sep="."))
+##		prot.mat <- eval.ret(paste("ret", project, sep="."))
+##	out: plasma-analysis.html
 project <- "plasma"
 output <- paste(project, "analysis.html", sep="-")
 packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)
-source(file.path(paths$scripts, "R/kable_my_defaults.r")) # couldn't figure out how to render in the doc
 render("analysis.rmd", output_file = output, output_format = "html_document", output_dir = "docs")
 
-## run analysis looking at relationship between
-## methylation predicted proteins and 
-## tumor vs. normal tissue type. 
-## render an html summary
+## Compare pleural and plasma protein abundances
+##  in: eval.ret(paste("prot.mat", "plasma", sep="."))
+## 		eval.ret(paste("prot.mat", "pleural", sep="."))
+## 		eval.ret(paste("annot", "pleural", sep=".")) 
+##	out: tissue-compare.html
 packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)
-source(file.path(paths$scripts, "R/kable_my_defaults.r")) # couldn't figure out how to render in the doc
 render("tissue-compare.rmd", output_format = "html_document", output_dir = "docs")
 
+## Compare pleural and plasma IL6 abundances
+##  in: "il6_clean_los.txt" ELISA data
+##		eval.ret(paste("prot.mat", "plasma", sep="."))
+## 		eval.ret(paste("prot.mat", "pleural", sep="."))
+##		eval.ret(paste("annot", "pleural", sep="."))
+##	out: il6-compare.html
 packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)
-source(file.path(paths$scripts, "R/kable_my_defaults.r")) # couldn't figure out how to render in the doc
 render("il6-compare.rmd", output_format = "html_document", output_dir = "docs")
