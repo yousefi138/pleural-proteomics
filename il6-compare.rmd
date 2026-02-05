@@ -28,12 +28,51 @@ sourcecode <- grep("il6-compare.r$",
 read_chunk(file.path(path, sourcecode))
 ```
 
-# Fergus Hamilton's serum and plasma ELISA IL6 measurements
+# Samples measured by ELISA and Olink
+
+## Fergus Hamilton's serum and pleural ELISA IL6 measurements
+- **il6_clean_los.txt**: ELISA Measured pleural IL6 as received from Fergus Hamilton by email on 24 Nov 2025
+
 
 ```{r globals, results = 'hide', echo=F }
 ```
 
-```{r load.data, echo=T}
+```{r load.elisa, echo=T}
 ```
+
+```{r check.elisa, results = 'hide', echo=F}
+```
+
+## Olink Pleural and Plasma Target 96 measurements
+
+3 plates of pleural Olink Target 96 assays were run in Nov 2025
+* full qc details here: [pleural_metaboprep_qc_report.html](https://yousefi138.github.io/pleural-proteomics/pleural_metaboprep_qc_report.html)
+
+At the same time, 1 plate of plasma Olink Target 96 assays were run. These samples were all overlapping with those selected for pleural analysis.
+* full qc details here: [plasma_metaboprep_qc_report.html](https://yousefi138.github.io/pleural-proteomics/plasma_metaboprep_qc_report.html)
+
+
+```{r load.olink, results = 'hide', echo=F}
+```
+
+```{r check.olink, results = 'hide', echo=F}
+```
+
+Overlap of olink samples with elisa samples: 
+
+```{r overlap}
+```
+
+## Measurement counts
+
+```{r join}
+```
+
+```{r count}
+```
+
+
+
+
 
 
