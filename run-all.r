@@ -111,3 +111,12 @@ render("il6-compare.rmd", output_format = "html_document", output_dir = "docs")
 packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)
 render("qc-checks.rmd", output_format = "html_document", output_dir = "docs")
+
+## Prep data for Olink review
+##	in: GB390725-RB_pleural fluid_NPX.csv
+##		GB390725-RB_plasma_NPX.csv
+##		il6_clean_los.txt
+##	out: project, project.tar.gz
+project <- "20260216-for-olink"
+source("for-olink.r", echo=T, max.deparse.length = 500)
+
