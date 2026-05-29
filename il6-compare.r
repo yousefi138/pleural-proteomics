@@ -16,6 +16,11 @@ colnames(elisa) <- colnames(elisa) |>
 elisa <- as_tibble(elisa)				
 str(elisa)
 
+# Matt and I testing re-orienting the elisa results.
+#elisa$pleural_il6 <- max(elisa$pleural_il6, na.rm=T) - elisa$pleural_il6 
+#elisa$pleural_il6[which(elisa$serum_il6<0)] <- NA
+
+
 ## ----check.elisa -------------------------------------------------------------
 elisa|>
     summarise(
