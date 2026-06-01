@@ -38,6 +38,19 @@ project <- "plasma"
 file <- "GB390725-RB_plasma_NPX.csv"
 source("proteins.r", echo=T, max.deparse.length = 500)
 
+## clean raw olink PLEURAL protein data from DILUTIONSERIES
+## in: "GB390725-RB_dilutionseries_Extended_2026-05-07.csv"
+## out: "pleural/metaboprep_export/.",
+##      "pleural_metaboprep_qc_report.html",
+##      "pleural_metaboprep_qc_report.log",
+##      eval.ret("prot.mat.pleural"), 
+##      eval.ret("annot.pleural"), 
+##      eval.ret("batch.pleural")
+project <- "pleural-dilution-series"
+file <- "GB390725-RB_dilutionseries_Extended_2026-05-07.csv"
+source("proteins.r", echo=T, max.deparse.length = 500)
+
+
 ## clean raw pheno data
 ## in: "Proteomics Infection and Controls 10.11.25.xlsx"
 ## out: pheno.rda in analysis-cache i.e. eval.ret("pheno")
