@@ -133,3 +133,11 @@ render("qc-checks.rmd", output_format = "html_document", output_dir = "docs")
 project <- "20260216-for-olink"
 source("for-olink.r", echo=T, max.deparse.length = 500)
 
+## Compare results of pleural dilution series
+## in: eval.ret("pheno")
+##		project <- "pleural-dilution-series"
+##      eval.ret(paste("prot.mat", project, sep="."))
+##	out: dilution-series-qc.html
+packages <- c("rmarkdown", "knitr")
+lapply(packages, require, character.only=T)
+render("dilution-series-qc.rmd", output_format = "html_document", output_dir = "docs")

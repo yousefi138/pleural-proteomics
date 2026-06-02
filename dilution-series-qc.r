@@ -1,5 +1,5 @@
 ## ----globals -------------------------------------------------------------
-packages <- c("eval.save", "metaboprep", "tidyverse") 
+packages <- c("eval.save", "metaboprep", "tidyverse", "knitr") 
 lapply(packages, require, character.only=T)
 
 dir <- paths
@@ -27,6 +27,16 @@ pheno.long <- raw |>
 			left_join(pheno, by = "patient.id") |>
 			mutate(dilution = factor(dilution, 
 				levels = sort(unique(as.numeric(dilution)))))
+
+## ----dilutions -------------------------------------------------------------
+pheno.long |>
+	count(dilution) |>
+	kable()
+
+## ----dilution.ids -------------------------------------------------------------
+pheno.long |>
+	split(pheno.long$dilution) |>
+	map(~ .x$patient.id)
 
 ## ---- dilution-pair-correlations -------------------------------------------------------------
 
