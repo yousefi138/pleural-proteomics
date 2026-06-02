@@ -5,7 +5,7 @@ lapply(packages, require, character.only=T)
 dir <- paths
 eval.save.dir(dir$cache)
 
-## ----load.data -------------------------------------------------------------
+## ----load.olink -------------------------------------------------------------
 
 ## load proetins
 prot <- eval.ret(paste("prot.mat", "pleural-dilution-series", sep="."))
@@ -23,6 +23,15 @@ olink <- olink |>
 				dilution = ifelse(grepl("_", sampleid), sub(".*_", "", sampleid), 0)) |>
 			mutate(dilution = factor(dilution, 
 				levels = sort(unique(as.numeric(dilution)))))
+
+## ----load.elisa -------------------------------------------------------------
+## load raw clincal phenotype info 
+elisa <-  data.table::fread(file.path(dir$data, 
+                "il6_clean_los.txt")) 
+colnames(elisa) <- colnames(elisa) |>
+                make.names()|>
+                tolower()
+elisa <- as_tibble(elisa)				
 
 ## ----access.pheno -------------------------------------------------------------
 
@@ -145,5 +154,72 @@ p_dil_cor <- ggplot(cor_df, aes(x = pair, y = r)) +
 
 p_dil_cor
 
-## ---- -------------------------------------------------------------
+## ---- dilution-scatter-fn -------------------------------------------------------------
+
+dilution_scatter <- function(protein, olink) {
+	prot_data <- olink |> filter(assay == protein)
+	dil_levels <- levels(prot_data$dilution)
+	dil_pairs  <- combn(dil_levels, 2, simplify = FALSE)
+
+	prot_pairs <- bind_rows(lapply(dil_pairs, function(pair) {
+		d1 <- pair[1]; d2 <- pair[2]
+		df1 <- prot_data |> filter(dilution == d1) |> select(patient.id, npx1 = npx)
+		df2 <- prot_data |> filter(dilution == d2) |> select(patient.id, npx2 = npx)
+		inner_join(df1, df2, by = "patient.id") |>
+			mutate(
+				pair      = paste("Dilution", d1, "vs", d2),
+				dilution1 = d1,
+				dilution2 = d2
+			)
+	}))
+
+	cor_labels <- prot_pairs |>
+		group_by(pair, dilution1, dilution2) |>
+		summarise(
+			r     = cor(npx1, npx2, use = "pairwise.complete.obs"),
+			label = paste0("r = ", round(r, 3)),
+			.groups = "drop"
+		)
+
+	plots <- lapply(seq_along(dil_pairs), function(i) {
+		p       <- dil_pairs[[i]]
+		d1      <- p[1]; d2 <- p[2]
+		lbl     <- paste("Dilution", d1, "vs", d2)
+		df      <- prot_pairs  |> filter(pair == lbl)
+		r_label <- cor_labels  |> filter(pair == lbl) |> pull(label)
+
+		ggplot(df, aes(x = npx1, y = npx2)) +
+			geom_point(alpha = 0.7) +
+			geom_smooth(aes(colour = "Linear fit"), method = "lm", se = FALSE) +
+			geom_abline(aes(intercept = 0, slope = 1, colour = "Identity (y = x)"),
+				linetype = "dashed") +
+			scale_colour_manual(
+				name   = NULL,
+				values = c("Linear fit" = "steelblue", "Identity (y = x)" = "grey40")
+			) +
+			guides(colour = guide_legend(
+				override.aes = list(linetype = c("dashed", "solid"))
+			)) +
+			annotate("text", x = -Inf, y = Inf, label = r_label,
+				hjust = -0.1, vjust = 1.4, size = 3.5) +
+			labs(
+				title = lbl,
+				x     = paste0("NPX (Dilution ", d1, ")"),
+				y     = paste0("NPX (Dilution ", d2, ")")
+			) +
+			theme_bw()
+	})
+
+	patchwork::wrap_plots(plots, ncol = 3, guides = "collect") +
+		patchwork::plot_annotation(title = protein) &
+		theme(legend.position = "bottom")
+}
+
+## ---- dilution-scatter-plots -------------------------------------------------------------
+
+proteins <- c("IL6", "TNF", "IL8", "uPA", "CXCL1", "IFN-gamma", "CXCL5", "IL-17A", "IL-1 alpha", "CCL20")
+
+lapply(proteins, dilution_scatter, olink = olink)
+
+
 

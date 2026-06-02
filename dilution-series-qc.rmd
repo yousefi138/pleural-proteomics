@@ -39,7 +39,10 @@ Counts by dilution fraction below:
 ```{r globals, results = 'hide', echo=F }
 ```
 
-```{r load.data}
+```{r load.olink}
+```
+
+```{r load.elisa}
 ```
 
 ```{r access.pheno}
@@ -72,4 +75,15 @@ The violin and box plot below shows the full distribution of per-protein correla
 ```{r dilution-pair-correlations-plot, fig.width = 8, fig.height = 5}
 ```
 
+# Pairwise dilution scatter plots for selected proteins
+
+To investigate how individual protein measurements track across dilution levels, scatter plots are shown below for a panel of ten biologically relevant proteins: IL-6, TNF, IL-8, uPA, CXCL1, IFN-γ, CXCL5, IL-17A, IL-1α, and CCL20. These proteins were selected a priori as the key protein targets to have in assay range.
+
+For each protein, every pairwise combination of dilution levels is displayed as a separate panel. Each point represents one individual, with the x- and y-axes showing the NPX value at the two dilution levels being compared. The blue line shows the ordinary least-squares linear fit; the dashed grey line is the identity line (y = x), indicating perfect agreement. The Pearson correlation coefficient (r) is annotated in the top-left corner of each panel.
+
+```{r dilution-scatter-fn, echo = FALSE}
+```
+
+```{r dilution-scatter-plots, fig.width = 12, fig.height = 16, results = 'asis'}
+```
 
