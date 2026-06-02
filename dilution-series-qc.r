@@ -82,7 +82,7 @@ cor_df <- bind_rows(lapply(dil_pairs, function(pair) {
   )
 }))
 
-## summary: median r per dilution pair
+# Summary: median r per dilution pair
 cor_summary <- cor_df |>
   group_by(pair, dilution1, dilution2, n) |>
   summarise(
@@ -91,9 +91,12 @@ cor_summary <- cor_df |>
     n_prot   = sum(!is.na(r)),
     .groups  = "drop"
   )
-print(cor_summary)
 
-## violin / box plot of per-protein r by dilution pair
+cor_summary |>
+  kable(digits = 3, col.names = c("Pair", "Dilution 1", "Dilution 2", "N individuals", "Median r", "Mean r", "N proteins"))
+
+## ---- dilution-pair-correlations-plot -------------------------------------------------------------
+
 p_dil_cor <- ggplot(cor_df, aes(x = pair, y = r)) +
   geom_violin(fill = "steelblue", alpha = 0.4, colour = NA) +
   geom_boxplot(width = 0.15, outlier.size = 0.5) +
@@ -107,7 +110,7 @@ p_dil_cor <- ggplot(cor_df, aes(x = pair, y = r)) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-print(p_dil_cor)
+p_dil_cor
 
 ## ---- -------------------------------------------------------------
 

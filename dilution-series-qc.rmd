@@ -52,3 +52,17 @@ Counts by dilution fraction below:
 ```{r dilution.ids, echo = T}
 ```
 
+# Correlation across dilution conditions for all proteins
+
+To assess measurement consistency across dilution levels, Pearson correlations were computed for each protein between every pair of dilution conditions. For each pair, only individuals with measurements at both dilution levels were included. 
+
+The table below summarises the median and mean per-protein correlation for each dilution pair, along with the number of individuals and proteins contributing to each comparison.
+
+```{r dilution-pair-correlations, results = 'asis'}
+```
+
+The violin and box plot below shows the full distribution of per-protein correlations for each dilution pair.
+
+```{r dilution-pair-correlations-plot, fig.width = 8, fig.height = 5}
+```
+
