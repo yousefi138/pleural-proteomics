@@ -10,6 +10,20 @@ eval.save.dir(dir$cache)
 ## load proetins
 prot <- eval.ret(paste("prot.mat", "pleural-dilution-series", sep="."))
 
+## read in the raw olink results so I can get LOD information
+olink <- as.data.frame(data.table::fread(
+			file.path(dir$data, 
+			"GB390725-RB_dilutionseries_Extended_2026-05-07.csv"))) 
+colnames(olink) <- colnames(olink) |>
+					make.names()|>
+					tolower()
+olink <- as_tibble(olink)
+olink <- olink |>
+			mutate(patient.id     = sub("_.*", "", sampleid),
+				dilution = ifelse(grepl("_", sampleid), sub(".*_", "", sampleid), 0)) |>
+			mutate(dilution = factor(dilution, 
+				levels = sort(unique(as.numeric(dilution)))))
+
 ## ----access.pheno -------------------------------------------------------------
 
 ## create dilution series lookup table
@@ -37,6 +51,25 @@ pheno.long |>
 pheno.long |>
 	split(pheno.long$dilution) |>
 	map(~ .x$patient.id)
+
+## ----lod -------------------------------------------------------------
+qc <- 
+	olink|>
+		group_by(assay, dilution)|>
+		summarise(
+			n = n(),
+			n.belowlod = sum(belowlod, na.rm = T),
+			freq.belowlod = {
+				sum(belowlod, na.rm = T)/n() 
+			},
+			n.miss = sum(is.na(npx)),
+			freq.miss = sum(is.na(npx))/n()
+		)				
+qc |>
+	ggplot(aes(y = reorder(assay, n.belowlod), x = n.belowlod)) +
+	geom_col() +
+	facet_wrap(~ dilution) +
+	labs(y = "Protein") 
 
 ## ---- dilution-pair-correlations -------------------------------------------------------------
 
