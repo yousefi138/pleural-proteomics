@@ -135,9 +135,13 @@ cor_summary <- cor_df |>
   )
 
 cor_summary |>
+  arrange(desc(mean_r)) |>
   kable(digits = 3, col.names = c("Pair", "Dilution 1", "Dilution 2", "N individuals", "Median r", "Mean r", "N proteins"))
 
 ## ---- dilution-pair-correlations-plot -------------------------------------------------------------
+
+pair_order <- cor_summary |> arrange(desc(median_r)) |> pull(pair)
+cor_df <- cor_df |> mutate(pair = factor(pair, levels = pair_order))
 
 p_dil_cor <- ggplot(cor_df, aes(x = pair, y = r)) +
   geom_violin(fill = "steelblue", alpha = 0.4, colour = NA) +
