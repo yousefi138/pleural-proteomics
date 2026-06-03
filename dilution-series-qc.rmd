@@ -119,7 +119,14 @@ For a protein that is within the assay's dynamic range, the NPX value should dro
 
 A protein whose observed shift is consistently **above** the reference line at a low-dilution step is likely above the assay's dynamic range (saturated) at the lower dilution. A protein whose observed shift is **below** the reference line, or negative, is likely approaching or below the LOD at the higher dilution.
 
+## High priority proteins
+
 ```{r linearity-check, fig.width = 10, fig.height = 16}
+```
+
+## All remaining proteins
+
+```{r linearity-check-all, fig.width = 14, fig.height = 60}
 ```
 
 # Conclusions
@@ -137,3 +144,10 @@ A protein whose observed shift is consistently **above** the reference line at a
 - The undiluted condition is likely outside the dynamic range for high-abundance proteins such as IL-6, while very high dilutions (256× and above) compromise quantification of lower-abundance targets.
 - The moderate dilution range — most plausibly 4× to 16× — represents a good candidate window for balancing these competing considerations, though the selected recommendation should be grounded in the protein-specific scatter plots and ELISA comparisons for the 10 priority targets.
 	- For IL6, it looks like the 64x dilution is required to capture the full dynamic range observed in our current sample
+
+## NPX linearity check
+
+- Under perfect assay linearity, each 4-fold dilution step should reduce NPX by log2(4) = 2 units. Observed shifts consistently above this line at a given step indicate saturation (protein above the dynamic range) at the lower dilution; shifts consistently below it indicate approach towards the LOD at the higher dilution.
+- Several high-priority proteins (most notably IL-6) show observed shifts substantially above the expected 2-unit reference at the 0× → 4× and 4× → 16× steps, confirming that these proteins are above the assay's dynamic range in undiluted and lightly diluted pleural fluid.
+- At the higher dilution steps (64× → 256× and 256× → 1025×), an increasing number of proteins show sub-expected or negative shifts, consistent with signal loss approaching the LOD.
+- The linearity check results reinforce the LOD and correlation findings: the 16× to 64× range represents the most plausible window where the majority of priority proteins are within the assay's dynamic range

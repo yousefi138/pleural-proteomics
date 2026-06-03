@@ -339,5 +339,54 @@ ggplot(linearity_df, aes(x = pair, y = observed_shift)) +
 		plot.caption = element_text(size = 7, colour = "grey40")
 	)
 
+## ---- linearity-check-all -------------------------------------------------------------
+# All proteins not in the 10 priority set
+proteins_other <- olink |>
+	filter(!dilution %in% c("elisa_serum", "elisa_pleural"),
+		   !assay %in% proteins10) |>
+	pull(assay) |>
+	unique() |>
+	sort()
+
+linearity_df_all <- bind_rows(lapply(adj_pairs, function(pair) {
+	d1 <- pair[1]; d2 <- pair[2]
+	expected <- log2(dil_factor(d2) / dil_factor(d1))
+
+	df1 <- olink |>
+		filter(dilution == d1, assay %in% proteins_other) |>
+		select(patient.id, assay, npx_d1 = npx)
+	df2 <- olink |>
+		filter(dilution == d2, assay %in% proteins_other) |>
+		select(patient.id, assay, npx_d2 = npx)
+
+	inner_join(df1, df2, by = c("patient.id", "assay")) |>
+		mutate(
+			pair           = paste0(d1, "\u00d7 \u2192 ", d2, "\u00d7"),
+			observed_shift = npx_d1 - npx_d2,
+			expected_shift = expected
+		)
+}))
+
+linearity_df_all <- linearity_df_all |>
+	mutate(pair = factor(pair, levels = unique(pair)))
+
+ggplot(linearity_df_all, aes(x = pair, y = observed_shift)) +
+	geom_hline(aes(yintercept = expected_shift),
+			   linetype = "dashed", colour = "firebrick", linewidth = 0.7) +
+	geom_boxplot(fill = "steelblue", alpha = 0.4, outlier.size = 0.8) +
+	geom_jitter(width = 0.15, alpha = 0.4, size = 1) +
+	facet_wrap(~ assay, ncol = 4) +
+	labs(
+		x = "Adjacent dilution pair",
+		y = "Observed NPX shift (lower \u2212 higher dilution)",
+		caption = "Red dashed line = expected shift under perfect linearity (log2 of fold-ratio = 2 for all 4\u00d7 steps)"
+	) +
+	theme_bw() +
+	theme(
+		axis.text.x  = element_text(angle = 45, hjust = 1),
+		strip.text   = element_text(size = 7),
+		plot.caption = element_text(size = 7, colour = "grey40")
+	)
+
 
 
