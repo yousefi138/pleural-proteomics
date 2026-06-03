@@ -97,6 +97,46 @@ qc |>
 	facet_wrap(~ dilution) +
 	labs(y = "Protein") 
 
+## ----lod.sub -------------------------------------------------------------
+proteins <- c("IL6","TNF", "IL8", "uPA", "CXCL1", "IFN-gamma", "CXCL5", "IL-17A", "IL-1 alpha", "CCL20")
+
+qc <- 
+	olink|>
+		filter(dilution!="elisa_serum"&dilution!="elisa_pleural") |>
+		filter(assay %in% proteins) |>
+		group_by(assay, dilution)|>
+		summarise(
+			n = n(),
+			n.belowlod = sum(belowlod, na.rm = T),
+			freq.belowlod = {
+				sum(belowlod, na.rm = T)/n() 
+			},
+			n.miss = sum(is.na(npx)),
+			freq.miss = sum(is.na(npx))/n()
+		)	
+
+qc |>
+	ggplot(aes(y = reorder(assay, n.belowlod), x = n.belowlod)) +
+	geom_col() +
+	facet_wrap(~ dilution) +
+	labs(y = "Protein") 
+
+## ---- dist-subset -------------------------------------------------------------
+olink |>
+	filter(dilution != "elisa_serum" & dilution != "elisa_pleural") |>
+	filter(assay %in% proteins) |>
+	ggplot(aes(x = dilution, y = npx, fill = dilution)) +
+	geom_violin(alpha = 0.5, colour = NA) +
+	geom_boxplot(width = 0.15, outlier.size = 0.5, fill = "white", colour = "grey30") +
+	facet_wrap(~ assay, scales = "free_y", ncol =3) +
+	labs(x = "Dilution", y = "NPX", fill = "Dilution") +
+	theme_bw() +
+	theme(
+		legend.position = "bottom",
+		axis.text.x     = element_text(angle = 45, hjust = 1),
+		strip.text.x    = element_text(size = 7)
+	)
+
 ## ---- dilution-pair-correlations -------------------------------------------------------------
 
 # All pairwise combinations of dilution levels

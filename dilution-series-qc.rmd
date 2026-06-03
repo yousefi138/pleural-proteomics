@@ -65,11 +65,23 @@ Counts samples by the different dilution fractions used in the experiment are sh
 
 ```{r dilution.ids, echo = T}
 ```
-# Frequency below LOD by dilution condition
+# Assessment QC variables and observed distrobutions
+
+## Frequency below LOD by dilution condition
 
 The bar chart below shows, for each protein, the number of measurements falling below the limit of detection (LOD) at each dilution level. Proteins are ordered by their total count of below-LOD values. A high frequency of below-LOD measurements at a given dilution suggests that the sample concentration may be too low for reliable quantification of that protein.
 
 ```{r lod, fig.width = 10, fig.height = 20}
+```
+
+Subset to our 10 high priority proteins
+
+```{r lod.sub, fig.width = 10, fig.height = 20}
+```
+
+Distributions of NPX for the same protein subset, grouped by assay and dilution.
+
+```{r dist-subset, fig.width = 15, fig.height = 20}
 ```
 
 # Correlation across dilution conditions for all proteins
