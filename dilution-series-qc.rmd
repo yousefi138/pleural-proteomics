@@ -113,6 +113,15 @@ For each protein, every pairwise combination of dilution levels is displayed as 
 ```{r dilution-scatter-plots, fig.width = 12, fig.height = 16, results = 'asis'}
 ```
 
+# NPX linearity check
+
+For a protein that is within the assay's dynamic range, the NPX value should drop by exactly log2(dilution fold-ratio) between adjacent dilution steps. Because all adjacent pairs here represent a 4-fold dilution step, the expected NPX shift is log2(4) = 2 units. The plots below show the distribution of observed shifts (across individuals) for each adjacent dilution pair, with the expected shift shown as a red dashed reference line.
+
+A protein whose observed shift is consistently **above** the reference line at a low-dilution step is likely above the assay's dynamic range (saturated) at the lower dilution. A protein whose observed shift is **below** the reference line, or negative, is likely approaching or below the LOD at the higher dilution.
+
+```{r linearity-check, fig.width = 10, fig.height = 16}
+```
+
 # Conclusions
 
 ## Limit of detection

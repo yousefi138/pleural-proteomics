@@ -283,5 +283,61 @@ dilution_scatter("IL6", olink = olink)
 proteins <- c("TNF", "IL8", "uPA", "CXCL1", "IFN-gamma", "CXCL5", "IL-17A", "IL-1 alpha", "CCL20")
 lapply(proteins, dilution_scatter, olink = olink)
 
+## ---- linearity-check -------------------------------------------------------------
+proteins10 <- c("IL6", "TNF", "IL8", "uPA", "CXCL1", "IFN-gamma", "CXCL5", "IL-17A", "IL-1 alpha", "CCL20")
+
+# Adjacent dilution pairs and their expected NPX shift (log2 of fold-ratio)
+# Undiluted is encoded as "0" in the data but represents a 1x factor
+adj_pairs <- list(
+	c("0",   "4"),
+	c("4",   "16"),
+	c("16",  "64"),
+	c("64",  "256"),
+	c("256", "1025")
+)
+
+dil_factor <- function(d) ifelse(d == "0", 1, as.numeric(d))
+
+linearity_df <- bind_rows(lapply(adj_pairs, function(pair) {
+	d1 <- pair[1]; d2 <- pair[2]
+	expected <- log2(dil_factor(d2) / dil_factor(d1))
+
+	df1 <- olink |>
+		filter(dilution == d1, assay %in% proteins10) |>
+		select(patient.id, assay, npx_d1 = npx)
+	df2 <- olink |>
+		filter(dilution == d2, assay %in% proteins10) |>
+		select(patient.id, assay, npx_d2 = npx)
+
+	inner_join(df1, df2, by = c("patient.id", "assay")) |>
+		mutate(
+			pair           = paste0(d1, "\u00d7 \u2192 ", d2, "\u00d7"),
+			observed_shift = npx_d1 - npx_d2,
+			expected_shift = expected
+		)
+}))
+
+# Ordered factor so panels appear in dilution sequence
+linearity_df <- linearity_df |>
+	mutate(pair = factor(pair, levels = unique(pair)))
+
+ggplot(linearity_df, aes(x = pair, y = observed_shift)) +
+	geom_hline(aes(yintercept = expected_shift), 
+			   linetype = "dashed", colour = "firebrick", linewidth = 0.7) +
+	geom_boxplot(fill = "steelblue", alpha = 0.4, outlier.size = 0.8) +
+	geom_jitter(width = 0.15, alpha = 0.4, size = 1) +
+	facet_wrap(~ assay, ncol = 2) +
+	labs(
+		x = "Adjacent dilution pair",
+		y = "Observed NPX shift (lower \u2212 higher dilution)",
+		caption = "Red dashed line = expected shift under perfect linearity (log2 of fold-ratio = 2 for all 4\u00d7 steps)"
+	) +
+	theme_bw() +
+	theme(
+		axis.text.x  = element_text(angle = 45, hjust = 1),
+		strip.text   = element_text(size = 8),
+		plot.caption = element_text(size = 7, colour = "grey40")
+	)
+
 
 
