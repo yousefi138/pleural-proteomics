@@ -24,6 +24,13 @@ olink <- olink |>
 			mutate(dilution = factor(dilution, 
 				levels = sort(unique(as.numeric(dilution)))))
 
+## create dilution series lookup table
+raw <- data.frame(sampleid = colnames(prot)) |>
+	mutate(
+	patient.id     = sub("_.*", "", sampleid),
+	dilution = ifelse(grepl("_", sampleid), sub(".*_", "", sampleid), 0)
+	)
+
 ## ----load.elisa -------------------------------------------------------------
 ## load raw clincal phenotype info 
 elisa <-  data.table::fread(file.path(dir$data, 
@@ -31,16 +38,24 @@ elisa <-  data.table::fread(file.path(dir$data,
 colnames(elisa) <- colnames(elisa) |>
                 make.names()|>
                 tolower()
-elisa <- as_tibble(elisa)				
+elisa <- as_tibble(elisa) |>
+			select(patient_id, serum_il6, pleural_il6)|>
+			rename(patient.id = patient_id,
+				elisa_serum = serum_il6,
+				elisa_pleural = pleural_il6) |>
+			filter(patient.id %in% unique(raw$patient.id)) |>
+			pivot_longer(
+				cols         = c(elisa_serum, elisa_pleural),
+				names_to     = "dilution",
+				values_to    = "npx"
+			) |>
+			mutate(dilution = factor(dilution),
+					assay = "IL6")
+
+# add to olink data
+olink <- bind_rows(olink, elisa)
 
 ## ----access.pheno -------------------------------------------------------------
-
-## create dilution series lookup table
-raw <- data.frame(sampleid = colnames(prot)) |>
-	mutate(
-	patient.id     = sub("_.*", "", sampleid),
-	dilution = ifelse(grepl("_", sampleid), sub(".*_", "", sampleid), 0)
-	)
 
 # restrict pheno to the n=16 samples included in the dilution series
 pheno <- eval.ret("pheno") |>
@@ -64,6 +79,7 @@ pheno.long |>
 ## ----lod -------------------------------------------------------------
 qc <- 
 	olink|>
+		filter(dilution!="elisa_serum"&dilution!="elisa_pleural") |>
 		group_by(assay, dilution)|>
 		summarise(
 			n = n(),
@@ -73,7 +89,8 @@ qc <-
 			},
 			n.miss = sum(is.na(npx)),
 			freq.miss = sum(is.na(npx))/n()
-		)				
+		)	
+
 qc |>
 	ggplot(aes(y = reorder(assay, n.belowlod), x = n.belowlod)) +
 	geom_col() +
@@ -161,7 +178,7 @@ p_dil_cor
 ## ---- dilution-scatter-fn -------------------------------------------------------------
 
 dilution_scatter <- function(protein, olink) {
-	prot_data <- olink |> filter(assay == protein)
+	prot_data <- olink |> filter(assay == protein) |> droplevels()
 	dil_levels <- levels(prot_data$dilution)
 	dil_pairs  <- combn(dil_levels, 2, simplify = FALSE)
 
@@ -219,10 +236,11 @@ dilution_scatter <- function(protein, olink) {
 		theme(legend.position = "bottom")
 }
 
+## ---- dilution-scatter-il6 -------------------------------------------------------------
+dilution_scatter("IL6", olink = olink)
+
 ## ---- dilution-scatter-plots -------------------------------------------------------------
-
-proteins <- c("IL6", "TNF", "IL8", "uPA", "CXCL1", "IFN-gamma", "CXCL5", "IL-17A", "IL-1 alpha", "CCL20")
-
+proteins <- c("TNF", "IL8", "uPA", "CXCL1", "IFN-gamma", "CXCL5", "IL-17A", "IL-1 alpha", "CCL20")
 lapply(proteins, dilution_scatter, olink = olink)
 
 
