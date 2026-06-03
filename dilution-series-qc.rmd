@@ -127,4 +127,4 @@ For each protein, every pairwise combination of dilution levels is displayed as 
 - This decay suggests that at more extreme dilutions, the rank-ordering of proteins across individuals breaks down, likely reflecting a combination of LOD censoring and increased assay noise at low analyte concentrations.
 - The undiluted condition is likely outside the dynamic range for high-abundance proteins such as IL-6, while very high dilutions (256× and above) compromise quantification of lower-abundance targets.
 - The moderate dilution range — most plausibly 4× to 16× — represents a good candidate window for balancing these competing considerations, though the selected recommendation should be grounded in the protein-specific scatter plots and ELISA comparisons for the 10 priority targets.
-
+	- For IL6, it looks like the 64x dilution is required to capture the full dynamic range observed in our current sample
