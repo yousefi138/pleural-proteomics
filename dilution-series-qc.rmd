@@ -79,9 +79,20 @@ Subset to our 10 high priority proteins
 ```{r lod.sub, fig.width = 10, fig.height = 20}
 ```
 
+## Observed NPX distribution by assay/protein and dilution
+
+### High priority proteins
+
 Distributions of NPX for the same protein subset, grouped by assay and dilution.
 
 ```{r dist-subset, fig.width = 15, fig.height = 20}
+```
+
+### All remaining proteins
+
+Distributions of NPX by dilution for all remaining assays not in the priority set.
+
+```{r dist-other, fig.width = 15, fig.height = 80}
 ```
 
 # Correlation across dilution conditions for all proteins

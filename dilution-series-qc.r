@@ -137,6 +137,22 @@ olink |>
 		strip.text.x    = element_text(size = 7)
 	)
 
+## ---- dist-other -------------------------------------------------------------
+olink |>
+	filter(dilution != "elisa_serum" & dilution != "elisa_pleural") |>
+	filter(!assay %in% proteins) |>
+	ggplot(aes(x = dilution, y = npx, fill = dilution)) +
+	geom_violin(alpha = 0.5, colour = NA) +
+	geom_boxplot(width = 0.15, outlier.size = 0.5, fill = "white", colour = "grey30") +
+	facet_wrap(~ assay, scales = "free_y", ncol = 3) +
+	labs(x = "Dilution", y = "NPX", fill = "Dilution") +
+	theme_bw() +
+	theme(
+		legend.position = "bottom",
+		axis.text.x     = element_text(angle = 45, hjust = 1),
+		strip.text.x    = element_text(size = 7)
+	)
+
 ## ---- dilution-pair-correlations -------------------------------------------------------------
 
 # All pairwise combinations of dilution levels
