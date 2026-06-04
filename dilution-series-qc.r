@@ -153,6 +153,83 @@ olink |>
 		strip.text.x    = element_text(size = 7)
 	)
 
+## ---- dist-stats -------------------------------------------------------------
+mad_stats <- olink |>
+	filter(dilution != "elisa_serum" & dilution != "elisa_pleural") |>
+	group_by(assay, dilution) |>
+	summarise(
+		mad        = mad(npx, na.rm = TRUE),
+		median_dil = median(npx, na.rm = TRUE),
+		.groups = "drop"
+	) |>
+	group_by(assay) |>
+	mutate(
+		mad_ratio    = mad / max(mad[dilution != "0"], na.rm = TRUE),
+		median_all   = median(median_dil, na.rm = TRUE),
+		median_ratio = abs(median_all - median_dil) / abs(median_all),
+		label        = paste0(
+			"MAD=",    round(mad, 2),
+			"\nrel=",  round(mad_ratio, 2),
+			"\nmedian_dil=",  round(median_dil, 2),
+			"\nmedian_all=",  round(median_all, 2),
+			"\n(all-dil)/all=", round(median_ratio, 2)
+		)
+	) |>
+	ungroup()
+
+olink |>
+	filter(dilution != "elisa_serum" & dilution != "elisa_pleural") |>
+	ggplot(aes(x = dilution, y = npx, fill = dilution)) +
+	geom_violin(alpha = 0.5, colour = NA) +
+	geom_boxplot(width = 0.15, outlier.size = 0.5, fill = "white", colour = "grey30") +
+	geom_text(
+		data        = mad_stats,
+		aes(x = dilution, y = Inf, label = label),
+		vjust       = 1.1,
+		size        = 6,
+		colour      = "grey30",
+		inherit.aes = FALSE
+	) +
+	facet_wrap(~ assay, scales = "free_y", ncol = 2) +
+	labs(x = "Dilution", y = "NPX", fill = "Dilution") +
+	theme_bw() +
+	theme(
+		legend.position = "bottom",
+		axis.text.x     = element_text(angle = 45, hjust = 1),
+		strip.text.x    = element_text(size = 7)
+	)
+
+## ---- mad-ratio-table -------------------------------------------------------------
+mad_ratio_all <- mad_stats |>
+	group_by(dilution) |>
+	summarise(
+		sum_mad_ratio    = sum(mad_ratio,    na.rm = TRUE),
+		sum_median_ratio = sum(median_ratio, na.rm = TRUE),
+		.groups = "drop"
+	)
+
+mad_ratio_priority <- mad_stats |>
+	filter(assay %in% proteins) |>
+	group_by(dilution) |>
+	summarise(
+		sum_mad_ratio    = sum(mad_ratio,    na.rm = TRUE),
+		sum_median_ratio = sum(median_ratio, na.rm = TRUE),
+		.groups = "drop"
+	)
+
+left_join(mad_ratio_all, mad_ratio_priority,
+		  by = "dilution",
+		  suffix = c(".all", ".priority")) |>
+	arrange(dilution) |>
+	select(dilution,
+		   sum_mad_ratio.all, sum_mad_ratio.priority,
+		   sum_median_ratio.all, sum_median_ratio.priority) |>
+	kable(digits = 3,
+		  col.names = c("Dilution",
+		  				"Sum MAD ratio (all)", "Sum MAD ratio (priority)",
+		  				"Sum median ratio (all)", "Sum median ratio (priority)"))
+
+
 ## ---- dilution-pair-correlations -------------------------------------------------------------
 
 # All pairwise combinations of dilution levels

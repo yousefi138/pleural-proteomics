@@ -95,6 +95,23 @@ Distributions of NPX by dilution for all remaining assays not in the priority se
 ```{r dist-other, fig.width = 15, fig.height = 80}
 ```
 
+### All proteins with distribution statistics
+
+Distributions of NPX by dilution for all assays. Each panel shows violin and box plots for all dilution levels. Annotated on each dilution are three statistics:
+
+- **MAD**: the median absolute deviation of NPX values at that dilution, a robust measure of spread.
+- **rel**: the MAD expressed as a ratio relative to the maximum MAD observed across the non-zero (i.e. diluted) levels for that assay. A value of 1.0 indicates the dilution with the greatest spread among diluted samples; values above 1.0 can occur for the undiluted (dilution = 0) level if it exceeds that maximum.
+- **|all−dil|/|all|**: the absolute deviation of the assay's overall median (computed as the median of dilution-level medians) from the dilution-specific median, expressed as a proportion of the absolute value of that overall median. Both numerator and denominator are taken as absolute values to ensure the ratio is always non-negative. Smaller values indicate the dilution sits closer to the assay's central level; larger values indicate greater departure in either direction.
+
+```{r dist-stats, fig.width = 30, fig.height = 400}
+```
+
+The table below summarises, for each dilution, the sum of MAD ratios and the sum of median ratios across all assays and restricted to the high-priority proteins. For MAD ratios, higher sums indicate dilutions where assays collectively retain more of their maximum spread. For median ratios, smaller sums indicate dilutions where assays collectively sit closer to their overall central level.
+
+```{r mad-ratio-table, results = 'asis'}
+```
+
+
 # Correlation across dilution conditions for all proteins
 
 To assess measurement consistency across dilution levels, Pearson correlations were computed for each protein between every pair of dilution conditions. For each pair, only individuals with measurements at both dilution levels were included. 
