@@ -31,6 +31,33 @@ raw <- data.frame(sampleid = colnames(prot)) |>
 	dilution = ifelse(grepl("_", sampleid), sub(".*_", "", sampleid), 0)
 	)
 
+## ----visual.qc.template -------------------------------------------------------------
+olink |>
+	select(assay) |>
+	arrange(assay) |>
+	filter(!duplicated(assay))|>
+	mutate(best_d16 = 0,
+			best_d64 = 0,
+			ok_d16 = 0,
+			ok_d64 = 0
+	) |>
+	data.table::fwrite(
+			file.path(dir$scripts, "data",  
+			"visual-qc-template.csv"))
+
+## ----visual-qc -------------------------------------------------------------
+vis <- data.table::fread(
+			file.path(dir$scripts, "data",  
+			"visual-qc-template.csv")) |>
+		pivot_longer(
+			cols      = c(best_d16, best_d64, ok_d16, ok_d64),
+			names_to  = c(".value", "dilution"),
+			names_sep = "_"
+		) |>
+		mutate(dilution = factor(dilution, levels = c("d16", "d64")))
+
+
+
 ## ----load.elisa -------------------------------------------------------------
 ## load raw clincal phenotype info 
 elisa <-  data.table::fread(file.path(dir$data, 
@@ -153,6 +180,7 @@ olink |>
 		strip.text.x    = element_text(size = 7)
 	)
 
+
 ## ---- dist-stats -------------------------------------------------------------
 mad_stats <- olink |>
 	filter(dilution != "elisa_serum" & dilution != "elisa_pleural") |>
@@ -172,7 +200,7 @@ mad_stats <- olink |>
 			"\nrel=",  round(mad_ratio, 2),
 			"\nmedian_dil=",  round(median_dil, 2),
 			"\nmedian_all=",  round(median_all, 2),
-			"\n(all-dil)/all=", round(median_ratio, 2)
+			"\ndeviation_from_overall=", round(median_ratio, 2)
 		)
 	) |>
 	ungroup()
@@ -227,7 +255,7 @@ left_join(mad_ratio_all, mad_ratio_priority,
 	kable(digits = 3,
 		  col.names = c("Dilution",
 		  				"Sum MAD ratio (all)", "Sum MAD ratio (priority)",
-		  				"Sum median ratio (all)", "Sum median ratio (priority)"))
+		  				"Sum deviation from overall (all)", "Sum deviation from overall (priority)"))
 
 
 ## ---- dilution-pair-correlations -------------------------------------------------------------
