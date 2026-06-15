@@ -53,6 +53,9 @@ Counts samples by the different dilution fractions used in the experiment are sh
 ```{r load.olink}
 ```
 
+```{r visual-qc}
+```
+
 ```{r load.elisa}
 ```
 
@@ -113,6 +116,44 @@ The table below summarises, for each dilution, the sum of MAD ratios and the sum
 ```{r mad-ratio-table, results = 'asis'}
 ```
 
+### Visual inspection of distribution plots
+
+Realising the best assessment of assay performance was visual inspection of the distribution plots and that  none of the above calculated stats were really sufficient, I manually scored all distributions by eye. 
+
+My assessment was limited to the 16x and 64x dilutions. For all plots, I indicated where either dilution's distribution:
+
+- Was ok / looked acceptable 
+- Was the best of all available dilutions
+	- When I couldn't distinguish between 16x and 64x assays being 'best' I said they both were
+
+Some assays appeared poorly across all dilutions and these were given '0' across all categories
+
+```{r vis.table}
+```
+
+#### Priority proteins
+
+Priority proteins visually scored as `best`:
+
+```{r target.table.pr.best}
+```
+
+Priority proteins visually scored as `ok`:
+
+```{r target.table.pr.ok}
+```
+
+#### All proteins
+
+All proteins visually scored as `best`:
+
+```{r target.table.all.best}
+```
+
+All proteins visually scored as `ok`:
+
+```{r target.table.all.ok}
+```
 
 # Correlation across dilution conditions for all proteins
 

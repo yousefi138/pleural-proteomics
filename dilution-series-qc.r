@@ -32,31 +32,29 @@ raw <- data.frame(sampleid = colnames(prot)) |>
 	)
 
 ## ----visual.qc.template -------------------------------------------------------------
-olink |>
-	select(assay) |>
-	arrange(assay) |>
-	filter(!duplicated(assay))|>
-	mutate(best_d16 = 0,
-			best_d64 = 0,
-			ok_d16 = 0,
-			ok_d64 = 0
-	) |>
-	data.table::fwrite(
-			file.path(dir$scripts, "data",  
-			"visual-qc-template.csv"))
+#olink |>
+#	select(assay) |>
+#	arrange(assay) |>
+#	filter(!duplicated(assay))|>
+#	mutate(best_d16 = 0,
+#			best_d64 = 0,
+#			ok_d16 = 0,
+#			ok_d64 = 0
+#	) |>
+#	data.table::fwrite(
+#			file.path(dir$scripts, "data",  
+#			"visual-qc-template.csv"))
 
 ## ----visual-qc -------------------------------------------------------------
 vis <- data.table::fread(
 			file.path(dir$scripts, "data",  
-			"visual-qc-template.csv")) |>
+			"visual-qc.csv")) |>
 		pivot_longer(
 			cols      = c(best_d16, best_d64, ok_d16, ok_d64),
 			names_to  = c(".value", "dilution"),
 			names_sep = "_"
 		) |>
 		mutate(dilution = factor(dilution, levels = c("d16", "d64")))
-
-
 
 ## ----load.elisa -------------------------------------------------------------
 ## load raw clincal phenotype info 
@@ -200,7 +198,7 @@ mad_stats <- olink |>
 			"\nrel=",  round(mad_ratio, 2),
 			"\nmedian_dil=",  round(median_dil, 2),
 			"\nmedian_all=",  round(median_all, 2),
-			"\ndeviation_from_overall=", round(median_ratio, 2)
+			"\noverall=", round(median_ratio, 2)
 		)
 	) |>
 	ungroup()
@@ -257,6 +255,51 @@ left_join(mad_ratio_all, mad_ratio_priority,
 		  				"Sum MAD ratio (all)", "Sum MAD ratio (priority)",
 		  				"Sum deviation from overall (all)", "Sum deviation from overall (priority)"))
 
+## ----vis.table -------------------------------------------------------------
+vis <- vis|>
+		mutate(priority = sign(assay %in% proteins))
+all <- 
+	vis |>
+		group_by(dilution)|>
+		summarise(best_all = sum(best), 
+				ok_all = sum(ok))
+priority <- 
+	vis |>
+		filter(priority==1)|>
+		group_by(dilution)|>
+		summarise(best_priority = sum(best), 
+				ok_priority = sum(ok))
+
+left_join(all, priority)|>
+	kable()
+
+## ----target.table.pr.best -------------------------------------------------------------
+vis |>
+	filter(priority == 1, best == 1) |>
+	group_by(dilution) |>
+	summarise(assays = paste(sort(assay), collapse = ", "), .groups = "drop") |>
+	kable()
+
+## ----target.table.pr.ok -------------------------------------------------------------
+vis |>
+	filter(priority == 1, ok == 1) |>
+	group_by(dilution) |>
+	summarise(assays = paste(sort(assay), collapse = ", "), .groups = "drop") |>
+	kable()
+
+## ----target.table.all.best -------------------------------------------------------------
+vis |>
+	filter(best == 1) |>
+	group_by(dilution) |>
+	summarise(assays = paste(sort(assay), collapse = ", "), .groups = "drop") |>
+	kable()
+
+## ----target.table.all.ok -------------------------------------------------------------
+vis |>
+	filter(ok == 1) |>
+	group_by(dilution) |>
+	summarise(assays = paste(sort(assay), collapse = ", "), .groups = "drop") |>
+	kable()
 
 ## ---- dilution-pair-correlations -------------------------------------------------------------
 
