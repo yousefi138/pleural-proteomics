@@ -40,16 +40,27 @@ source("proteins.r", echo=T, max.deparse.length = 500)
 
 ## clean raw olink PLEURAL protein data from DILUTIONSERIES
 ## in: "GB390725-RB_dilutionseries_Extended_2026-05-07.csv"
-## out: "pleural/metaboprep_export/.",
-##      "pleural_metaboprep_qc_report.html",
-##      "pleural_metaboprep_qc_report.log",
-##      eval.ret("prot.mat.pleural"), 
-##      eval.ret("annot.pleural"), 
-##      eval.ret("batch.pleural")
+## out: "pleural-dilution-series/metaboprep_export/.",
+##      "pleural-dilution-series_metaboprep_qc_report.html",
+##      "pleural-dilution-series_metaboprep_qc_report.log",
+##      eval.ret("prot.mat.pleural-dilution-series"), 
+##      eval.ret("annot.pleural-dilution-series"), 
+##      eval.ret("batch.pleural-dilution-series")
 project <- "pleural-dilution-series"
 file <- "GB390725-RB_dilutionseries_Extended_2026-05-07.csv"
 source("proteins.r", echo=T, max.deparse.length = 500)
 
+## clean raw olink PLEURAL protein data from DILUTIONSERIES
+## in: "RB_1_16_Extended_2026"
+## out: "pleural-16x-dilution-run1/metaboprep_export/.",
+##      "pleural-16x-dilution01_metaboprep_qc_report.html",
+##      "pleural-16x-dilution01_metaboprep_qc_report.log",
+##      eval.ret("prot.mat.pleural-16x-dilution01"), 
+##      eval.ret("annot.pleural-16x-dilution01"), 
+##      eval.ret("batch.pleural-16x-dilution01")
+project <- "pleural-16x-dilution01"
+file <- "GB390725-RB_1_16_Extended_2026-07-06.csv"
+source("proteins.r", echo=T, max.deparse.length = 500)
 
 ## clean raw pheno data
 ## in: "Proteomics Infection and Controls 10.11.25.xlsx"
