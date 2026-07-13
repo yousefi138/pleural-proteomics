@@ -2,12 +2,11 @@
 model.vars <- list("infect.fct", "infect.num", "infect.bi",
 					 "comp.out", "infect.bi.new","female", "age")
 model.vars <- c(model.vars, # crude 
-				map(model.vars, ~c(.x, "plate")), # batch adjusted
-				list(c("infect.fct",  "female", "age", "plate"),
-					c("infect.num",  "female", "age", "plate"),
-					c("infect.bi",  "female", "age", "plate"),
-					c("comp.out",  "female", "age", "plate"),
-					c("infect.bi.new",  "female", "age", "plate"))
+				list(c("infect.fct",  "female", "age"),
+					c("infect.num",  "female", "age"),
+					c("infect.bi",  "female", "age"),
+					c("comp.out",  "female", "age"),
+					c("infect.bi.new",  "female", "age"))
 				)
 
 models <- 
@@ -18,84 +17,55 @@ models <-
 names(models) <- map(model.vars, ~ {
 					var <- .x[1]
 					if (length(.x) ==2) var <- paste0(var, ".plate")
-					if (length(.x) ==4) var <- paste0(var, ".fulladj")
+					if (length(.x) ==3) var <- paste0(var, ".fulladj")
 					var
 				})
 names(models) <- paste(project, names(models), sep = ".")
-
 ## > models
-## $pleural.infect.fct
+## $`pleural-16x-dilution01.infect.fct`
 ## methylation ~ infect.fct
-## <environment: 0x155e98ed8>
+## <environment: 0x35f231350>
 ## 
-## $pleural.infect.num
+## $`pleural-16x-dilution01.infect.num`
 ## methylation ~ infect.num
-## <environment: 0x155ea3d58>
+## <environment: 0x35f2398c8>
 ## 
-## $pleural.infect.bi
+## $`pleural-16x-dilution01.infect.bi`
 ## methylation ~ infect.bi
-## <environment: 0x1570f22b0>
+## <environment: 0x35f4cb638>
 ## 
-## $pleural.comp.out
+## $`pleural-16x-dilution01.comp.out`
 ## methylation ~ comp.out
-## <environment: 0x1570fb548>
+## <environment: 0x35f4cdbc0>
 ## 
-## $pleural.infect.bi.new
+## $`pleural-16x-dilution01.infect.bi.new`
 ## methylation ~ infect.bi.new
-## <environment: 0x1570fe8d0>
+## <environment: 0x35f4d4250>
 ## 
-## $pleural.female
+## $`pleural-16x-dilution01.female`
 ## methylation ~ female
-## <environment: 0x157105b68>
+## <environment: 0x35f4dc950>
 ## 
-## $pleural.age
+## $`pleural-16x-dilution01.age`
 ## methylation ~ age
-## <environment: 0x15710aef0>
+## <environment: 0x35f4e6100>
 ## 
-## $pleural.infect.fct.plate
-## methylation ~ infect.fct + plate
-## <environment: 0x15710e278>
+## $`pleural-16x-dilution01.infect.fct.fulladj`
+## methylation ~ infect.fct + female + age
+## <environment: 0x35f4ecae8>
 ## 
-## $pleural.infect.num.plate
-## methylation ~ infect.num + plate
-## <environment: 0x1571153c0>
+## $`pleural-16x-dilution01.infect.num.fulladj`
+## methylation ~ infect.num + female + age
+## <environment: 0x35f4f93b0>
 ## 
-## $pleural.infect.bi.plate
-## methylation ~ infect.bi + plate
-## <environment: 0x1571185f8>
+## $`pleural-16x-dilution01.infect.bi.fulladj`
+## methylation ~ infect.bi + female + age
+## <environment: 0x35f4fdc78>
 ## 
-## $pleural.comp.out.plate
-## methylation ~ comp.out + plate
-## <environment: 0x157121740>
+## $`pleural-16x-dilution01.comp.out.fulladj`
+## methylation ~ comp.out + female + age
+## <environment: 0x35f504340>
 ## 
-## $pleural.infect.bi.new.plate
-## methylation ~ infect.bi.new + plate
-## <environment: 0x155f1e378>
-## 
-## $pleural.female.plate
-## methylation ~ female + plate
-## <environment: 0x155f254c0>
-## 
-## $pleural.age.plate
-## methylation ~ age + plate
-## <environment: 0x155f286f8>
-## 
-## $pleural.infect.fct.fulladj
-## methylation ~ infect.fct + female + age + plate
-## <environment: 0x155f31840>
-## 
-## $pleural.infect.num.fulladj
-## methylation ~ infect.num + female + age + plate
-## <environment: 0x155f347d8>
-## 
-## $pleural.infect.bi.fulladj
-## methylation ~ infect.bi + female + age + plate
-## <environment: 0x155f3b680>
-## 
-## $pleural.comp.out.fulladj
-## methylation ~ comp.out + female + age + plate
-## <environment: 0x155f3e618>
-## 
-## $pleural.infect.bi.new.fulladj
-## methylation ~ infect.bi.new + female + age + plate
-## <environment: 0x155f474c0>
+## $`pleural-16x-dilution01.infect.bi.new.fulladj`
+## methylation ~ infect.bi.new + female + age
+## <environment: 0x35f50a998>
