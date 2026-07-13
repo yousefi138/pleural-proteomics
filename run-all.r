@@ -50,17 +50,6 @@ project <- "pleural-dilution-series"
 file <- "GB390725-RB_dilutionseries_Extended_2026-05-07.csv"
 source("proteins.r", echo=T, max.deparse.length = 500)
 
-## clean raw olink PLEURAL protein data from DILUTIONSERIES
-## in: "RB_1_16_Extended_2026"
-## out: "pleural-16x-dilution-run1/metaboprep_export/.",
-##      "pleural-16x-dilution01_metaboprep_qc_report.html",
-##      "pleural-16x-dilution01_metaboprep_qc_report.log",
-##      eval.ret("prot.mat.pleural-16x-dilution01"), 
-##      eval.ret("annot.pleural-16x-dilution01"), 
-##      eval.ret("batch.pleural-16x-dilution01")
-project <- "pleural-16x-dilution01"
-file <- "GB390725-RB_1_16_Extended_2026-07-06.csv"
-source("proteins.r", echo=T, max.deparse.length = 500)
 
 ## clean raw pheno data
 ## in: "Proteomics Infection and Controls 10.11.25.xlsx"
@@ -152,3 +141,26 @@ source("for-olink.r", echo=T, max.deparse.length = 500)
 packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)
 render("dilution-series-qc.rmd", output_format = "html_document", output_dir = "docs")
+
+
+
+
+## clean raw olink PLEURAL protein data from DILUTIONSERIES
+## in: "RB_1_16_Extended_2026"
+## out: "pleural-16x-dilution-run1/metaboprep_export/.",
+##      "pleural-16x-dilution01_metaboprep_qc_report.html",
+##      "pleural-16x-dilution01_metaboprep_qc_report.log",
+##      eval.ret("prot.mat.pleural-16x-dilution01"), 
+##      eval.ret("annot.pleural-16x-dilution01"), 
+##      eval.ret("batch.pleural-16x-dilution01")
+project <- "pleural-16x-dilution01"
+file <- "GB390725-RB_1_16_Extended_2026-07-06.csv"
+# original results had '_16' at the end of the sample ID 
+# that I had to drop to match with pheno data
+tmp <- data.table::fread(file.path(paths$data, file))
+tmp$SampleID <- sub("_16", "", tmp$SampleID)
+data.table::fwrite(tmp, 
+	file = file.path(paths$data, paste0(sub("\\.csv", "", file), "-id-fix.csv")))
+file <- paste0(sub("\\.csv", "", file), "-id-fix.csv")
+source("proteins.r", echo=T, max.deparse.length = 500)
+
