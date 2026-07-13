@@ -164,3 +164,25 @@ data.table::fwrite(tmp,
 file <- paste0(sub("\\.csv", "", file), "-id-fix.csv")
 source("proteins.r", echo=T, max.deparse.length = 500)
 
+## run pwas
+## in: eval.ret("pheno")
+##      eval.ret(paste("prot.mat", project, sep="."))
+##      eval.ret(paste("batch", project, sep="."))
+##      protein.summary.r, report.rmd
+## out: rendered output in docs/ for each model run 
+project <- "pleural-16x-dilution01"
+source("pwas.r", echo=T, max.deparse.length = 500)
+
+## summarise pwas associations
+##  in: eval.ret(paste("ret", project, sep="."))
+## 		eval.ret("pheno")
+## 		eval.ret(paste("batch", project, sep="."))
+## 		annot <- eval.ret(paste("annot", project, sep="."))
+##		prot.mat <- eval.ret(paste("ret", project, sep="."))
+##	out: pleural-analysis.html
+project <- "pleural-16x-dilution01"
+output <- paste(project, "analysis.html", sep="-")
+packages <- c("rmarkdown", "knitr")
+lapply(packages, require, character.only=T)
+source(file.path(paths$scripts, "R/kable_my_defaults.r")) # couldn't figure out how to render in the doc
+render("analysis.rmd", output_file = output, output_format = "html_document", output_dir = "docs")
