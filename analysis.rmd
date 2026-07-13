@@ -92,6 +92,15 @@ Number of bonferroni (p< 0.05/92) and fdr adjusted (fdr p < 0.05) hits per model
 top
 ```
 
+## IL6 results
+
+```{r il6}
+```
+
+```{r, results='asis'}
+il6
+```
+
 ## Gene-annotated volcano plots
 
 ```{r vol.lab}

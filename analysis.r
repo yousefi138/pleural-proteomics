@@ -91,6 +91,15 @@ top <- map(ret.anot, ~{
         kable(digits = 3)
 })
 
+## ----il6 -------------------------------------------------------------
+il6 <- map(ret.anot, ~{
+    ids <- "OID00482" # olinkid for il6
+    idx <- which(.x$ret$table$feature_id %in% ids)
+    .x$ret$table[idx, ] |>
+        mutate(across(contains("p."), ~format(., scientific = TRUE))) |>
+        kable(digits = 3)
+})
+
 ## ----vol.lab -------------------------------------------------------------
 xi <- paste(project, c("infect.num.fulladj", "infect.bi.fulladj", 
         "comp.out.fulladj", "infect.bi.new.fulladj"), sep=".")
