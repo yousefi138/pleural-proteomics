@@ -45,10 +45,6 @@ This project to verify whether 16x is still an appropriate/optimal dilution conc
 
 IL6 is our highest priority target as well as the one protein where we have independent gold standard ELISA data for comparison in matched pleural and serum samples. 
 
-## Design
-
-Counts samples by the different dilution fractions used in the experiment are shown below:
-
 ```{r globals, results = 'hide', echo=F }
 ```
 
@@ -58,23 +54,21 @@ Counts samples by the different dilution fractions used in the experiment are sh
 ```{r load.elisa}
 ```
 
-```{r access.pheno}
-```
-```{r dilutions}
+```{r il6}
 ```
 
-`patient.ids` included on this plate:
-
-```{r dilution.ids, echo = T}
-```
-# Assessment QC variables and observed distrobutions
+# QC of all measured proteins
 
 ## Frequency below LOD by dilution condition
 
 The bar chart below shows, for each protein, the number of measurements falling below the limit of detection (LOD) at each dilution level. Proteins are ordered by their total count of below-LOD values. A high frequency of below-LOD measurements at a given dilution suggests that the sample concentration may be too low for reliable quantification of that protein.
 
+### All proteins
+
 ```{r lod, fig.width = 10, fig.height = 20}
 ```
+
+### High priority proteins
 
 Subset to our 10 high priority proteins
 
@@ -97,29 +91,17 @@ Distributions of NPX by dilution for all remaining assays not in the priority se
 ```{r dist-other, fig.width = 15, fig.height = 80}
 ```
 
-# Correlation across dilution conditions for IL6
+# Correlation with ELISA IL6
 
-To assess measurement consistency across dilution levels, Pearson correlations were computed for each protein between every pair of dilution conditions. For each pair, only individuals with measurements at both dilution levels were included. 
+Number of samples with paired ELISA IL6 measurements:
 
-The table below summarises the median and mean per-protein correlation for each dilution pair, along with the number of individuals and proteins contributing to each comparison.
-
-```{r il6-dilution-correlations, results = 'asis'}
+```{r count}
 ```
 
-# Pairwise dilution scatter plots for selected proteins
+## Linear trendlines
 
-To investigate how individual protein measurements track across dilution levels, scatter plots are shown below for a panel of ten biologically relevant proteins: IL-6, TNF, IL-8, uPA, CXCL1, IFN-γ, CXCL5, IL-17A, IL-1α, and CCL20. These proteins were selected a priori as the key protein targets to have in assay range.
-
-For each protein, every pairwise combination of dilution levels is displayed as a separate panel. Each point represents one individual, with the x- and y-axes showing the NPX value at the two dilution levels being compared. The blue line shows the ordinary least-squares linear fit; the dashed grey line is the identity line (y = x), indicating perfect agreement. The Pearson correlation coefficient (r) is annotated in the top-left corner of each panel.
-
-```{r dilution-scatter-fn, echo = FALSE}
-```
-
-```{r dilution-scatter-il6, results = 'asis'}
+```{r lm, echo=F, fig.width = 10, fig.height = 10}
 ```
 
 
 
-
-
-# Conclusions
