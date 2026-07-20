@@ -1,0 +1,224 @@
+---
+title: "Pleural protein dilution series"
+subtitle: "Results from Olink Target 96 Inflammation panel"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+author: Paul Yousefi
+output:
+  html_document:
+    css: docs/style.css
+    toc: true
+    highlight: tango
+---
+
+```{r setoptions, eval = TRUE, echo = FALSE}
+knitr::opts_chunk$set(
+comment = ">",
+error = FALSE,
+tidy = FALSE,
+echo = F, 
+warning = FALSE, 
+message = FALSE,
+cache=FALSE)
+```
+
+```{r call_source, echo = F}
+path <- "."
+sourcecode <- grep("dilution-series-qc.r$", 
+	list.files(path), value = T)
+read_chunk(file.path(path, sourcecode))
+```
+
+# Background 
+
+Some proteins in our previous pleural fluid Olink Target 96 Inflammation pannel analysis (""GB390725-RB_pleural fluid_NPX.csv") were observed to be outside the dynamic range of this assay. In particular, we were most confident in this behaviour for the IL6 protein abundance data, as we had independent high quality ELISA data from these same samples which showed poor correlation with the Olink measures. We think that this poor correlation was driven by the IL6 levels in our pleural samples being greatly above the dynamic range of the Olink assay.
+
+To assess whether our pleural protein abundances are within the dynamic range of the olink assay, we have re-run a subset of 16 samples from previous pleural fluid olink inflammation analysis (""GB390725-RB_pleural fluid_NPX.csv") at several different concentration dilutions.
+
+## Purpose
+
+
+This project aims to determine the optimal dilution concentration for future olink assays of pleural fluid. As it may not be possible for all Olink Target 96 Inflammation pannel protein targets to be in range, we have a set of 10 key highest priority protein targets where we would like the assay to demonstrate good performance:
+
+> IL-6, TNF, IL-8, uPA, CXCL1, IFN-γ, CXCL5, IL-17A, IL-1α, and CCL20
+
+IL6 is our highest priority target as well as the one protein where we have independent gold standard ELISA data for comparison in matched pleural and serum samples. 
+
+## Design
+
+Counts samples by the different dilution fractions used in the experiment are shown below:
+
+```{r globals, results = 'hide', echo=F }
+```
+
+```{r load.olink}
+```
+
+```{r visual-qc}
+```
+
+```{r load.elisa}
+```
+
+```{r access.pheno}
+```
+```{r dilutions}
+```
+
+`patient.ids` in each dilution:
+
+```{r dilution.ids, echo = T}
+```
+# Assessment QC variables and observed distrobutions
+
+## Frequency below LOD by dilution condition
+
+The bar chart below shows, for each protein, the number of measurements falling below the limit of detection (LOD) at each dilution level. Proteins are ordered by their total count of below-LOD values. A high frequency of below-LOD measurements at a given dilution suggests that the sample concentration may be too low for reliable quantification of that protein.
+
+```{r lod, fig.width = 10, fig.height = 20}
+```
+
+Subset to our 10 high priority proteins
+
+```{r lod.sub, fig.width = 10, fig.height = 20}
+```
+
+## Observed NPX distribution by assay/protein and dilution
+
+### High priority proteins
+
+Distributions of NPX for the same protein subset, grouped by assay and dilution.
+
+```{r dist-subset, fig.width = 15, fig.height = 20}
+```
+
+### All remaining proteins
+
+Distributions of NPX by dilution for all remaining assays not in the priority set.
+
+```{r dist-other, fig.width = 15, fig.height = 80}
+```
+
+### All proteins with distribution statistics
+
+Distributions of NPX by dilution for all assays. Each panel shows violin and box plots for all dilution levels. Annotated on each dilution are three statistics:
+
+- **MAD**: the median absolute deviation of NPX values at that dilution, a robust measure of spread.
+- **rel**: the MAD expressed as a ratio relative to the maximum MAD observed across the non-zero (i.e. diluted) levels for that assay. A value of 1.0 indicates the dilution with the greatest spread among diluted samples; values above 1.0 can occur for the undiluted (dilution = 0) level if it exceeds that maximum.
+- **deviation from overall i.e. |all−dil|/|all|**: the absolute deviation of the assay's overall median (computed as the median of dilution-level medians) from the dilution-specific median, expressed as a proportion of the absolute value of that overall median. Both numerator and denominator are taken as absolute values to ensure the ratio is always non-negative. Smaller values indicate the dilution sits closer to the assay's central level; larger values indicate greater departure in either direction.
+
+```{r dist-stats, fig.width = 30, fig.height = 400}
+```
+
+### Summary table
+
+The table below summarises, for each dilution, the sum of MAD ratios and the sum of 'deviation from overall' across all assays and restricted to the high-priority proteins. For MAD ratios, higher sums indicate dilutions where assays collectively retain more of their maximum spread. For 'deviation from overall', smaller sums indicate dilutions where assays collectively sit closer to their overall central level.
+
+```{r mad-ratio-table, results = 'asis'}
+```
+
+### Visual inspection of distribution plots
+
+Realising the best assessment of assay performance was visual inspection of the distribution plots and that  none of the above calculated stats were really sufficient, I manually scored all distributions by eye. 
+
+My assessment was limited to the 16x and 64x dilutions. For all plots, I indicated where either dilution's distribution:
+
+- Was ok / looked acceptable 
+- Was the best of all available dilutions
+	- When I couldn't distinguish between 16x and 64x assays being 'best' I said they both were
+
+Some assays appeared poorly across all dilutions and these were given '0' across all categories
+
+```{r vis.table}
+```
+
+#### Priority proteins
+
+Priority proteins visually scored as `best`:
+
+```{r target.table.pr.best}
+```
+
+Priority proteins visually scored as `ok`:
+
+```{r target.table.pr.ok}
+```
+
+#### All proteins
+
+All proteins visually scored as `best`:
+
+```{r target.table.all.best}
+```
+
+All proteins visually scored as `ok`:
+
+```{r target.table.all.ok}
+```
+
+# Correlation across dilution conditions for all proteins
+
+To assess measurement consistency across dilution levels, Pearson correlations were computed for each protein between every pair of dilution conditions. For each pair, only individuals with measurements at both dilution levels were included. 
+
+The table below summarises the median and mean per-protein correlation for each dilution pair, along with the number of individuals and proteins contributing to each comparison.
+
+```{r dilution-pair-correlations, results = 'asis'}
+```
+
+The violin and box plot below shows the full distribution of per-protein correlations for each dilution pair.
+
+```{r dilution-pair-correlations-plot, fig.width = 8, fig.height = 5}
+```
+
+# Pairwise dilution scatter plots for selected proteins
+
+To investigate how individual protein measurements track across dilution levels, scatter plots are shown below for a panel of ten biologically relevant proteins: IL-6, TNF, IL-8, uPA, CXCL1, IFN-γ, CXCL5, IL-17A, IL-1α, and CCL20. These proteins were selected a priori as the key protein targets to have in assay range.
+
+For each protein, every pairwise combination of dilution levels is displayed as a separate panel. Each point represents one individual, with the x- and y-axes showing the NPX value at the two dilution levels being compared. The blue line shows the ordinary least-squares linear fit; the dashed grey line is the identity line (y = x), indicating perfect agreement. The Pearson correlation coefficient (r) is annotated in the top-left corner of each panel.
+
+```{r dilution-scatter-fn, echo = FALSE}
+```
+
+```{r dilution-scatter-il6, fig.width = 12, fig.height = 20, results = 'asis'}
+```
+
+```{r dilution-scatter-plots, fig.width = 12, fig.height = 16, results = 'asis'}
+```
+
+# NPX linearity check
+
+For a protein that is within the assay's dynamic range, the NPX value should drop by exactly log2(dilution fold-ratio) between adjacent dilution steps. Because all adjacent pairs here represent a 4-fold dilution step, the expected NPX shift is log2(4) = 2 units. The plots below show the distribution of observed shifts (across individuals) for each adjacent dilution pair, with the expected shift shown as a red dashed reference line.
+
+A protein whose observed shift is consistently **above** the reference line at a low-dilution step is likely above the assay's dynamic range (saturated) at the lower dilution. A protein whose observed shift is **below** the reference line, or negative, is likely approaching or below the LOD at the higher dilution.
+
+## High priority proteins
+
+```{r linearity-check, fig.width = 10, fig.height = 16}
+```
+
+## All remaining proteins
+
+```{r linearity-check-all, fig.width = 14, fig.height = 60}
+```
+
+# Conclusions
+
+## Limit of detection
+
+- At higher dilution levels, an increasing number of proteins fall below the assay limit of detection (LOD).
+- This creates a fundamental trade-off: sufficient dilution is needed to bring high-abundance proteins (most notably IL-6) within the assay's dynamic range, but excessive dilution risks censoring lower-abundance proteins below the LOD, resulting in loss of quantitative information for those targets.
+
+## Correlation across dilution conditions
+
+- Measurements at adjacent dilution levels are highly concordant: median per-protein Pearson r = 0.97 (0× vs 4×) and 0.94 (4× vs 16×).
+- Correlation degrades systematically as the dilution gap widens — median r falls to 0.79 for 0× vs 64×, 0.56 for 0× vs 256×, and 0.46 for 0× vs 1025×.
+- This decay suggests that at more extreme dilutions, the rank-ordering of proteins across individuals breaks down, likely reflecting a combination of LOD censoring and increased assay noise at low analyte concentrations.
+- The undiluted condition is likely outside the dynamic range for high-abundance proteins such as IL-6, while very high dilutions (256× and above) compromise quantification of lower-abundance targets.
+- The moderate dilution range — most plausibly 4× to 16× — represents a good candidate window for balancing these competing considerations, though the selected recommendation should be grounded in the protein-specific scatter plots and ELISA comparisons for the 10 priority targets.
+	- For IL6, it looks like the 64x dilution is required to capture the full dynamic range observed in our current sample
+
+## NPX linearity check
+
+- Under perfect assay linearity, each 4-fold dilution step should reduce NPX by log2(4) = 2 units. Observed shifts consistently above this line at a given step indicate saturation (protein above the dynamic range) at the lower dilution; shifts consistently below it indicate approach towards the LOD at the higher dilution.
+- Several high-priority proteins (most notably IL-6) show observed shifts substantially above the expected 2-unit reference at the 0× → 4× and 4× → 16× steps, confirming that these proteins are above the assay's dynamic range in undiluted and lightly diluted pleural fluid.
+- At the higher dilution steps (64× → 256× and 256× → 1025×), an increasing number of proteins show sub-expected or negative shifts, consistent with signal loss approaching the LOD.
+- The linearity check results reinforce the LOD and correlation findings: the 16× to 64× range represents the most plausible window where the majority of priority proteins are within the assay's dynamic range
