@@ -160,8 +160,8 @@ file <- "GB390725-RB_1_16_Extended_2026-07-06.csv"
 tmp <- data.table::fread(file.path(paths$data, file))
 tmp$SampleID <- sub("_16", "", tmp$SampleID)
 data.table::fwrite(tmp, 
-	file = file.path(paths$data, paste0(sub("\\.csv", "", file), "-id-fix.csv")))
-file <- paste0(sub("\\.csv", "", file), "-id-fix.csv")
+	file = file.path(paths$data, "GB390725-RB_1_16_Extended_2026-07-06-id-fix.csv"))
+file <- "GB390725-RB_1_16_Extended_2026-07-06-id-fix.csv"
 source("proteins.r", echo=T, max.deparse.length = 500)
 
 ## run pwas
@@ -186,3 +186,14 @@ packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)
 source(file.path(paths$scripts, "R/kable_my_defaults.r")) # couldn't figure out how to render in the doc
 render("analysis.rmd", output_file = output, output_format = "html_document", output_dir = "docs")
+
+## Compare results of pleural dilution series
+## in: eval.ret("pheno")
+##		project <- "pleural-dilution-series"
+##      eval.ret(paste("prot.mat", project, sep="."))
+##	out: dilution-series-qc.html
+packages <- c("rmarkdown", "knitr")
+lapply(packages, require, character.only=T)
+render("qc-16x-dilution01.rmd", output_format = "html_document", output_dir = "docs")
+
+

@@ -7,17 +7,15 @@ eval.save.dir(dir$cache)
 
 ## ----load.olink -------------------------------------------------------------
 
-## load proetins
-prot <- eval.ret(paste("prot.mat", "pleural-dilution-series", sep="."))
-
 ## read in the raw olink results so I can get LOD information
 olink <- as.data.frame(data.table::fread(
 			file.path(dir$data, 
-			"GB390725-RB_dilutionseries_Extended_2026-05-07.csv"))) 
+			"GB390725-RB_1_16_Extended_2026-07-06.csv"))) 
 colnames(olink) <- colnames(olink) |>
 					make.names()|>
 					tolower()
-olink <- as_tibble(olink)
+olink <- as_tibble(olink) |>
+			filter(!grepl("CONTROL", sampleid))
 olink <- olink |>
 			mutate(patient.id     = sub("_.*", "", sampleid),
 				dilution = ifelse(grepl("_", sampleid), sub(".*_", "", sampleid), 0)) |>
@@ -25,36 +23,11 @@ olink <- olink |>
 				levels = sort(unique(as.numeric(dilution)))))
 
 ## create dilution series lookup table
-raw <- data.frame(sampleid = colnames(prot)) |>
+raw <- data.frame(sampleid = unique(olink$sampleid)) |>
 	mutate(
 	patient.id     = sub("_.*", "", sampleid),
 	dilution = ifelse(grepl("_", sampleid), sub(".*_", "", sampleid), 0)
 	)
-
-## ----visual.qc.template -------------------------------------------------------------
-#olink |>
-#	select(assay) |>
-#	arrange(assay) |>
-#	filter(!duplicated(assay))|>
-#	mutate(best_d16 = 0,
-#			best_d64 = 0,
-#			ok_d16 = 0,
-#			ok_d64 = 0
-#	) |>
-#	data.table::fwrite(
-#			file.path(dir$scripts, "data",  
-#			"visual-qc-template.csv"))
-
-## ----visual-qc -------------------------------------------------------------
-vis <- data.table::fread(
-			file.path(dir$scripts, "data",  
-			"visual-qc.csv")) |>
-		pivot_longer(
-			cols      = c(best_d16, best_d64, ok_d16, ok_d64),
-			names_to  = c(".value", "dilution"),
-			names_sep = "_"
-		) |>
-		mutate(dilution = factor(dilution, levels = c("d16", "d64")))
 
 ## ----load.elisa -------------------------------------------------------------
 ## load raw clincal phenotype info 
@@ -92,14 +65,12 @@ pheno.long <- raw |>
 				levels = sort(unique(as.numeric(dilution)))))
 
 ## ----dilutions -------------------------------------------------------------
+unique(pheno.long$patient.id)
+
+## ----dilutions -------------------------------------------------------------
 pheno.long |>
 	count(dilution) |>
 	kable()
-
-## ----dilution.ids -------------------------------------------------------------
-pheno.long |>
-	split(pheno.long$dilution) |>
-	map(~ .x$patient.id)
 
 ## ----lod -------------------------------------------------------------
 qc <- 
@@ -179,205 +150,49 @@ olink |>
 	)
 
 
-## ---- dist-stats -------------------------------------------------------------
-mad_stats <- olink |>
-	filter(dilution != "elisa_serum" & dilution != "elisa_pleural") |>
-	group_by(assay, dilution) |>
-	summarise(
-		mad        = mad(npx, na.rm = TRUE),
-		median_dil = median(npx, na.rm = TRUE),
-		.groups = "drop"
-	) |>
-	group_by(assay) |>
-	mutate(
-		mad_ratio    = mad / max(mad[dilution != "0"], na.rm = TRUE),
-		median_all   = median(median_dil, na.rm = TRUE),
-		median_ratio = abs(median_all - median_dil) / abs(median_all),
-		label        = paste0(
-			"MAD=",    round(mad, 2),
-			"\nrel=",  round(mad_ratio, 2),
-			"\nmedian_dil=",  round(median_dil, 2),
-			"\nmedian_all=",  round(median_all, 2),
-			"\noverall=", round(median_ratio, 2)
-		)
-	) |>
-	ungroup()
+## ---- il6-dilution-correlations -------------------------------------------------
 
-olink |>
-	filter(dilution != "elisa_serum" & dilution != "elisa_pleural") |>
-	ggplot(aes(x = dilution, y = npx, fill = dilution)) +
-	geom_violin(alpha = 0.5, colour = NA) +
-	geom_boxplot(width = 0.15, outlier.size = 0.5, fill = "white", colour = "grey30") +
-	geom_text(
-		data        = mad_stats,
-		aes(x = dilution, y = Inf, label = label),
-		vjust       = 1.1,
-		size        = 6,
-		colour      = "grey30",
-		inherit.aes = FALSE
-	) +
-	facet_wrap(~ assay, scales = "free_y", ncol = 2) +
-	labs(x = "Dilution", y = "NPX", fill = "Dilution") +
-	theme_bw() +
-	theme(
-		legend.position = "bottom",
-		axis.text.x     = element_text(angle = 45, hjust = 1),
-		strip.text.x    = element_text(size = 7)
-	)
+# Calculate pairwise correlations between IL6 dilution levels
+il6_data <- olink |>
+  filter(assay == "IL6") 
 
-## ---- mad-ratio-table -------------------------------------------------------------
-mad_ratio_all <- mad_stats |>
-	group_by(dilution) |>
-	summarise(
-		sum_mad_ratio    = sum(mad_ratio,    na.rm = TRUE),
-		sum_median_ratio = sum(median_ratio, na.rm = TRUE),
-		.groups = "drop"
-	)
-
-mad_ratio_priority <- mad_stats |>
-	filter(assay %in% proteins) |>
-	group_by(dilution) |>
-	summarise(
-		sum_mad_ratio    = sum(mad_ratio,    na.rm = TRUE),
-		sum_median_ratio = sum(median_ratio, na.rm = TRUE),
-		.groups = "drop"
-	)
-
-left_join(mad_ratio_all, mad_ratio_priority,
-		  by = "dilution",
-		  suffix = c(".all", ".priority")) |>
-	arrange(dilution) |>
-	select(dilution,
-		   sum_mad_ratio.all, sum_mad_ratio.priority,
-		   sum_median_ratio.all, sum_median_ratio.priority) |>
-	kable(digits = 3,
-		  col.names = c("Dilution",
-		  				"Sum MAD ratio (all)", "Sum MAD ratio (priority)",
-		  				"Sum deviation from overall (all)", "Sum deviation from overall (priority)"))
-
-## ----vis.table -------------------------------------------------------------
-vis <- vis|>
-		mutate(priority = sign(assay %in% proteins))
-all <- 
-	vis |>
-		group_by(dilution)|>
-		summarise(best_all = sum(best), 
-				ok_all = sum(ok))
-priority <- 
-	vis |>
-		filter(priority==1)|>
-		group_by(dilution)|>
-		summarise(best_priority = sum(best), 
-				ok_priority = sum(ok))
-
-left_join(all, priority)|>
-	kable()
-
-## ----target.table.pr.best -------------------------------------------------------------
-vis |>
-	filter(priority == 1, best == 1) |>
-	group_by(dilution) |>
-	summarise(assays = paste(sort(assay), collapse = ", "), .groups = "drop") |>
-	kable()
-
-## ----target.table.pr.ok -------------------------------------------------------------
-vis |>
-	filter(priority == 1, ok == 1) |>
-	group_by(dilution) |>
-	summarise(assays = paste(sort(assay), collapse = ", "), .groups = "drop") |>
-	kable()
-
-## ----target.table.all.best -------------------------------------------------------------
-vis |>
-	filter(best == 1) |>
-	group_by(dilution) |>
-	summarise(assays = paste(sort(assay), collapse = ", "), .groups = "drop") |>
-	kable()
-
-## ----target.table.all.ok -------------------------------------------------------------
-vis |>
-	filter(ok == 1) |>
-	group_by(dilution) |>
-	summarise(assays = paste(sort(assay), collapse = ", "), .groups = "drop") |>
-	kable()
-
-## ---- dilution-pair-correlations -------------------------------------------------------------
-
-# All pairwise combinations of dilution levels
-dilution_levels <- levels(pheno.long$dilution)
+dilution_levels <- levels(il6_data$dilution)
 dil_pairs <- combn(dilution_levels, 2, simplify = FALSE)
 
 cor_df <- bind_rows(lapply(dil_pairs, function(pair) {
   d1 <- pair[1]; d2 <- pair[2]
 
   # Individuals present at both dilutions
-  patients_d1 <- pheno.long |> filter(dilution == d1) |> pull(patient.id)
-  patients_d2 <- pheno.long |> filter(dilution == d2) |> pull(patient.id)
+  patients_d1 <- il6_data |> filter(dilution == d1) |> pull(patient.id)
+  patients_d2 <- il6_data |> filter(dilution == d2) |> pull(patient.id)
   common_patients <- intersect(patients_d1, patients_d2)
 
-  # Sample IDs for common patients, ordered identically so columns align
-  s1 <- pheno.long |>
+  # Get NPX values for common patients at each dilution
+  df1 <- il6_data |>
     filter(dilution == d1, patient.id %in% common_patients) |>
-    arrange(patient.id) |> pull(sampleid)
-  s2 <- pheno.long |>
+    arrange(patient.id) |>
+    select(patient.id, npx1 = npx)
+  df2 <- il6_data |>
     filter(dilution == d2, patient.id %in% common_patients) |>
-    arrange(patient.id) |> pull(sampleid)
+    arrange(patient.id) |>
+    select(patient.id, npx2 = npx)
 
-  mat1 <- prot[, s1, drop = FALSE]
-  mat2 <- prot[, s2, drop = FALSE]
-
-  # Per-protein Pearson r across shared individuals
-  r_vec <- vapply(rownames(prot), function(pid) {
-    x <- as.numeric(mat1[pid, ])
-    y <- as.numeric(mat2[pid, ])
-    if (sum(complete.cases(x, y)) < 3L) return(NA_real_)
-    cor(x, y, use = "pairwise.complete.obs", method = "pearson")
-  }, numeric(1L))
+  pair_data <- inner_join(df1, df2, by = "patient.id")
 
   data.frame(
     dilution1 = d1,
     dilution2 = d2,
     pair      = paste(d1, "vs", d2),
-    protein   = names(r_vec),
-    r         = r_vec,
-    n         = length(common_patients),
+    r         = cor(pair_data$npx1, pair_data$npx2, use = "pairwise.complete.obs"),
+    n         = nrow(pair_data),
     stringsAsFactors = FALSE
   )
 }))
 
-# Summary: median r per dilution pair
-cor_summary <- cor_df |>
-  group_by(pair, dilution1, dilution2, n) |>
-  summarise(
-    median_r = median(r, na.rm = TRUE),
-    mean_r   = mean(r,   na.rm = TRUE),
-    n_prot   = sum(!is.na(r)),
-    .groups  = "drop"
-  )
+cor_df |>
+  arrange(desc(r)) |>
+  kable(digits = 3, col.names = c("Dilution 1", "Dilution 2", "Pair", "Pearson r", "N individuals"))
 
-cor_summary |>
-  arrange(desc(mean_r)) |>
-  kable(digits = 3, col.names = c("Pair", "Dilution 1", "Dilution 2", "N individuals", "Median r", "Mean r", "N proteins"))
-
-## ---- dilution-pair-correlations-plot -------------------------------------------------------------
-
-pair_order <- cor_summary |> arrange(desc(median_r)) |> pull(pair)
-cor_df <- cor_df |> mutate(pair = factor(pair, levels = pair_order))
-
-p_dil_cor <- ggplot(cor_df, aes(x = pair, y = r)) +
-  geom_violin(fill = "steelblue", alpha = 0.4, colour = NA) +
-  geom_boxplot(width = 0.15, outlier.size = 0.5) +
-  geom_hline(yintercept = 1, linetype = "dashed", colour = "grey40") +
-  scale_y_continuous(limits = c(-1, 1), breaks = seq(-1, 1, 0.25)) +
-  labs(
-    title = "Per-protein correlation between dilution levels",
-    x     = "Dilution pair",
-    y     = "Pearson r (across individuals)"
-  ) +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-p_dil_cor
 
 ## ---- dilution-scatter-fn -------------------------------------------------------------
 
@@ -442,115 +257,4 @@ dilution_scatter <- function(protein, olink) {
 
 ## ---- dilution-scatter-il6 -------------------------------------------------------------
 dilution_scatter("IL6", olink = olink)
-
-## ---- dilution-scatter-plots -------------------------------------------------------------
-proteins <- c("TNF", "IL8", "uPA", "CXCL1", "IFN-gamma", "CXCL5", "IL-17A", "IL-1 alpha", "CCL20")
-lapply(proteins, dilution_scatter, olink = olink)
-
-## ---- linearity-check -------------------------------------------------------------
-proteins10 <- c("IL6", "TNF", "IL8", "uPA", "CXCL1", "IFN-gamma", "CXCL5", "IL-17A", "IL-1 alpha", "CCL20")
-
-# Adjacent dilution pairs and their expected NPX shift (log2 of fold-ratio)
-# Undiluted is encoded as "0" in the data but represents a 1x factor
-adj_pairs <- list(
-	c("0",   "4"),
-	c("4",   "16"),
-	c("16",  "64"),
-	c("64",  "256"),
-	c("256", "1025")
-)
-
-dil_factor <- function(d) ifelse(d == "0", 1, as.numeric(d))
-
-linearity_df <- bind_rows(lapply(adj_pairs, function(pair) {
-	d1 <- pair[1]; d2 <- pair[2]
-	expected <- log2(dil_factor(d2) / dil_factor(d1))
-
-	df1 <- olink |>
-		filter(dilution == d1, assay %in% proteins10) |>
-		select(patient.id, assay, npx_d1 = npx)
-	df2 <- olink |>
-		filter(dilution == d2, assay %in% proteins10) |>
-		select(patient.id, assay, npx_d2 = npx)
-
-	inner_join(df1, df2, by = c("patient.id", "assay")) |>
-		mutate(
-			pair           = paste0(d1, "\u00d7 \u2192 ", d2, "\u00d7"),
-			observed_shift = npx_d1 - npx_d2,
-			expected_shift = expected
-		)
-}))
-
-# Ordered factor so panels appear in dilution sequence
-linearity_df <- linearity_df |>
-	mutate(pair = factor(pair, levels = unique(pair)))
-
-ggplot(linearity_df, aes(x = pair, y = observed_shift)) +
-	geom_hline(aes(yintercept = expected_shift), 
-			   linetype = "dashed", colour = "firebrick", linewidth = 0.7) +
-	geom_boxplot(fill = "steelblue", alpha = 0.4, outlier.size = 0.8) +
-	geom_jitter(width = 0.15, alpha = 0.4, size = 1) +
-	facet_wrap(~ assay, ncol = 2) +
-	labs(
-		x = "Adjacent dilution pair",
-		y = "Observed NPX shift (lower \u2212 higher dilution)",
-		caption = "Red dashed line = expected shift under perfect linearity (log2 of fold-ratio = 2 for all 4\u00d7 steps)"
-	) +
-	theme_bw() +
-	theme(
-		axis.text.x  = element_text(angle = 45, hjust = 1),
-		strip.text   = element_text(size = 8),
-		plot.caption = element_text(size = 7, colour = "grey40")
-	)
-
-## ---- linearity-check-all -------------------------------------------------------------
-# All proteins not in the 10 priority set
-proteins_other <- olink |>
-	filter(!dilution %in% c("elisa_serum", "elisa_pleural"),
-		   !assay %in% proteins10) |>
-	pull(assay) |>
-	unique() |>
-	sort()
-
-linearity_df_all <- bind_rows(lapply(adj_pairs, function(pair) {
-	d1 <- pair[1]; d2 <- pair[2]
-	expected <- log2(dil_factor(d2) / dil_factor(d1))
-
-	df1 <- olink |>
-		filter(dilution == d1, assay %in% proteins_other) |>
-		select(patient.id, assay, npx_d1 = npx)
-	df2 <- olink |>
-		filter(dilution == d2, assay %in% proteins_other) |>
-		select(patient.id, assay, npx_d2 = npx)
-
-	inner_join(df1, df2, by = c("patient.id", "assay")) |>
-		mutate(
-			pair           = paste0(d1, "\u00d7 \u2192 ", d2, "\u00d7"),
-			observed_shift = npx_d1 - npx_d2,
-			expected_shift = expected
-		)
-}))
-
-linearity_df_all <- linearity_df_all |>
-	mutate(pair = factor(pair, levels = unique(pair)))
-
-ggplot(linearity_df_all, aes(x = pair, y = observed_shift)) +
-	geom_hline(aes(yintercept = expected_shift),
-			   linetype = "dashed", colour = "firebrick", linewidth = 0.7) +
-	geom_boxplot(fill = "steelblue", alpha = 0.4, outlier.size = 0.8) +
-	geom_jitter(width = 0.15, alpha = 0.4, size = 1) +
-	facet_wrap(~ assay, ncol = 4) +
-	labs(
-		x = "Adjacent dilution pair",
-		y = "Observed NPX shift (lower \u2212 higher dilution)",
-		caption = "Red dashed line = expected shift under perfect linearity (log2 of fold-ratio = 2 for all 4\u00d7 steps)"
-	) +
-	theme_bw() +
-	theme(
-		axis.text.x  = element_text(angle = 45, hjust = 1),
-		strip.text   = element_text(size = 7),
-		plot.caption = element_text(size = 7, colour = "grey40")
-	)
-
-
 
