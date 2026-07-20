@@ -187,7 +187,7 @@ lapply(packages, require, character.only=T)
 source(file.path(paths$scripts, "R/kable_my_defaults.r")) # couldn't figure out how to render in the doc
 render("analysis.rmd", output_file = output, output_format = "html_document", output_dir = "docs")
 
-## Compare results of pleural dilution series
+## assess the qc of plate 1 run at 16x dilution 
 ## in: eval.ret("pheno")
 ##		project <- "pleural-dilution-series"
 ##      eval.ret(paste("prot.mat", project, sep="."))
@@ -195,5 +195,3 @@ render("analysis.rmd", output_file = output, output_format = "html_document", ou
 packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)
 render("qc-16x-dilution01.rmd", output_format = "html_document", output_dir = "docs")
-
-
