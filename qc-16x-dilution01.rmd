@@ -97,6 +97,14 @@ Distributions of NPX by dilution for all remaining assays not in the priority se
 ```{r dist-other, fig.width = 15, fig.height = 80}
 ```
 
+# Correlation across dilution conditions for IL6
+
+To assess measurement consistency across dilution levels, Pearson correlations were computed for each protein between every pair of dilution conditions. For each pair, only individuals with measurements at both dilution levels were included. 
+
+The table below summarises the median and mean per-protein correlation for each dilution pair, along with the number of individuals and proteins contributing to each comparison.
+
+```{r il6-dilution-correlations, results = 'asis'}
+```
 
 # Pairwise dilution scatter plots for selected proteins
 

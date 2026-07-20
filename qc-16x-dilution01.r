@@ -67,7 +67,7 @@ pheno.long <- raw |>
 ## ----dilutions -------------------------------------------------------------
 unique(pheno.long$patient.id)
 
-## ----dilutions -------------------------------------------------------------
+## ----dilution.ids -------------------------------------------------------------
 pheno.long |>
 	count(dilution) |>
 	kable()
@@ -256,5 +256,5 @@ dilution_scatter <- function(protein, olink) {
 }
 
 ## ---- dilution-scatter-il6 -------------------------------------------------------------
-dilution_scatter("IL6", olink = olink)
+dilution_scatter("IL6", olink = il6_data)
 
