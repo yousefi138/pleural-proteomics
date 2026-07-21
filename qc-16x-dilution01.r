@@ -30,7 +30,8 @@ colnames(elisa) <- colnames(elisa) |>
                 make.names()|>
                 tolower()
 elisa <- as_tibble(elisa) |>		
-            select(patient_id, pleural_il6, serum_il6)		
+            select(patient_id, pleural_il6, serum_il6) |>
+			mutate(log_pleural_il6 = log(pleural_il6))		
 str(elisa)
 
 ## ----il6 -------------------------------------------------------------
@@ -123,5 +124,5 @@ il6 |>
 
 ## ----lm -------------------------------------------------------------
 il6 |>
-    select(olink_il6, pleural_il6, serum_il6)|>
+    select(olink_il6, pleural_il6, serum_il6, log_pleural_il6)|>
 	ggpairs(lower = list(continuous = wrap("smooth", method = "lm")))
