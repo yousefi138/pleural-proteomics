@@ -193,5 +193,6 @@ render("analysis.rmd", output_file = output, output_format = "html_document", ou
 ##      eval.ret(paste("prot.mat", project, sep="."))
 ##	out: dilution-series-qc.html
 packages <- c("rmarkdown", "knitr")
+file <- "GB390725-RB_1_16_Extended_2026-07-06.csv"
 lapply(packages, require, character.only=T)
 render("qc-16x-dilution01.rmd", output_format = "html_document", output_dir = "docs")

@@ -10,7 +10,7 @@ eval.save.dir(dir$cache)
 ## read in the raw olink results so I can get LOD information
 olink <- as.data.frame(data.table::fread(
 			file.path(dir$data, 
-			"GB390725-RB_1_16_Extended_2026-07-06.csv"))) 
+			file))) 
 colnames(olink) <- colnames(olink) |>
 					make.names()|>
 					tolower()
