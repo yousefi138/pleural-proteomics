@@ -1,0 +1,111 @@
+---
+title: "Pleural protein 16x dilution plate 01"
+subtitle: "Results from Olink Target 96 Inflammation panel"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+author: Paul Yousefi
+output:
+  html_document:
+    css: docs/style.css
+    toc: true
+    highlight: tango
+---
+
+```{r setoptions, eval = TRUE, echo = FALSE}
+knitr::opts_chunk$set(
+comment = ">",
+error = FALSE,
+tidy = FALSE,
+echo = F, 
+warning = FALSE, 
+message = FALSE,
+cache=FALSE)
+```
+
+```{r call_source, echo = F}
+path <- "."
+sourcecode <- grep("qc-16x-dilution01.r$", 
+	list.files(path), value = T)
+read_chunk(file.path(path, sourcecode))
+```
+
+# Background 
+
+Some proteins in our previous pleural fluid Olink Target 96 Inflammation pannel analysis (""GB390725-RB_pleural fluid_NPX.csv") were observed to be outside the dynamic range of this assay. In particular, we were most confident in this behaviour for the IL6 protein abundance data, as we had independent high quality ELISA data from these same samples which showed poor correlation with the Olink measures. We think that this poor correlation was driven by the IL6 levels in our pleural samples being greatly above the dynamic range of the Olink assay.
+
+To assess whether our pleural protein abundances are within the dynamic range of the olink assay, we have re-run a subset of 16 samples from previous pleural fluid olink inflammation analysis (""GB390725-RB_pleural fluid_NPX.csv") at several different concentration dilutions.
+
+Based on these results summarised in [dilution-series-qc.html](https://yousefi138.github.io/pleural-proteomics/dilution-series-qc.html), we selected a 16x dilution and ran 1 plate of samples ("GB390725-RB_1_16_Extended_2026-07-06.csv") before running the assay on the entire sample set at 16x dilution. **Based on results in this run, [qc-16x-dilution01.html](https://yousefi138.github.io/pleural-proteomics/qc-16x-dilution01.html), we concluded that 16x dilution still wasn't sufficient to get IL6 in range. We decided to ask to re-run this plate at 64x.
+
+## Key update motivating THIS analysis
+
+**HOWEVER** the run 16x run of 1 plate ("GB390725-RB_1_16_Extended_2026-07-06.csv") was performed with a bad batch of Olink reagents. So, instead of re-running plate 1 with the 64x dilution as planned, we re-ran plate 1 with a 16x dilution on the assumption that maybe the bad performance we observed was due to the reagent batc.
+
+## Purpose
+
+
+This project to verify whether 16x is still an appropriate/optimal dilution concentration for future olink assays of pleural fluid. As it may not be possible for all Olink Target 96 Inflammation pannel protein targets to be in range, we have a set of 10 key highest priority protein targets where we would like the assay to demonstrate good performance:
+
+> IL-6, TNF, IL-8, uPA, CXCL1, IFN-γ, CXCL5, IL-17A, IL-1α, and CCL20
+
+IL6 is our highest priority target as well as the one protein where we have independent gold standard ELISA data for comparison in matched pleural and serum samples. 
+
+```{r globals, results = 'hide', echo=F }
+```
+
+```{r load.olink}
+```
+
+```{r load.elisa}
+```
+
+```{r il6}
+```
+
+# QC of all measured proteins
+
+## Frequency below LOD by dilution condition
+
+The bar chart below shows, for each protein, the number of measurements falling below the limit of detection (LOD) at each dilution level. Proteins are ordered by their total count of below-LOD values. A high frequency of below-LOD measurements at a given dilution suggests that the sample concentration may be too low for reliable quantification of that protein.
+
+### All proteins
+
+```{r lod, fig.width = 10, fig.height = 20}
+```
+
+### High priority proteins
+
+Subset to our 10 high priority proteins
+
+```{r lod.sub, fig.width = 10, fig.height = 20}
+```
+
+## Observed NPX distribution by assay/protein and dilution
+
+### High priority proteins
+
+Distributions of NPX for the same protein subset, grouped by assay and dilution.
+
+```{r dist-subset, fig.width = 15, fig.height = 20}
+```
+
+### All remaining proteins
+
+Distributions of NPX by dilution for all remaining assays not in the priority set.
+
+```{r dist-other, fig.width = 15, fig.height = 80}
+```
+
+# Correlation with ELISA IL6
+
+Number of samples with paired ELISA IL6 measurements:
+
+```{r count}
+```
+
+## Linear trendlines
+
+```{r lm, echo=F, fig.width = 10, fig.height = 10}
+```
+
+
+

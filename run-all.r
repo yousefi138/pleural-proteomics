@@ -196,3 +196,13 @@ packages <- c("rmarkdown", "knitr")
 file <- "GB390725-RB_1_16_Extended_2026-07-06.csv"
 lapply(packages, require, character.only=T)
 render("qc-16x-dilution01.rmd", output_format = "html_document", output_dir = "docs")
+
+## assess the RE-RUN qc of plate 1 run at 16x dilution 
+## in: eval.ret("pheno")
+##		project <- "pleural-dilution-series"
+##      eval.ret(paste("prot.mat", project, sep="."))
+##	out: dilution-series-qc.html
+packages <- c("rmarkdown", "knitr")
+file <- "GB390725-RB_1_1in16_rpt_Standard_2026-08-27.csv"
+lapply(packages, require, character.only=T)
+render("qc-16x-dilution01-rerun.rmd",output_format = "html_document", output_dir = "docs")
