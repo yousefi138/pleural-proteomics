@@ -1,6 +1,6 @@
 args <- commandArgs(trailingOnly=TRUE)
 
-config.name <- "local"
+config.name <- "default"
 if (length(args) > 0)
     config.name <- args[1]
 
@@ -8,6 +8,7 @@ paths <- config::get(config=config.name)
 print(paths)
 
 paths$scripts <- file.path(paths$project, "scripts/repo","pleural-proteomics")
+paths$docs <- file.path(paths$scripts, "docs") 
 paths$data <- file.path(paths$project, "data")
 paths$output <- file.path(paths$project, "results")
 paths$cache <- file.path(paths$project, "results", "analysis-cache")
@@ -206,3 +207,15 @@ packages <- c("rmarkdown", "knitr")
 file <- "GB390725-RB_1_1in16_rpt_Standard_2026-08-27.csv"
 lapply(packages, require, character.only=T)
 render("qc-16x-dilution01-rerun.rmd",output_format = "html_document", output_dir = "docs")
+
+
+## assess the qc of 3x plates run at 64x dilution 
+## in: eval.ret("pheno")
+##		project <- "pleural-dilution-series"
+##      eval.ret(paste("prot.mat", project, sep="."))
+##	out: dilution-series-qc.html
+packages <- c("rmarkdown", "knitr")
+lapply(packages, require, character.only=T)
+file <- "GB390725-RB_1in64_Standard_2026-10-12.csv"
+render("pleural-proteomics/qc-64x-dilution.rmd",output_format = "html_document", output_dir = paths$docs)
+
