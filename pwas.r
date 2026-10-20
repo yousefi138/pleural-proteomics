@@ -68,7 +68,8 @@ eval.save({
 				protein.report(sum.ret,
 					output.file = output.file,
 					author = "Paul Yousefi",
-					study = paste0("Pleural proteomics analysis of ", ..3, "variable"))
+					study = paste0("Pleural proteomics analysis of ", ..3, "variable"),
+					template = "pleural-proteomics/report.rmd")
 
 				file.copy(output.file,
 					file.path(dir$output, "."), overwrite = T)
