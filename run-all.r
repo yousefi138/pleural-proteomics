@@ -16,16 +16,13 @@ if(!dir.exists(paths$cache)) dir.create(paths$cache)
 print(paths)
 
 ## clean raw olink PLEURAL protein data
-## in: "GB390725-RB_pleural fluid_NPX.csv"
+## in: file 
 ## out: "pleural/metaboprep_export/.",
-##      "pleural_metaboprep_qc_report.html",
-##      "pleural_metaboprep_qc_report.log",
-##      eval.ret("prot.mat.pleural"), 
-##      eval.ret("annot.pleural"), 
-##      eval.ret("batch.pleural")
+##      "pleural_metaboprep_qc_report.html", "pleural_metaboprep_qc_report.log",
+##      eval.ret("prot.mat.pleural"), eval.ret("annot.pleural"), eval.ret("batch.pleural")
 project <- "pleural"
-file <- "GB390725-RB_pleural fluid_NPX.csv"
-source("proteins.r", echo=T, max.deparse.length = 500)
+file <- "GB390725-RB_1in64_Standard_2026-10-12.csv"
+source("pleural-proteomics/proteins.r", echo=T, max.deparse.length = 500)
 
 ## clean raw olink PLASMA protein data
 ## in: "GB390725-RB_plasma_NPX.csv"
