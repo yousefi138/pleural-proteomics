@@ -47,6 +47,7 @@ source("pleural-proteomics/proteins.r", echo=T, max.deparse.length = 500)
 ##      protein.summary.r, report.rmd
 ## out: rendered output in docs/ for each model run 
 project <- "pleural"
+models_file <- "pleural-proteomics/models-pleural.r"
 source("pleural-proteomics/pwas.r", echo=T, max.deparse.length = 500)
 
 ## run pwas

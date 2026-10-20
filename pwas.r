@@ -24,7 +24,8 @@ pheno <- eval.ret("pheno") |>
 			left_join(batch, by = c("patient.id" = "sample_id")) |>  
 
            ## keep only samples passing qc
-            filter(excluded == FALSE)
+            filter(excluded == FALSE) |>
+			filter(sampleqc == "PASS")
 
 ## ----get protins -------------------------------------------------------------
 prot.mat <- eval.ret(paste("prot.mat", project, sep="."))
@@ -37,7 +38,7 @@ identical(pheno$patient.id, colnames(prot))
 apply(prot, 1, function(i) sum(is.na(i)))
 
 ## ----source-models -------------------------------------------------------------
-source(paste0("models-", project,".r"), echo=T, max.deparse.length = 500)
+source(models_file, echo=T, max.deparse.length = 500)
 models
 
 ## ----run -------------------------------------------------------------
