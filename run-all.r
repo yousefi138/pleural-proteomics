@@ -19,7 +19,7 @@ print(paths)
 ## clean raw pheno data
 ## in: "Proteomics Infection and Controls 10.11.25.xlsx"
 ## out: pheno.rda in analysis-cache i.e. eval.ret("pheno")
-source("pheno.r", echo=T, max.deparse.length = 500)
+source("pleural-proteomics/pheno.r", echo=T, max.deparse.length = 500)
 
 ## ----clean.protein.data-------------------------------------------------------------
 ## clean raw olink PLEURAL protein data
@@ -38,7 +38,7 @@ source("pleural-proteomics/proteins.r", echo=T, max.deparse.length = 500)
 ##      eval.ret("prot.mat.plasma"), eval.ret("annot.plasma"), eval.ret("batch.plasma")
 project <- "plasma"
 file <- "GB390725-RB_plasma_NPX.csv"
-source("proteins.r", echo=T, max.deparse.length = 500)
+source("pleural-proteomics/proteins.r", echo=T, max.deparse.length = 500)
 
 ## ----run.pwas -------------------------------------------------------------
 ## run pwas
@@ -47,7 +47,7 @@ source("proteins.r", echo=T, max.deparse.length = 500)
 ##      protein.summary.r, report.rmd
 ## out: rendered output in docs/ for each model run 
 project <- "pleural"
-source("pwas.r", echo=T, max.deparse.length = 500)
+source("pleural-proteomics/pwas.r", echo=T, max.deparse.length = 500)
 
 ## run pwas
 ## in: eval.ret("pheno")
@@ -55,7 +55,7 @@ source("pwas.r", echo=T, max.deparse.length = 500)
 ##      protein.summary.r, report.rmd
 ## out: rendered output in docs/ for each model run 
 project <- "plasma"
-source("pwas.r", echo=T, max.deparse.length = 500)
+source("pleural-proteomics/pwas.r", echo=T, max.deparse.length = 500)
 
 ## ----analyse.pwas.results -------------------------------------------------------------
 ## summarise pwas associations
