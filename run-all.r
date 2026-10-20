@@ -15,6 +15,13 @@ paths$cache <- file.path(paths$project, "results", "analysis-cache")
 if(!dir.exists(paths$cache)) dir.create(paths$cache)
 print(paths)
 
+## ----pheno -------------------------------------------------------------
+## clean raw pheno data
+## in: "Proteomics Infection and Controls 10.11.25.xlsx"
+## out: pheno.rda in analysis-cache i.e. eval.ret("pheno")
+source("pheno.r", echo=T, max.deparse.length = 500)
+
+## ----clean.protein.data-------------------------------------------------------------
 ## clean raw olink PLEURAL protein data
 ## in: file 
 ## out: "pleural/metaboprep_export/.",
@@ -25,27 +32,18 @@ file <- "GB390725-RB_1in64_Standard_2026-10-12.csv"
 source("pleural-proteomics/proteins.r", echo=T, max.deparse.length = 500)
 
 ## clean raw olink PLASMA protein data
-## in: "GB390725-RB_plasma_NPX.csv"
+## in: file
 ## out: "plasma/metaboprep_export/"
-##      "plasma_metaboprep_qc_report.html"
-##      "plasma_metaboprep_qc_report.log"
-##      eval.ret("prot.mat.plasma"), 
-##      eval.ret("annot.plasma"), 
-##      eval.ret("batch.plasma")
+##      "plasma_metaboprep_qc_report.html", "plasma_metaboprep_qc_report.log"
+##      eval.ret("prot.mat.plasma"), eval.ret("annot.plasma"), eval.ret("batch.plasma")
 project <- "plasma"
 file <- "GB390725-RB_plasma_NPX.csv"
 source("proteins.r", echo=T, max.deparse.length = 500)
 
-
-## clean raw pheno data
-## in: "Proteomics Infection and Controls 10.11.25.xlsx"
-## out: pheno.rda in analysis-cache i.e. eval.ret("pheno")
-source("pheno.r", echo=T, max.deparse.length = 500)
-
+## ----run.pwas -------------------------------------------------------------
 ## run pwas
 ## in: eval.ret("pheno")
-##      eval.ret(paste("prot.mat", project, sep="."))
-##      eval.ret(paste("batch", project, sep="."))
+##      eval.ret(paste("prot.mat.pleural")), eval.ret(paste("batch.pleural"))
 ##      protein.summary.r, report.rmd
 ## out: rendered output in docs/ for each model run 
 project <- "pleural"
@@ -53,13 +51,13 @@ source("pwas.r", echo=T, max.deparse.length = 500)
 
 ## run pwas
 ## in: eval.ret("pheno")
-##      eval.ret(paste("prot.mat", project, sep="."))
-##      eval.ret(paste("batch", project, sep="."))
+##      eval.ret(paste("prot.mat.plasm")), eval.ret(paste("batch.plasm"))
 ##      protein.summary.r, report.rmd
 ## out: rendered output in docs/ for each model run 
 project <- "plasma"
 source("pwas.r", echo=T, max.deparse.length = 500)
 
+## ----analyse.pwas.results -------------------------------------------------------------
 ## summarise pwas associations
 ##  in: eval.ret(paste("ret", project, sep="."))
 ## 		eval.ret("pheno")
