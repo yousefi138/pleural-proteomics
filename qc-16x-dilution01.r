@@ -22,6 +22,10 @@ olink <- olink |>
 			mutate(dilution = factor(dilution, 
 				levels = sort(unique(as.numeric(dilution)))))
 
+## ----drop-------------------------------------------------------------
+# drop 9 samples that didn't pass their QC
+olink <- subset(olink, sampleqc!="WARN")
+
 ## ----load.elisa -------------------------------------------------------------
 ## load raw clincal phenotype info 
 elisa <-  data.table::fread(file.path(dir$data, 

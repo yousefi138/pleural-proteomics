@@ -1,5 +1,5 @@
 ---
-title: "Pleural protein 16x dilution plate 01"
+title: "Pleural protein 64x dilution plates 01-03"
 subtitle: "Results from Olink Target 96 Inflammation panel"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 author: Paul Yousefi
@@ -30,20 +30,20 @@ read_chunk(file.path(path, sourcecode))
 
 # Background 
 
-Some proteins in our previous pleural fluid Olink Target 96 Inflammation pannel analysis (""GB390725-RB_pleural fluid_NPX.csv") were observed to be outside the dynamic range of this assay. In particular, we were most confident in this behaviour for the IL6 protein abundance data, as we had independent high quality ELISA data from these same samples which showed poor correlation with the Olink measures. We think that this poor correlation was driven by the IL6 levels in our pleural samples being greatly above the dynamic range of the Olink assay.
+Proteins in a previous pleural fluid Olink Target 96 Inflammation pannel analysis (""GB390725-RB_pleural fluid_NPX.csv") were observed to be outside the dynamic range of this assay. In particular, we were most confident in this behaviour for the IL6 protein abundance data, as we had independent high quality ELISA data from these same samples which showed poor correlation with the Olink measures. We believe this poor correlation was driven by the IL6 levels in our pleural samples being greatly above the dynamic range of the Olink assay.
 
-To assess whether our pleural protein abundances are within the dynamic range of the olink assay, we have re-run a subset of 16 samples from previous pleural fluid olink inflammation analysis (""GB390725-RB_pleural fluid_NPX.csv") at several different concentration dilutions.
+To determine whether our pleural protein abundances were within the dynamic range of the olink assay, we re-ran a subset of 16 samples from previous pleural fluid olink inflammation analysis (""GB390725-RB_pleural fluid_NPX.csv") in a dilution series i.e. several different concentration dilutions. From those results (see [dilution-series-qc.html](https://yousefi138.github.io/pleural-proteomics/dilution-series-qc.html), we selected a 16x dilution and ran 1 plate of samples ("GB390725-RB_1_16_Extended_2026-07-06.csv"). However, from  this run, [qc-16x-dilution01.html](https://yousefi138.github.io/pleural-proteomics/qc-16x-dilution01.html), we concluded that 16x dilution still wasn't sufficient to get IL6 in range. 
 
-Based on these results summarised in [dilution-series-qc.html](https://yousefi138.github.io/pleural-proteomics/dilution-series-qc.html), we selected a 16x dilution and ran 1 plate of samples ("GB390725-RB_1_16_Extended_2026-07-06.csv") before running the assay on the entire sample set at 16x dilution. **Based on results in this run, [qc-16x-dilution01.html](https://yousefi138.github.io/pleural-proteomics/qc-16x-dilution01.html), we concluded that 16x dilution still wasn't sufficient to get IL6 in range. We decided to ask to re-run this plate at 64x.
+However, the run 16x run of 1 plate ("GB390725-RB_1_16_Extended_2026-07-06.csv") was performed with a bad batch of Olink reagents. So, instead of re-running plate 1 with the 64x dilution as planned, we re-ran plate 1 with a 16x dilution on the assumption that maybe the bad performance we observed was due to the reagent batch. **Again,** that re-run showed poor correlation with ELISA IL6. Based on this, we decided to re-run the full experiment at **64x**
 
 ## Key update motivating THIS analysis
 
-**HOWEVER** the run 16x run of 1 plate ("GB390725-RB_1_16_Extended_2026-07-06.csv") was performed with a bad batch of Olink reagents. So, instead of re-running plate 1 with the 64x dilution as planned, we re-ran plate 1 with a 16x dilution on the assumption that maybe the bad performance we observed was due to the reagent batc.
+These are the results from the re-run the full experiment at **64x**
 
 ## Purpose
 
 
-This project to verify whether 16x is still an appropriate/optimal dilution concentration for future olink assays of pleural fluid. As it may not be possible for all Olink Target 96 Inflammation pannel protein targets to be in range, we have a set of 10 key highest priority protein targets where we would like the assay to demonstrate good performance:
+This analysis aims confirm whether 64x is an appropriate/optimal dilution concentration of olink assays of pleural fluid. As it may not be possible for all Olink Target 96 Inflammation pannel protein targets to be in range, we have a set of 10 key highest priority protein targets where we would like the assay to demonstrate good performance:
 
 > IL-6, TNF, IL-8, uPA, CXCL1, IFN-γ, CXCL5, IL-17A, IL-1α, and CCL20
 
@@ -53,6 +53,9 @@ IL6 is our highest priority target as well as the one protein where we have inde
 ```
 
 ```{r load.olink}
+```
+
+```{r drop, eval = drop.bad.samples}
 ```
 
 ```{r load.elisa}

@@ -217,5 +217,9 @@ render("qc-16x-dilution01-rerun.rmd",output_format = "html_document", output_dir
 packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)
 file <- "GB390725-RB_1in64_Standard_2026-10-12.csv"
+drop.bad.samples <- F
 render("pleural-proteomics/qc-64x-dilution.rmd",output_format = "html_document", output_dir = paths$docs)
 
+drop.bad.samples <- T
+render("pleural-proteomics/qc-64x-dilution.rmd",
+output_file = "qc-64x-dilution-bad-samples-dropped", output_format = "html_document", output_dir = paths$docs)
