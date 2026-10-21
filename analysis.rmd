@@ -35,6 +35,8 @@ read_chunk(file.path(path, sourcecode))
 
 ```{r load.data, echo=F}
 ```
+```{r ret.annot, echo=F}
+```
 ```{r source-models, results = 'hide', echo=F}
 ```
 
@@ -74,7 +76,13 @@ Number of significant hits identified per model. Statistical significance was de
 
 ## Volcano plots
 
+## All models
+
 ```{r volcano, fig.width=15, fig.height=30}
+```
+
+## Main model with annotated hits
+```{r volcano.annot, fig.width=15, fig.height=15}
 ```
 
 ## Top hits
@@ -93,11 +101,6 @@ top
 
 ```{r, results='asis'}
 il6
-```
-
-## Gene-annotated volcano plots
-
-```{r vol.lab}
 ```
 
 ## QQ plots

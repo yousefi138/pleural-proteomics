@@ -1,5 +1,5 @@
 ## ----globals -------------------------------------------------------------
-packages <- c("eval.save", "tableone", "tidyverse", "kableExtra") 
+packages <- c("eval.save", "tableone", "tidyverse", "kableExtra", "ggrepel") 
 lapply(packages, require, character.only=T)
 
 dir <- paths
@@ -25,6 +25,18 @@ annot <- eval.ret(paste("annot", project, sep="."))
 
 ## proteins
 prot.mat <- eval.ret(paste("prot.mat", project, sep="."))
+
+## ----ret.annot -------------------------------------------------------------
+# annotate the results in ret
+ret.annot <- map(ret, ~{
+    identical(rownames(.x$ret$table), annot$feature_id)
+    .x$ret$table <- .x$ret$table |>
+            rownames_to_column("feature_id") |>
+            mutate(uniprot = annot$uniprot,
+                gene = annot$assay) |>
+            relocate(feature_id, uniprot, gene)
+    .x
+})
 
 ## ----source-models -------------------------------------------------------------
 source(file.path(paths$scripts, models_file), echo=T, max.deparse.length = 500)
@@ -75,6 +87,33 @@ volcano <- res |>
 	facet_wrap(~model_name, ncol = 2)
 volcano
 
+## ----volcano.annot -------------------------------------------------------------
+# make a vector of model names for viz
+mods <- paste(project, c("infect.num.fulladj", "infect.bi.fulladj", 
+        "comp.out.fulladj", "infect.bi.new.fulladj"), sep=".")
+idx <- match(mods,names(ret.annot))
+res <- do.call(rbind, 
+    mapply(function(name, model) {
+        df <- model$ret$table
+        df$model_name <- name
+        df
+    }, names(ret.annot)[idx], ret.annot[idx], SIMPLIFY=FALSE)
+)
+
+volcano.annot <- res |>
+  ggplot(aes(x = estimate, y = -log10(p.value))) +
+  geom_point() +
+  geom_hline(yintercept = fdr.thresh, linetype = "dashed") +
+  geom_text_repel(
+    data = ~ dplyr::filter(.x, -log10(p.value) > fdr.thresh),
+    aes(label = gene),
+    max.overlaps = Inf,   # don't silently drop labels
+    size = 3
+  ) +
+  facet_wrap(~model_name, ncol = 2)
+volcano.annot
+
+
 ## ----top ---------------------------------------------------------
 ret.anot <- map(ret, ~{
     identical(rownames(.x$ret$table), annot$feature_id)
@@ -102,24 +141,6 @@ il6 <- map(ret.anot, ~{
     .x$ret$table[idx, ] |>
         mutate(across(contains("p."), ~format(., scientific = TRUE))) |>
         kable(digits = 3)
-})
-
-## ----vol.lab -------------------------------------------------------------
-xi <- paste(project, c("infect.num.fulladj", "infect.bi.fulladj", 
-        "comp.out.fulladj", "infect.bi.new.fulladj"), sep=".")
-plot <- ret.anot[xi] |>
-            map(~.x$ret$table)
-
-plot |>
-    map(~ {
-        .x |>
-            ggplot(aes(x = estimate, y = -log10(p.value))) +
-            geom_point() +
-            geom_hline(yintercept = -log10(0.05/length(.x$p.value)), 
-                linetype='dashed') +
-            geom_label(aes(label = gene), 
-                data = ~ filter(., -log10(p.value) > -log10(0.05/length(.x$p.value))),
-                vjust = -0.5, hjust = 0.5, size = 3)
 })
 
 ## ----qq -------------------------------------------------------------
