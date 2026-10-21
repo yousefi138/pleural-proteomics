@@ -24,13 +24,10 @@ ret <- eval.ret(paste("ret", project, sep="."))
 annot <- eval.ret(paste("annot", project, sep="."))
 
 ## proteins
-prot.mat <- eval.ret(paste("ret", project, sep="."))
+prot.mat <- eval.ret(paste("prot.mat", project, sep="."))
 
 ## ----source-models -------------------------------------------------------------
 source(file.path(paths$scripts, models_file), echo=T, max.deparse.length = 500)
-
-## ----pheno -------------------------------------------------------------
-str(pheno) 
 
 ## ----tab -------------------------------------------------------------
 cont <- "age"

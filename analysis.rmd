@@ -35,27 +35,23 @@ read_chunk(file.path(path, sourcecode))
 
 ```{r load.data, echo=F}
 ```
-```{r source-models, echo=F}
+```{r source-models, results = 'hide', echo=F}
 ```
 
-Of the **`r project`** samples run, `r ncol(prot.mat)` passed the default qc performed in the `metaboprep` package.
+Of the **`r project`** samples run, `r nrow(pheno)` passed the default qc performed in the `metaboprep` package and instituted by the lab.
 
 For the moment, all `r nrow(prot.mat)` measured proteins have been retained for analysis.
 
 See `r paste0(project, "metaboprep_qc_report.html")` for full details.
 
 
-# Phenotype information
+# Population description
 
-The below phenotypic information was available on participants:
-
-```{r pheno}
-```
-
-Participant age, sex, and infection status are shown below. As is the `final.diagnosis.1` variable that was used to derive the infection status variable, `infect`.
+## Sample characteristics table
 
 ```{r tab}
 ```
+`final.diagnosis.1` was used to derive the infection status variable, `infect`.
 
 # Protein-wide associations
 
