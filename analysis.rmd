@@ -81,26 +81,19 @@ Number of significant hits identified per model. Statistical significance was de
 ```{r volcano, fig.width=15, fig.height=30}
 ```
 
-## Main model with annotated hits
+## Main models with annotated hits
 ```{r volcano.annot, fig.width=15, fig.height=15}
 ```
 
 ## Top hits
+
+Results of all Bonferroni-significant hits for main models:
 
 ```{r top}
 ```
 
 ```{r, results='asis'}
 top
-```
-
-## IL6 results
-
-```{r il6}
-```
-
-```{r, results='asis'}
-il6
 ```
 
 ## QQ plots

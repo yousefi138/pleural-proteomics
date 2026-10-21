@@ -113,26 +113,23 @@ volcano.annot <- res |>
   facet_wrap(~model_name, ncol = 2)
 volcano.annot
 
-
 ## ----top ---------------------------------------------------------
-ret.anot <- map(ret, ~{
-    identical(rownames(.x$ret$table), annot$feature_id)
-    .x$ret$table <- .x$ret$table |>
-            rownames_to_column("feature_id") |>
-            mutate(uniprot = annot$uniprot,
-                gene = annot$assay) |>
-            relocate(feature_id, uniprot, gene)
-    .x
-})
-
-top <- map(ret.anot, ~{
-    ids <- .x$sum.ret$practical.sites
-    idx <- which(.x$ret$table$feature_id %in% ids)
-    .x$ret$table[idx, ] |>
-        dplyr::arrange(p.value)|>
-        mutate(across(contains("p."), ~format(., scientific = TRUE))) |>
-        kable(digits = 3)
-})
+mods <- paste(project, c("infect.num.fulladj", "infect.bi.fulladj", 
+        "comp.out.fulladj", "infect.bi.new.fulladj"), sep=".")
+idx <- match(mods,names(ret.annot))
+top <-
+    mapply(function(name, model) {
+        df <- model$ret$table
+        df$model_name <- name
+        sig <- model$sum.ret$significant.sites
+        df <- subset(df, feature_id %in% sig) |>
+            dplyr::arrange(p.value) |>
+            dplyr::select(gene, n, estimate, se, p.value, p.adjust) |>
+            dplyr::mutate(across(c(p.value, p.adjust),
+                                 ~ formatC(., format = "e", digits = 1))) |>
+            knitr::kable(digits = 2)
+        df
+    }, names(ret.annot)[idx], ret.annot[idx], SIMPLIFY = FALSE)
 
 ## ----il6 -------------------------------------------------------------
 il6 <- map(ret.anot, ~{
