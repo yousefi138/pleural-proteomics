@@ -8,7 +8,7 @@ lapply(packages, require, character.only=T)
 dir <- paths
 eval.save.dir(dir$cache)
 
-# src the protein summary function
+# src the protein summary function adapted from `ewaff.summary`
 source(file.path(dir$scripts, "R/protein.summary.r"))
 
 # output specs
