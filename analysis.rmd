@@ -72,14 +72,14 @@ Number of significant hits identified per model. Statistical significance was de
 ```{r hits}
 ```
 
+## Volcano plots
+
+```{r volcano, fig.width=15, fig.height=30}
+```
+
 ## QQ plots
 
 ```{r qq}
-```
-
-## Volcano plots
-
-```{r volcano}
 ```
 
 ## Top hits

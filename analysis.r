@@ -56,14 +56,27 @@ hit.count$n.fdr.sig <- map_dbl(ret, ~ {
 rownames(hit.count) <- NULL
 kable(hit.count)
 
+## ----volcano -------------------------------------------------------------
+# make an index of the fct models
+idx <- grep("fct", names(ret))
+res <- do.call(rbind, 
+    mapply(function(name, model) {
+        df <- model$ret$table
+        df$model_name <- name
+        df
+    }, names(ret)[-idx], ret[-idx], SIMPLIFY=FALSE)
+)
+
+fdr.thresh <- -log10(0.05/nrow(ret$pleural.infect.fct$ret$table))
+volcano <- res |>
+	ggplot(aes(x = estimate, y = -log10(p.value))) +
+	geom_point() +
+	geom_hline(yintercept = fdr.thresh, linetype='dashed') +
+	facet_wrap(~model_name, ncol = 2)
+volcano
+
 ## ----qq -------------------------------------------------------------
 map(ret, ~ .x$sum.ret$qq.plot)
-
-## ----volcano ----------------------------------------------------------
-ret$infect.fct$sum.ret$volcano.plot <- NULL
-ret$infect.fct.plate$sum.ret$volcano.plot <-  NULL
-ret$infect.fct.fulladj$sum.ret$volcano.plot <- NULL
-map(ret, ~ .x$sum.ret$volcano.plot)
 
 ## ----top ---------------------------------------------------------
 ret.anot <- map(ret, ~{
