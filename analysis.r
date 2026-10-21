@@ -1,5 +1,5 @@
 ## ----globals -------------------------------------------------------------
-packages <- c("eval.save", "tableone", "tidyverse") 
+packages <- c("eval.save", "tableone", "tidyverse", "kableExtra") 
 lapply(packages, require, character.only=T)
 
 dir <- paths
@@ -14,7 +14,8 @@ pheno <- eval.ret("pheno") |>
 			left_join(batch, by = c("patient.id" = "sample_id")) |>  
 
            ## keep only samples passing qc
-            filter(excluded == FALSE)
+            filter(excluded == FALSE) |>
+			filter(sampleqc == "PASS")
 
 ## ret
 ret <- eval.ret(paste("ret", project, sep="."))
@@ -24,6 +25,9 @@ annot <- eval.ret(paste("annot", project, sep="."))
 
 ## proteins
 prot.mat <- eval.ret(paste("ret", project, sep="."))
+
+## ----source-models -------------------------------------------------------------
+source(file.path(paths$scripts, models_file), echo=T, max.deparse.length = 500)
 
 ## ----pheno -------------------------------------------------------------
 str(pheno) 
@@ -38,32 +42,25 @@ tab <- CreateTableOne(data = pheno,
 						factorVars = cat)
 
 					#	strata = "dna.type")				
-print(tab, showAllLevels = TRUE)
-summary(tab)
+tab_mat <- print(tab, printToggle = F, noSpaces = T, showAllLevels = T)
+kable(tab_mat, format = "html") |>
+	kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
 
 ## ----models -------------------------------------------------------------
-formulae <- map(ret, ~ gsub("^methylation", "proteins", .x$ret$formula))
-formulae <- do.call(rbind, formulae) 
-n <- unlist(map(ret, ~ nrow(.x$ret$design)))
-formulae <- data.frame(number = 1:nrow(formulae),
-                        model.name = rownames(formulae),
-                        formula = formulae[,1],
-                        n = n)
-rownames(formulae) <- NULL
+unlist(models)
 
-kable(formulae)
+## ----hits -------------------------------------------------------------
+hits <- sapply(ret, function(model){model$sum.ret$significant.sites})
+hit.count <- data.frame(model = names(hits),
+				n.bonf.sig = sapply(hits,length))
+hit.count$n.fdr.sig <- map_dbl(ret, ~ {
+        sum(p.adjust(.x$ret$table$p.value, method = "BH") < 0.05)
+    })				
+rownames(hit.count) <- NULL
+kable(hit.count)
 
 ## ----qq -------------------------------------------------------------
 map(ret, ~ .x$sum.ret$qq.plot)
-
-## ----hit.counts-------------------------------------------------------
-formulae$bonf.sig <- map_dbl(ret, ~ length(.x$sum.ret$significant.sites))
-
-formulae$fdr.sig <- map_dbl(ret, ~ {
-        sum(p.adjust(.x$ret$table$p.value, method = "BH") < 0.05)
-    })
-
-kable(formulae)
 
 ## ----volcano ----------------------------------------------------------
 ret$infect.fct$sum.ret$volcano.plot <- NULL

@@ -67,6 +67,7 @@ source("pleural-proteomics/pwas.r", echo=T, max.deparse.length = 500)
 ##		prot.mat <- eval.ret(paste("ret", project, sep="."))
 ##	out: pleural-analysis.html
 project <- "pleural"
+models_file <- "models-pleural.r"
 output <- paste(project, "analysis.html", sep="-")
 packages <- c("rmarkdown", "knitr")
 lapply(packages, require, character.only=T)

@@ -35,6 +35,8 @@ read_chunk(file.path(path, sourcecode))
 
 ```{r load.data, echo=F}
 ```
+```{r source-models, echo=F}
+```
 
 Of the **`r project`** samples run, `r ncol(prot.mat)` passed the default qc performed in the `metaboprep` package.
 
@@ -66,6 +68,14 @@ The formulae of linear models examined are shown in the table below:
 ```{r models}
 ```
 
+
+## Count of significant hits
+
+Number of significant hits identified per model. Statistical significance was determined using a Bonferroni multiple testing threshold correcting for `r nrow(ret$pleural.infect.fct$ret$table)` tests. That is $$0.05/`r nrow(ret$pleural.infect.fct$ret$table)` = `r sprintf("%.2e",0.05/nrow(ret$pleural.infect.fct$ret$table))`$$
+
+```{r hits}
+```
+
 ## QQ plots
 
 ```{r qq}
@@ -74,13 +84,6 @@ The formulae of linear models examined are shown in the table below:
 ## Volcano plots
 
 ```{r volcano}
-```
-
-## Hit counts per model
-
-Number of bonferroni (p< 0.05/92) and fdr adjusted (fdr p < 0.05) hits per model
-
-```{r hit.counts}
 ```
 
 ## Top hits
