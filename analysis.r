@@ -75,9 +75,6 @@ volcano <- res |>
 	facet_wrap(~model_name, ncol = 2)
 volcano
 
-## ----qq -------------------------------------------------------------
-map(ret, ~ .x$sum.ret$qq.plot)
-
 ## ----top ---------------------------------------------------------
 ret.anot <- map(ret, ~{
     identical(rownames(.x$ret$table), annot$feature_id)
@@ -124,4 +121,7 @@ plot |>
                 data = ~ filter(., -log10(p.value) > -log10(0.05/length(.x$p.value))),
                 vjust = -0.5, hjust = 0.5, size = 3)
 })
+
+## ----qq -------------------------------------------------------------
+map(ret, ~ .x$sum.ret$qq.plot)
 

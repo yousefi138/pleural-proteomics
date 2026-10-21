@@ -77,11 +77,6 @@ Number of significant hits identified per model. Statistical significance was de
 ```{r volcano, fig.width=15, fig.height=30}
 ```
 
-## QQ plots
-
-```{r qq}
-```
-
 ## Top hits
 
 ```{r top}
@@ -103,4 +98,9 @@ il6
 ## Gene-annotated volcano plots
 
 ```{r vol.lab}
+```
+
+## QQ plots
+
+```{r qq}
 ```
