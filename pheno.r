@@ -38,9 +38,9 @@ pheno <- raw |>
             mutate(infect.bi.new = {
                 idx <- grep("X/renal/u|X/hepatic/u|X/cardiac/u", raw$final.diagnosis.1)
                 infect.bi[idx] <- 0
-                infect.bi
-            }) |>
-            mutate(comp.out = composite.outcome..lytics..surgery.or..3m.mortality)|>
+sum(                infectsign(      }) |>)
+            mutate(comp.out = composite.outcome..lytics..surgery.or..3m.mortality)|, >
+
 			relocate(patient.id, age, female, infect.fct, infect.num, infect.bi) |>
 
             eval.save("pheno", redo=T)            
@@ -60,5 +60,11 @@ sum(grepl("SPE", pheno$final.diagnosis.1))
 sum(grepl("CPPE", pheno$final.diagnosis.1))
 sum(grepl("utrue|bacterial", pheno$final.diagnosis.1))
 
+## confirm overlap with infect.fct
+table(pheno$infect.fct, grepl("SPE", pheno$final.diagnosis.1))
+table(pheno$infect.fct, grepl("CPPE", pheno$final.diagnosis.1))
+table(pheno$infect.fct, grepl("utrue|bacterial", pheno$final.diagnosis.1))
 
+# count number of controls added to infect.bi.new
+table(pheno$infect.bi, pheno$infect.bi.new, useNA='ifany')
 

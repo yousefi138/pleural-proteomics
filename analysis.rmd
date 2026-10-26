@@ -53,7 +53,34 @@ See `r paste0(project, "metaboprep_qc_report.html")` for full details.
 
 ```{r tab}
 ```
-`final.diagnosis.1` was used to derive the infection status variable, `infect`.
+
+## Variable definitions
+
+### infection
+
+`final.diagnosis.1` was used to derive the infection status variables begining with `infect`.
+
+`infect.fct` and `infect.num` are identical 3-level variables, except
+the first is formatted as factor while the second is formatted as numeric.
+
+The levels of these variables are defined as follows:
+
+1. Control: `final.diagnosis.1`= "SPE" 
+2. Inter: `final.diagnosis.1` = "CPPE"
+3. Case: `final.diagnosis.1`= "utrue" or `final.diagnosis.1`= "bacterial"
+
+`infect.bi` is just the cases from above i.e. `infect.num` >2
+
+`infect.bi.new` is `infect.bi` with 
+N= `r sum(sign(pheno$infect.bi.new==0), na.rm=T) - sum(sign(pheno$infect.bi==0), na.rm=T)` 
+additional controls included who had `final.diagnosis.1` values equal to 
+"X/renal/u", "X/hepatic/u", or "X/cardiac/u". 
+
+### comp out
+
+`comp.out` is a variable I received with the title: "composite.outcome..lytics..surgery.or..3m.mortality"
+
+
 
 # Protein-wide associations
 
