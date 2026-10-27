@@ -96,7 +96,7 @@ The formulae of linear models examined are shown in the table below:
 
 ## Count of significant hits
 
-Number of significant hits identified per model. Statistical significance was determined using a Bonferroni multiple testing threshold correcting for `r nrow(ret$pleural.infect.fct$ret$table)` tests. That is $$0.05/`r nrow(ret$pleural.infect.fct$ret$table)` = `r sprintf("%.2e",0.05/nrow(ret$pleural.infect.fct$ret$table))`$$
+Number of significant hits identified per model. Statistical significance was determined using a Bonferroni multiple testing threshold correcting for `r nrow(ret[[1]]$ret$table)` tests. That is 0.05/ `r nrow(ret[[1]]$ret$table)` = `r sprintf("%.2e",0.05/nrow(ret[[1]]$ret$table))`
 
 ```{r hits}
 ```

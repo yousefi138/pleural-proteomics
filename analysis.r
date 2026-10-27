@@ -79,7 +79,7 @@ res <- do.call(rbind,
     }, names(ret)[-idx], ret[-idx], SIMPLIFY=FALSE)
 )
 
-fdr.thresh <- -log10(0.05/nrow(ret$pleural.infect.fct$ret$table))
+fdr.thresh <- -log10(0.05/nrow(ret[[1]]$ret$table))
 volcano <- res |>
 	ggplot(aes(x = estimate, y = -log10(p.value))) +
 	geom_point() +
