@@ -1,0 +1,50 @@
+---
+title: "Association of pleural fluid and plasma proteins with pleural infection"
+subtitle: "Draft tables and figure"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+author: Paul Yousefi
+output:
+  html_document:
+    css: docs/style.css
+    toc: true
+    highlight: tango
+---
+
+```{r setoptions, eval = TRUE, echo = FALSE}
+knitr::opts_chunk$set(
+comment = ">",
+error = FALSE,
+tidy = FALSE,
+echo = F, 
+warning = FALSE, 
+message = FALSE,
+cache=FALSE)
+```
+
+# Figure: Association of pleural fluid and plasma protein abundances with pleural inflammation 
+
+```{r fig_assoc, echo=F}
+source(file.path(paths$scripts, "fig-assoc.r"))
+```
+```{r}
+volcanos
+```
+
+```{r}
+scatter
+```
+
+```{r}
+# volcanos / scatter 
+```
+
+
+# Table: Pleural fluid and plasma protein abundances associated with pleural inflammation
+
+```{r tab_hits, echo=F}
+source(file.path(paths$scripts, "tab-hits.r"))
+```
+
+```{r }
+knitr::kable(hits, digits = 2, row.names = FALSE)
+```

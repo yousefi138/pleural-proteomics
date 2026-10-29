@@ -104,3 +104,7 @@ lapply(packages, require, character.only=T)
 render("qc-checks.rmd", output_format = "html_document", output_dir = "docs")
 
 
+## paper 
+packages <- c("rmarkdown", "knitr")
+lapply(packages, require, character.only=T)
+render("pleural-proteomics/paper.rmd", output_format = "html_document", output_dir = "pleural-proteomics/docs")
