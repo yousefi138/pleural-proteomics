@@ -1,0 +1,51 @@
+## ----globals -------------------------------------------------------------
+packages <- c("eval.save","ggplot2", "dplyr", "GGally") 
+lapply(packages, require, character.only=T)
+
+dir <- paths
+eval.save.dir(dir$cache)
+
+## ----load.olink -------------------------------------------------------------
+
+## read in the raw olink results so I can get LOD information
+olink <- as.data.frame(data.table::fread(
+			file.path(dir$data, 
+			file))) 
+colnames(olink) <- colnames(olink) |>
+					make.names()|>
+					tolower()
+olink <- as_tibble(olink) |>
+			filter(!grepl("CONTROL", sampleid))
+olink <- olink |>
+			mutate(patient.id     = sub("_.*", "", sampleid),
+				dilution = ifelse(grepl("_", sampleid), sub(".*_", "", sampleid), 0)) |>
+			mutate(dilution = factor(dilution, 
+				levels = sort(unique(as.numeric(dilution)))))
+
+## ----drop-------------------------------------------------------------
+# drop 9 samples that didn't pass their QC
+olink <- subset(olink, sampleqc!="WARN")
+
+## ----load.elisa -------------------------------------------------------------
+## load raw clincal phenotype info 
+elisa <-  data.table::fread(file.path(dir$data, 
+                "il6_clean_los.txt")) 
+colnames(elisa) <- colnames(elisa) |>
+                make.names()|>
+                tolower()
+elisa <- as_tibble(elisa) |>		
+            select(patient_id, pleural_il6, serum_il6) |>
+			mutate(log_pleural_il6 = log(pleural_il6))		
+
+## ----il6 -------------------------------------------------------------
+il6 <- olink |>
+        filter(olinkid == "OID00482") |>
+        select(patient.id, npx) |>
+        rename(olink_il6 = npx) |>
+        full_join(elisa, by = c("patient.id" = "patient_id"))
+
+## ----lm -------------------------------------------------------------
+cor_mat <- 
+	il6 |>
+		select(olink_il6, pleural_il6, serum_il6, log_pleural_il6)|>
+		ggpairs(lower = list(continuous = wrap("smooth", method = "lm")))

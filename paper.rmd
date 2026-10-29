@@ -65,11 +65,18 @@ source(file.path(paths$scripts, "supp-fig-dists.r"))
 dist
 ```
 
-
 ## Supplemental Figure: Correlation matrix of proteins measure in pleural fluid vs. plasma
 
 ## Supplemental Figure: Correlation matrix with ELISA il6 and Olink IL6
 
+```{r supp_fig_il6, echo=F}
+file <- "GB390725-RB_1in64_Standard_2026-10-12.csv"
+source(file.path(paths$scripts, "supp-fig-il6.r"))
+```
+
+```{r}
+cor_mat
+```
 
 # Tables
 
