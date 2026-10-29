@@ -78,7 +78,18 @@ source(file.path(paths$scripts, "supp-fig-dists.r"))
 dist
 ```
 
-## Supplemental Figure: Correlation matrix of proteins measure in pleural fluid vs. plasma
+## Supplemental Figure: Correlation matrix of proteins measured in pleural fluid vs. plasma
+
+```{r supp_fig_tissue, echo=F, fig.width=14, fig.height=14, out.width="100%", fig.align="center"}
+source(file.path(paths$scripts, "supp-fig-tissue.r"))
+```
+
+## Supplemental Figure: Distribution of Pearson correlations for between the same proteins proteins measured in pleural fluid vs. plasma
+
+```{r}
+hist
+```
+
 
 ## Supplemental Figure: Correlation matrix with ELISA il6 and Olink IL6
 
