@@ -21,7 +21,9 @@ message = FALSE,
 cache=FALSE)
 ```
 
-# Figure: Association of pleural fluid and plasma protein abundances with pleural inflammation 
+# Figures
+
+## Figures: Association of pleural fluid and plasma protein abundances with pleural inflammation 
 
 ```{r fig_assoc, echo=F}
 source(file.path(paths$scripts, "fig-assoc.r"))
@@ -38,8 +40,40 @@ scatter
 # volcanos / scatter 
 ```
 
+# Supplemental Figures
 
-# Table: Pleural fluid and plasma protein abundances associated with pleural inflammation
+## Supplemental Figure: Distributions of all measured pleural proteins
+
+```{r supp_fig_dists_pleural, echo=F}
+project <- "pleural"
+source(file.path(paths$scripts, "supp-fig-dists.r"))
+```
+
+```{r dist_pleural, fig.width=7, fig.height=ceiling(n_distinct(prot_long$assay)/3) * 2, fig.align="center"}
+dist
+```
+
+
+## Supplemental Figure: Distributions of all measured plasma proteins
+
+```{r supp_fig_dists_plasma, echo=F}
+project <- "plasma"
+source(file.path(paths$scripts, "supp-fig-dists.r"))
+```
+
+```{r dist_plasma, fig.width=7, fig.height=ceiling(n_distinct(prot_long$assay)/3) * 2, fig.align="center"}
+dist
+```
+
+
+## Supplemental Figure: Correlation matrix of proteins measure in pleural fluid vs. plasma
+
+## Supplemental Figure: Correlation matrix with ELISA il6 and Olink IL6
+
+
+# Tables
+
+## Table: Pleural fluid and plasma protein abundances associated with pleural inflammation
 
 ```{r tab_hits, echo=F}
 source(file.path(paths$scripts, "tab-hits.r"))
